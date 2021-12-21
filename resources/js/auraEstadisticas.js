@@ -126,6 +126,7 @@
     dataEN.addRows(4);
     dataEN.setCell(0, 0, "Blue");
     dataEN.setCell(0, 1, colorRomeo[1][1]);
+    console.log("Color "+colorRomeo[1][1]);
     //dataEN.setCell(1, 0, "Yellow");
     //dataEN.setCell(1, 1, colorRomeo[2][1]);
     dataEN.setCell(1, 0, "White");
@@ -167,7 +168,7 @@
           //title: total + ' registros - Agrupados por color ROMEO',
           pieHole: .4,
           //colors:['#39B54A','#FCEE21','#29ABE2','#FFFFFF', '#141414'],
-          colors:['#29ABE2','#FFFFFF','#9f9f9f','#39B54A', '#141414'],
+          colors:['#FFFF00','#29ABE2','#ffffff','#39B54A', '#141414'],
           pieSliceTextStyle: {color: 'black'},
           sliceVisibilityThreshold: .0001
         };
