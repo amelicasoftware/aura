@@ -3,5 +3,5 @@
 
 //var server="http://148.215.2.20:8080";
 
-var server="http://portal.amelica.org";
+var server="https://portal.amelica.org";
 var cargarJson="../resources/js/json/";
