@@ -120,44 +120,56 @@
     'headerRow': 'backgroundCell',
     'oddTableRow': 'beige-background'};
 
-    var dataEN = new google.visualization.DataTable();
-    dataEN.addColumn('string', "Colours");
-    dataEN.addColumn('number', "Total");
-    dataEN.addRows(4);
-    dataEN.setCell(0, 0, "Blue");
-    dataEN.setCell(0, 1, colorRomeo[1][1]);
-    console.log("Color "+colorRomeo[1][1]);
-    //dataEN.setCell(1, 0, "Yellow");
-    //dataEN.setCell(1, 1, colorRomeo[2][1]);
-    dataEN.setCell(1, 0, "White");
-    dataEN.setCell(1, 1, colorRomeo[2][1]);
-    dataEN.setCell(2, 0, "Green");
-    dataEN.setCell(2, 1, colorRomeo[3][1]);
-    // dataEN.setCell(3, 0, "Unknown");
-    // dataEN.setCell(3, 1, colorRomeo[4][1]);
-
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', colorRomeo[0][0]);
-    data.addColumn('number', colorRomeo[0][1]);
-    data.addRows(5);
-    data.setCell(0, 0, colorRomeo[1][0]);
-    data.setCell(0, 1, colorRomeo[1][1]);
-    data.setCell(1, 0, colorRomeo[2][0]);
-    data.setCell(1, 1, colorRomeo[2][1]);
-    data.setCell(2, 0, colorRomeo[3][0]);
-    data.setCell(2, 1, colorRomeo[3][1]);
-    // data.setCell(3, 0, colorRomeo[4][0]);
-    // data.setCell(3, 1, colorRomeo[4][1]);
-
-    if(idiomaG === "es"){
-    var view = new google.visualization.DataView(data);
-    }if(idiomaG === "en"){
-    var view = new google.visualization.DataView(dataEN);
-    }else{
-        var view = new google.visualization.DataView(data);
+    const Colors = [];
+    console.log('color1', colorRomeo[1][0]);
+    let dataColor = {
+        'color': '',
+        'total': 0,
     }
 
-    view.setColumns([0, 1]);
+    var dataTable = new google.visualization.DataTable();
+    if(idiomaG === 'en'){
+        dataTable.addColumn('string', "Colours");
+        dataTable.addColumn('number', "Total");
+    }else {
+        dataTable.addColumn('string', colorRomeo[0][0]);
+        dataTable.addColumn('number', colorRomeo[0][1]);
+    }
+
+    let contador = 0;
+
+    colorRomeo.forEach((element, index ) => {
+        console.log(element);
+        console.log(index);
+        if(index > 0){
+            
+            if(element[0] === 'Azul'){
+                dataTable.addRow([idiomaG === 'es' ? element[0] : 'Blue', element[1]]);
+                    Colors.push('#29ABE2');
+                } else
+                if(element[0] === 'Blanco'){
+                dataTable.addRow([idiomaG === 'es' ? element[0] : 'White', element[1]]);
+                    Colors.push('#ffffff');
+                } else
+                // if(element[0] === 'Desconocido'){
+                // dataTable.addRow([idiomaG === 'es' ? element[0] : 'Unknown', element[1]]);
+                //     Colors.push('#141414');
+                // } else
+                if(element[0] === 'Verde'){
+                dataTable.addRow([idiomaG === 'es' ? element[0] : 'Green', element[1]]);
+                    Colors.push('#39B54A');
+                }else 
+                if(element[0] === 'Amarillo'){
+                dataTable.addRow([idiomaG === 'es' ? element[0] : 'Yellow', element[1]]);
+                    Colors.push('#FFFF00');
+                }
+        }
+        contador++
+        // console.log('datos vis', dataTable)
+    });
+
+    
+    var view = new google.visualization.DataView(dataTable);
 
     var optionsTable = {'height': '100%', 'width': '100%', 'cssClassNames': cssClassNames};
 
@@ -167,8 +179,7 @@
     var options = {
           //title: total + ' registros - Agrupados por color ROMEO',
           pieHole: .4,
-          //colors:['#39B54A','#FCEE21','#29ABE2','#FFFFFF', '#141414'],
-          colors:['#FFFF00','#29ABE2','#ffffff','#39B54A', '#141414'],
+          colors: Colors,
           pieSliceTextStyle: {color: 'black'},
           sliceVisibilityThreshold: .0001
         };
