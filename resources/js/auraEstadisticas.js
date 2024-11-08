@@ -124,14 +124,14 @@
     dataEN.addColumn('string', "Colours");
     dataEN.addColumn('number', "Total");
     dataEN.addRows(4);
-    dataEN.setCell(0, 0, "Blue");
+    dataEN.setCell(0, 0, "Yellow");
     dataEN.setCell(0, 1, colorRomeo[1][1]);
     console.log("Color "+colorRomeo[1][1]);
     //dataEN.setCell(1, 0, "Yellow");
     //dataEN.setCell(1, 1, colorRomeo[2][1]);
-    dataEN.setCell(1, 0, "White");
+    dataEN.setCell(1, 0, "Blue");
     dataEN.setCell(1, 1, colorRomeo[2][1]);
-    dataEN.setCell(2, 0, "Green");
+    dataEN.setCell(2, 0, "White");
     dataEN.setCell(2, 1, colorRomeo[3][1]);
     // dataEN.setCell(3, 0, "Unknown");
     // dataEN.setCell(3, 1, colorRomeo[4][1]);
