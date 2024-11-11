@@ -270,7 +270,7 @@
             </div>
             <div class="form-group">
                 <label for="autoArchivo">{{t.informacionRevistas.autoarchivo}}<span style="color: #d93025;">*</span></label>
-                <select id="autoArchivo" name="autoArchivo" class="custom-select" required ng-click='ocultarAutoArchivo()'>
+                <select id="autoArchivo" name="autoArchivo" class="custom-select" required ng-model="autoArchivo" ng-click='ocultarAutoArchivo()'>
                     <option value="">{{t.informacionRevistas.elegir}}</option>
                     <option value="Sí">Sí</option>
                     <option value="Sí en artículos OA de pago por publicación">Sí en artículos OA de pago por publicación</option>
@@ -281,11 +281,11 @@
             <div class="form-group">
                 <label for="versionDelAutoArchivo1">{{t.informacionRevistas.versionAutoarchivo}}</label>
                 <div class="custom-control custom-radio"><!--custom-checkbox-->
-                    <input name="checks2[]" value={{t.opciones.prePrint}} type="radio" class="custom-control-input" id="a1" ng-disabled="mostrarAutoarchivo" ng-model="auto1" ng-click="opcionesAutoArchivo1()"><!--type="checkbox"-->
+                    <input name="checks2[]" value={{t.opciones.prePrint}} type="radio" class="custom-control-input" id="a1" ng-disabled="mostrarAutoarchivo" ng-model="auto1" ng-change="opcionesAutoArchivo1()"><!--type="checkbox"-->
                     <label class="custom-control-label" for="a1">{{t.opciones.prePrint}}</label>
                 </div>
                 <div class="custom-control custom-radio">
-                    <input name="checks2[]" value={{t.opciones.posPrint}} type="radio" class="custom-control-input" id="a2" ng-disabled="mostrarAutoarchivo" ng-model="auto2" ng-click="opcionesAutoArchivo2()"><!--type="checkbox"-->
+                    <input name="checks2[]" value={{t.opciones.posPrint}} type="radio" class="custom-control-input" id="a2" ng-disabled="mostrarAutoarchivo" ng-model="auto2" ng-change="opcionesAutoArchivo2()"><!--type="checkbox"-->
                     <label class="custom-control-label" for="a2">{{t.opciones.posPrint}}</label>
                 </div>
                 <div style="display: none">Ids seleccionados <span id="str2"></span></div>

@@ -228,6 +228,7 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
             $scope.mostrarCategoriaOtro = false;
             $('#categoriaOtro').prop('required', false);
         }
+        console.log('Holaa2')
         console.log('valor categoria: ' + $scope.categoriaRevista);
         console.log($scope.mostrarCategoriaOtro);
     }
@@ -240,8 +241,10 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
         } else {
             $scope.mostrarLicenciaPublicacionOtro = false;
         }
+        console.log('Holaa')
         console.log('valor categoria: ' + $scope.licenciaPublicacion);
         console.log($scope.mostrarLicenciaPublicacionOtro);
+        $scope.decisionColor();
     }
     //
 
@@ -267,20 +270,23 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
             $scope.opcionesAa1 = false;
             $scope.opcionesAa2 = false;
         }
+        $scope.decisionColor();
     }
 
     $scope.opcionesAutoArchivo1 = function(){
         $scope.opcionesAa2 = false;
         $scope.opcionesAa1 = true;
-        $scope.limpiarItems();       
+        $scope.limpiarItems(); 
+        $scope.decisionColor();      
     }
 
     $scope.opcionesAutoArchivo2 = function(){
         $scope.opcionesAa1 = false;
         $scope.opcionesAa2 = true;
         $scope.limpiarItems();
+        $scope.decisionColor();
     }
-
+    
     //limpia check y valor de autoArchivoMomento
     $scope.limpiarItems = function(){
         $scope.autoCuando1 = "0";
@@ -514,6 +520,38 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
 
     function isUndefinedOrNull(val){
         return angular.isUndefined(val) || val === null 
+    }
+
+
+    $scope.decisionColor = function(){
+        const selectElement = document.getElementById('colorRomeo');
+        console.log("auto 1", $scope.auto1);
+        console.log("auto 2", $scope.auto2);
+         
+        if($scope.licenciaPublicacion !== 'Otro' && $scope.licenciaPublicacion !== 'Ninguna' && $scope.licenciaPublicacion !== undefined){
+            selectElement.value = 'Azul';
+            console.log("Valor asignado:", selectElement.value);  
+            selectElement.disabled = true;
+        }else{
+            if (($scope.licenciaPublicacion === 'Otro' || $scope.licenciaPublicacion === 'Ninguna') && ($scope.autoArchivo !== 'No') && ($scope.auto1 === 'Pre-print (versión sin evaluar), Post-print (versión editorial)' || $scope.auto1 === 'Pre-print (without assessment), Post-print (publisher’s version)')) {
+                selectElement.value = 'Verde';
+                console.log("Valor asignado:", selectElement.value);
+                selectElement.disabled = true;
+            }else{
+                if (($scope.licenciaPublicacion === 'Otro' || $scope.licenciaPublicacion === 'Ninguna') && ($scope.autoArchivo === 'No')) {
+                    selectElement.value = 'Blanco';
+                    console.log("Valor asignado:", selectElement.value);
+                    selectElement.disabled = true;
+                }else{
+                    if (($scope.licenciaPublicacion === 'Otro' || $scope.licenciaPublicacion === 'Ninguna') && ($scope.autoArchivo !== 'No') && ($scope.auto2 === 'Post-print (versión editorial)' || $scope.auto2 === 'Post-print (publisher’s version)')) {
+                        selectElement.value = 'Desconocido';
+                        console.log("Valor asignado:", selectElement.value);
+                        selectElement.disabled = true;
+                    }
+                }
+            }
+            
+        }
     }
 });
 //http (ur,data,[headers])
