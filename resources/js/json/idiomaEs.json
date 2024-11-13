@@ -52,8 +52,10 @@
 
   "opciones": 
   {
-    "prePrint": "Pre-print (versión sin evaluar), Post-print (versión editorial)",
-    "posPrint": "Post-print (versión editorial)",
+    "prePrintVS": "Pre-print (versión sin evaluar)",
+    "prePrintVE": "Pre-print (versión editorial)",
+    "posPrintVS": "Post-print (versión sin evaluar)",
+    "posPrintVE": "Post-print (versión editorial)",
     "cuandoAutoarchivoOP1": "Al envío",
     "cuandoAutoarchivoOP2": "A la aceptación del trabajo",
     "cuandoAutoarchivoOP3": "En el momento de la publicación",

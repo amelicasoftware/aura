@@ -244,7 +244,7 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
         console.log('Holaa')
         console.log('valor categoria: ' + $scope.licenciaPublicacion);
         console.log($scope.mostrarLicenciaPublicacionOtro);
-        $scope.decisionColor();
+        //$scope.decisionColor();
     }
     //
 
@@ -253,15 +253,25 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
     $scope.mostrarAutoarchivo = true;
     $scope.opcionesAa1 = true;
     $scope.opcionesAa2 = true;
+    $scope.mostrarAuto1 = true;
+    $scope.mostrarAuto2 = true;
+    $scope.mostrarAuto3 = true;
+    $scope.mostrarAuto4 = true;
     $scope.ocultarAutoArchivo = function () {
         //auto-archivo="No"; deshabilitar items
         if(document.getElementById('autoArchivo').value== "No"){
             $scope.mostrarAutoarchivo = true;
             $scope.opcionesAa1 = true;
             $scope.opcionesAa2 = true;
+            $scope.mostrarAuto1 = true;
+            $scope.mostrarAuto2 = true;
+            $scope.mostrarAuto3 = true;
+            $scope.mostrarAuto4 = true;
             //resetear los valores auto-archivo(pre,post)
             $scope.auto1 = "0";
             $scope.auto2 = "0";
+            $scope.auto3 = "0";
+            $scope.auto4 = "0";
             $('#versionDelAutoArchivo').val("");
             $scope.limpiarItems();
         }else{
@@ -269,21 +279,64 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
             $scope.mostrarAutoarchivo = false;
             $scope.opcionesAa1 = false;
             $scope.opcionesAa2 = false;
+            $scope.mostrarAuto1 = false;
+            $scope.mostrarAuto2 = false;
+            $scope.mostrarAuto3 = false;
+            $scope.mostrarAuto4 = false;
+            
         }
         $scope.decisionColor();
     }
 
     $scope.opcionesAutoArchivo1 = function(){
-        $scope.opcionesAa2 = false;
-        $scope.opcionesAa1 = true;
-        $scope.limpiarItems(); 
+        $scope.mostrarAuto2 = true;
+        $scope.mostrarAuto3 = false;
+        $scope.mostrarAuto4 = false;
+        if ($scope.auto3 == true) {
+            $scope.mostrarAuto4 = true;
+        }else if ($scope.auto4 == true) {
+            $scope.mostrarAuto3 = true;
+        }
+       // $scope.limpiarItems(); 
         $scope.decisionColor();      
     }
 
     $scope.opcionesAutoArchivo2 = function(){
-        $scope.opcionesAa1 = false;
-        $scope.opcionesAa2 = true;
-        $scope.limpiarItems();
+        $scope.mostrarAuto1 = true;
+        $scope.mostrarAuto3 = false;
+        $scope.mostrarAuto4 = false;
+        if ($scope.auto3 == true) {
+            $scope.mostrarAuto4 = true;
+        }else if ($scope.auto4 == true) {
+            $scope.mostrarAuto3 = true;
+        }
+        //$scope.limpiarItems();
+        $scope.decisionColor();
+    }
+
+    $scope.opcionesAutoArchivo3 = function(){
+        $scope.mostrarAuto4 = true;
+        $scope.mostrarAuto1 = false;
+        $scope.mostrarAuto2 = false;
+        if ($scope.auto1 == true) {
+            $scope.mostrarAuto2 = true;
+        }else if ($scope.auto2 == true) {
+            $scope.mostrarAuto1 = true;
+        }
+       // $scope.limpiarItems();
+        $scope.decisionColor();
+    }
+    
+    $scope.opcionesAutoArchivo4 = function(){
+        $scope.mostrarAuto3 = true;
+        $scope.mostrarAuto1 = false;
+        $scope.mostrarAuto2 = false;
+        if ($scope.auto1 == true) {
+            $scope.mostrarAuto2 = true;
+        }else if ($scope.auto2 == true) {
+            $scope.mostrarAuto1 = true;
+        }
+       // $scope.limpiarItems();
         $scope.decisionColor();
     }
     
@@ -337,6 +390,7 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
             $('#arr').text(JSON.stringify(arr));
             $('#str2').text(str);
             $('#versionDelAutoArchivo').val(str);
+            console.log($('#versionDelAutoArchivo').val());
         });
         // auto-archivoCuando
         $('[name="checksAutoarchivoDonde[]"]').click(function () {
@@ -525,10 +579,9 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
 
     $scope.decisionColor = function(){
         const selectElement = document.getElementById('colorRomeo');
-        console.log("auto 1", $scope.auto1);
-        console.log("auto 2", $scope.auto2);
+        
          
-        if($scope.licenciaPublicacion !== 'Otro' && $scope.licenciaPublicacion !== 'Ninguna' && $scope.licenciaPublicacion !== undefined){
+        if(($scope.autoArchivo !== 'No') && ($scope.auto1 === 'Post-print (versión sin evaluar)' || $scope.auto1 === 'Post-print (without assessment)')){
             selectElement.value = 'Azul';
             console.log("Valor asignado:", selectElement.value);  
             selectElement.disabled = true;

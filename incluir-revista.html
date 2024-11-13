@@ -278,20 +278,21 @@
                     <option value="No se menciona">No se menciona</option>
                 </select>
             </div>
-            <div class="form-group">
+            <!--<div class="form-group">  ORIGINAL RADIOS
                 <label for="versionDelAutoArchivo1">{{t.informacionRevistas.versionAutoarchivo}}</label>
-                <div class="custom-control custom-radio"><!--custom-checkbox-->
-                    <input name="checks2[]" value={{t.opciones.prePrint}} type="radio" class="custom-control-input" id="a1" ng-disabled="mostrarAutoarchivo" ng-model="auto1" ng-change="opcionesAutoArchivo1()"><!--type="checkbox"-->
+                <div class="custom-control custom-radio">
+                    <input name="checks2[]" value={{t.opciones.prePrint}} type="radio" class="custom-control-input" id="a1" ng-disabled="mostrarAutoarchivo" ng-model="auto1" ng-change="opcionesAutoArchivo1()">
                     <label class="custom-control-label" for="a1">{{t.opciones.prePrint}}</label>
                 </div>
                 <div class="custom-control custom-radio">
-                    <input name="checks2[]" value={{t.opciones.posPrint}} type="radio" class="custom-control-input" id="a2" ng-disabled="mostrarAutoarchivo" ng-model="auto2" ng-change="opcionesAutoArchivo2()"><!--type="checkbox"-->
+                    <input name="checks2[]" value={{t.opciones.posPrint}} type="radio" class="custom-control-input" id="a2" ng-disabled="mostrarAutoarchivo" ng-model="auto2" ng-change="opcionesAutoArchivo2()">
                     <label class="custom-control-label" for="a2">{{t.opciones.posPrint}}</label>
                 </div>
                 <div style="display: none">Ids seleccionados <span id="str2"></span></div>
                 <input name="versionDelAutoArchivo" id="versionDelAutoArchivo" style="display: none">
             </div>
-            <div class="row"></div>
+            <div class="row"></div>-->
+
             <!--<div class="form-group"> original
                 <label for="versionAutoarchivo">{{t.informacionRevistas.versionAutoarchivo}}</label>
                 <div class="custom-control custom-radio">
@@ -303,6 +304,29 @@
                     <label class="custom-control-label" for="customRadio22">{{t.opciones.posPrint}}</label>
                 </div>
             </div>-->
+            <div class="form-group">
+                <label for="versionDelAutoArchivo1">{{t.informacionRevistas.versionAutoarchivo}}</label>
+                <div class="custom-control custom-checkbox">
+                    <input name="checks2[]" value={{t.opciones.prePrintVS}} type="checkbox" class="custom-control-input" id="a1" ng-disabled="mostrarAuto1" ng-model="auto1" ng-change = "opcionesAutoArchivo1()">
+                    <label class="custom-control-label" for="a1">{{t.opciones.prePrintVS}}</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input name="checks2[]" value={{t.opciones.prePrintVE}} type="checkbox" class="custom-control-input" id="a2" ng-disabled="mostrarAuto2" ng-model="auto2" ng-change = "opcionesAutoArchivo2()">
+                    <label class="custom-control-label" for="a2">{{t.opciones.prePrintVE}}</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input name="checks2[]" value={{t.opciones.posPrintVS}} type="checkbox" class="custom-control-input" id="a3" ng-disabled="mostrarAuto3" ng-model="auto3" ng-change = "opcionesAutoArchivo3()">
+                    <label class="custom-control-label" for="a3">{{t.opciones.posPrintVS}}</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input name="checks2[]" value={{t.opciones.posPrintVE}} type="checkbox" class="custom-control-input" id="a4" ng-disabled="mostrarAuto4" ng-model="auto4" ng-change = "opcionesAutoArchivo4()">
+                    <label class="custom-control-label" for="a4">{{t.opciones.posPrintVE}}</label>
+                </div>
+                <div style="display: none">Ids seleccionados <span id="str2"></span></div>
+                <input name="versionDelAutoArchivo" id="versionDelAutoArchivo" style="display: none">
+            </div>
+            <div class="row"></div>
+            
             <div class="form-group">
                 <label for="autoarchivoCuando">{{t.informacionRevistas.cuandoAutoarchivo}}</label>
                 <div class="custom-control custom-checkbox">
