@@ -304,26 +304,39 @@
                     <label class="custom-control-label" for="customRadio22">{{t.opciones.posPrint}}</label>
                 </div>
             </div>-->
-            <div class="form-group">
+            <div class="row">
+            <div class="form-group col-sm-6">
                 <label for="versionDelAutoArchivo1">{{t.informacionRevistas.versionAutoarchivo}}</label>
                 <div class="custom-control custom-checkbox">
-                    <input name="checks2[]" value={{t.opciones.prePrintVS}} type="checkbox" class="custom-control-input" id="a1" ng-disabled="mostrarAuto1" ng-model="auto1" ng-change = "opcionesAutoArchivo1()">
+                    <input name="checks2[]" value={{t.opciones.prePrintVS}} type="checkbox" class="custom-control-input" id="a1" ng-disabled="mostrarAuto1" ng-model="auto1" ng-change = "opcionesAutoArchivo1(this)">
                     <label class="custom-control-label" for="a1">{{t.opciones.prePrintVS}}</label>
                 </div>
                 <div class="custom-control custom-checkbox">
-                    <input name="checks2[]" value={{t.opciones.prePrintVE}} type="checkbox" class="custom-control-input" id="a2" ng-disabled="mostrarAuto2" ng-model="auto2" ng-change = "opcionesAutoArchivo2()">
+                    <input name="checks2[]" value={{t.opciones.prePrintVE}} type="checkbox" class="custom-control-input" id="a2" ng-disabled="mostrarAuto2" ng-model="auto2" ng-change = "opcionesAutoArchivo2(this)">
                     <label class="custom-control-label" for="a2">{{t.opciones.prePrintVE}}</label>
                 </div>
                 <div class="custom-control custom-checkbox">
-                    <input name="checks2[]" value={{t.opciones.posPrintVS}} type="checkbox" class="custom-control-input" id="a3" ng-disabled="mostrarAuto3" ng-model="auto3" ng-change = "opcionesAutoArchivo3()">
+                    <input name="checks2[]" value={{t.opciones.posPrintVS}} type="checkbox" class="custom-control-input" id="a3" ng-disabled="mostrarAuto3" ng-model="auto3" ng-change = "opcionesAutoArchivo3(this)">
                     <label class="custom-control-label" for="a3">{{t.opciones.posPrintVS}}</label>
                 </div>
                 <div class="custom-control custom-checkbox">
-                    <input name="checks2[]" value={{t.opciones.posPrintVE}} type="checkbox" class="custom-control-input" id="a4" ng-disabled="mostrarAuto4" ng-model="auto4" ng-change = "opcionesAutoArchivo4()">
+                    <input name="checks2[]" value={{t.opciones.posPrintVE}} type="checkbox" class="custom-control-input" id="a4" ng-disabled="mostrarAuto4" ng-model="auto4" ng-change = "opcionesAutoArchivo4(this)">
                     <label class="custom-control-label" for="a4">{{t.opciones.posPrintVE}}</label>
                 </div>
                 <div style="display: none">Ids seleccionados <span id="str2"></span></div>
                 <input name="versionDelAutoArchivo" id="versionDelAutoArchivo" style="display: none">
+            </div>
+            <div class="form-group col-sm-6">
+                    <label for="exampleInputPassword1">{{t.informacionRevistas.colorRomeo}} <!--<span style="color: #d93025;">*</span>--></label>
+                    <select id="colorRomeo" name="colorRomeo" class='form-control' id="inputGroupSelect01" ng-disabled="selectDisabled">
+                        <option value="">{{t.informacionRevistas.elegir}}</option>
+                        <option value="Blanco">Blanco</option>
+                        <option value="Amarillo">Amarillo</option>
+                        <option value="Azul">Azul</option>
+                        <option value="Verde">Verde</option>
+                        <option value="Desconocido">Desconocido</option>
+                    </select>
+            </div>
             </div>
             <div class="row"></div>
             
@@ -376,19 +389,6 @@
                     <label for="autoArchivoDondeOtro" >{{t.informacionRevistas.otros}}</label>
                     <input id="autoArchivoDondeOtro" name="ubicacionAutoarchivoOtro" class="form-control" type="text" placeholder="" required>
                 </div>
-            <div class="row">
-                <div class="form-group col-sm-6">
-                    <label for="exampleInputPassword1">{{t.informacionRevistas.colorRomeo}} <span style="color: #d93025;">*</span></label>
-                    <select id="colorRomeo" name="colorRomeo" class='form-control' id="inputGroupSelect01" required>
-                        <option value="">{{t.informacionRevistas.elegir}}</option>
-                        <option value="Blanco">Blanco</option>
-                        <option value="Amarillo">Amarillo</option>
-                        <option value="Azul">Azul</option>
-                        <option value="Verde">Verde</option>
-                        <option value="Desconocido">Desconocido</option>
-                    </select>
-                </div>
-            </div>
             <div class="row">
                 <div class="form-group col-sm-6">
                     <div class="">

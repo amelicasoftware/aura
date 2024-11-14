@@ -257,6 +257,8 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
     $scope.mostrarAuto2 = true;
     $scope.mostrarAuto3 = true;
     $scope.mostrarAuto4 = true;
+    $scope.selectDisabled = true;
+    var cadena = '';
     $scope.ocultarAutoArchivo = function () {
         //auto-archivo="No"; deshabilitar items
         if(document.getElementById('autoArchivo').value== "No"){
@@ -288,55 +290,72 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
         $scope.decisionColor();
     }
 
-    $scope.opcionesAutoArchivo1 = function(){
-        $scope.mostrarAuto2 = true;
-        $scope.mostrarAuto3 = false;
-        $scope.mostrarAuto4 = false;
-        if ($scope.auto3 == true) {
-            $scope.mostrarAuto4 = true;
-        }else if ($scope.auto4 == true) {
-            $scope.mostrarAuto3 = true;
+    $scope.opcionesAutoArchivo1 = function(element){
+        console.log(element);
+        if (element.auto1 === true) {
+            $scope.mostrarAuto2 = true;
         }
-       // $scope.limpiarItems(); 
+        if (element.auto1 === false) {
+            $scope.mostrarAuto2 = false;
+        }
         $scope.decisionColor();      
     }
 
-    $scope.opcionesAutoArchivo2 = function(){
-        $scope.mostrarAuto1 = true;
-        $scope.mostrarAuto3 = false;
-        $scope.mostrarAuto4 = false;
-        if ($scope.auto3 == true) {
-            $scope.mostrarAuto4 = true;
-        }else if ($scope.auto4 == true) {
-            $scope.mostrarAuto3 = true;
+    $scope.opcionesAutoArchivo2 = function(element){
+        if (element.auto2 === true) {
+            $scope.mostrarAuto1 = true;
         }
-        //$scope.limpiarItems();
+        if (element.auto2 === false) {
+            $scope.mostrarAuto1 = false;
+        }
         $scope.decisionColor();
     }
 
-    $scope.opcionesAutoArchivo3 = function(){
-        $scope.mostrarAuto4 = true;
-        $scope.mostrarAuto1 = false;
-        $scope.mostrarAuto2 = false;
-        if ($scope.auto1 == true) {
-            $scope.mostrarAuto2 = true;
-        }else if ($scope.auto2 == true) {
-            $scope.mostrarAuto1 = true;
+    $scope.opcionesAutoArchivo3 = function(element){
+        if (element.auto3 === true) {
+            $scope.mostrarAuto4 = true;
         }
-       // $scope.limpiarItems();
+        if (element.auto3 === false) {
+            $scope.mostrarAuto4 = false;
+        }
         $scope.decisionColor();
     }
-    
-    $scope.opcionesAutoArchivo4 = function(){
-        $scope.mostrarAuto3 = true;
-        $scope.mostrarAuto1 = false;
-        $scope.mostrarAuto2 = false;
-        if ($scope.auto1 == true) {
-            $scope.mostrarAuto2 = true;
-        }else if ($scope.auto2 == true) {
-            $scope.mostrarAuto1 = true;
+
+    $scope.decisionColor = function(){
+        const selectElement = document.getElementById('colorRomeo');
+        console.log("Auto archivo", $scope.autoArchivo);
+        if ($scope.autoArchivo != 'No' && $scope.autoArchivo != undefined) {
+            selectElement.value = 'Blanco';
         }
-       // $scope.limpiarItems();
+        var elements = [];
+        $("input:checkbox[name='checks2[]']:checked").each(function(){
+            elements.push($(this).val());
+        });
+        console.log(elements);
+        if (elements.length === 2) {
+            selectElement.value = 'Verde';
+            selectElement.style.background = '#39B54A';
+            cadena = elements.join(", ");
+            console.log("cadena", cadena);
+        }else if ((elements.length === 1) && (elements[0].includes("Pos"))) {
+            selectElement.value = 'Azul';
+            selectElement.style.background = '#29ABE2';
+        }else if ((elements.length === 1) && (elements[0].includes("Pre"))) {
+            selectElement.value = 'Amarillo';
+            selectElement.style.background = '#FFFF00';
+        }else if (elements.length === 0) {
+            selectElement.value = 'Blanco';
+            selectElement.style.background = '#ffffff';
+        }
+    }
+    
+    $scope.opcionesAutoArchivo4 = function(element){
+        if (element.auto4 === true) {
+            $scope.mostrarAuto3 = true;
+        }
+        if (element.auto4 === false) {
+            $scope.mostrarAuto3 = false;
+        }
         $scope.decisionColor();
     }
     
@@ -386,7 +405,10 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
             var arr = $('[name="checks2[]"]:checked').map(function () {
                 return this.value;
             }).get();
-            var str = arr.join(', ');
+            console.log("# de valores", arr.length);
+            var str = "";
+            (arr.length === 2 && cadena !='') ? str = cadena : str = arr.join(', ');
+            console.log("cadena insertada", str);
             $('#arr').text(JSON.stringify(arr));
             $('#str2').text(str);
             $('#versionDelAutoArchivo').val(str);
@@ -576,36 +598,6 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
         return angular.isUndefined(val) || val === null 
     }
 
-
-    $scope.decisionColor = function(){
-        const selectElement = document.getElementById('colorRomeo');
-        
-         
-        if(($scope.autoArchivo !== 'No') && ($scope.auto1 === 'Post-print (versión sin evaluar)' || $scope.auto1 === 'Post-print (without assessment)')){
-            selectElement.value = 'Azul';
-            console.log("Valor asignado:", selectElement.value);  
-            selectElement.disabled = true;
-        }else{
-            if (($scope.licenciaPublicacion === 'Otro' || $scope.licenciaPublicacion === 'Ninguna') && ($scope.autoArchivo !== 'No') && ($scope.auto1 === 'Pre-print (versión sin evaluar), Post-print (versión editorial)' || $scope.auto1 === 'Pre-print (without assessment), Post-print (publisher’s version)')) {
-                selectElement.value = 'Verde';
-                console.log("Valor asignado:", selectElement.value);
-                selectElement.disabled = true;
-            }else{
-                if (($scope.licenciaPublicacion === 'Otro' || $scope.licenciaPublicacion === 'Ninguna') && ($scope.autoArchivo === 'No')) {
-                    selectElement.value = 'Blanco';
-                    console.log("Valor asignado:", selectElement.value);
-                    selectElement.disabled = true;
-                }else{
-                    if (($scope.licenciaPublicacion === 'Otro' || $scope.licenciaPublicacion === 'Ninguna') && ($scope.autoArchivo !== 'No') && ($scope.auto2 === 'Post-print (versión editorial)' || $scope.auto2 === 'Post-print (publisher’s version)')) {
-                        selectElement.value = 'Desconocido';
-                        console.log("Valor asignado:", selectElement.value);
-                        selectElement.disabled = true;
-                    }
-                }
-            }
-            
-        }
-    }
 });
 //http (ur,data,[headers])
 //headers: {
