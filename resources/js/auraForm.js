@@ -259,8 +259,14 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
     $scope.mostrarAuto4 = true;
     $scope.selectDisabled = true;
     var cadena = '';
+    $scope.obligatoria = false;
     $scope.ocultarAutoArchivo = function () {
         //auto-archivo="No"; deshabilitar items
+        if ($scope.autoArchivo === 'Sí' || $scope.autoArchivo === 'Sí en artículos OA de pago por publicación') {
+            $scope.obligatoria = true;
+        } else if($scope.autoArchivo === 'No' || $scope.autoArchivo === 'No se menciona'){
+            $scope.obligatoria = false;
+        }
         if(document.getElementById('autoArchivo').value== "No"){
             $scope.mostrarAutoarchivo = true;
             $scope.opcionesAa1 = true;
@@ -322,11 +328,9 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
     }
 
     $scope.decisionColor = function(){
+        console.log("valor********************", $scope.autoArchivo);
         const selectElement = document.getElementById('colorRomeo');
         console.log("Auto archivo", $scope.autoArchivo);
-        if ($scope.autoArchivo != 'No' && $scope.autoArchivo != undefined) {
-            selectElement.value = 'Blanco';
-        }
         var elements = [];
         $("input:checkbox[name='checks2[]']:checked").each(function(){
             elements.push($(this).val());
@@ -334,19 +338,28 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
         console.log(elements);
         if (elements.length === 2) {
             selectElement.value = 'Verde';
-            selectElement.style.background = '#39B54A';
+            selectElement.style.color = "#155724";
+            selectElement.style.background = "#d4edda";
+            selectElement.style.borderColor = "#c3e6cb";
             cadena = elements.join(", ");
             console.log("cadena", cadena);
         }else if ((elements.length === 1) && (elements[0].includes("Pos"))) {
             selectElement.value = 'Azul';
-            selectElement.style.background = '#29ABE2';
+            selectElement.style.color = "#004085";
+            selectElement.style.background = "#cce5ff";
+            selectElement.style.borderColor = "#b8daff";
         }else if ((elements.length === 1) && (elements[0].includes("Pre"))) {
             selectElement.value = 'Amarillo';
-            selectElement.style.background = '#FFFF00';
-        }else if (elements.length === 0) {
+            selectElement.style.color = "#856404";
+            selectElement.style.background = "#fff3cd";
+            selectElement.style.borderColor = "#ffeeba";
+        }else if ((elements.length === 0 || $scope.autoArchivo === 'No' || $scope.autoArchivo === 'No se menciona')) {
             selectElement.value = 'Blanco';
-            selectElement.style.background = '#ffffff';
+            selectElement.style.color = "#818182";
+            selectElement.style.background = "#fefefe";
+            selectElement.style.borderColor = "#fdfdfe";
         }
+       
     }
     
     $scope.opcionesAutoArchivo4 = function(element){
