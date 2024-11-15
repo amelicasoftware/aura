@@ -196,7 +196,8 @@
 			ng-class="{ colorblack: letra === letraSelected}" class="text-bold">
 			
 			{{letra}}</div>
-			<div  ng-click="buscarOtros()" class="text-bold">Otras</div>			
+			<div  ng-click="buscarOtros()" class="text-bold" ng-if="idioma === 'es'">Otras</div>			
+			<div  ng-click="buscarOtros()" class="text-bold" ng-if="idioma === 'en'">Others</div>			
 	</div>
 
 	<p>
@@ -210,7 +211,9 @@
 		
 	<div class="searchbox">
 					<input type="text" id="searchText" name="search" placeholder="Buscar por nombre"
-						ng-keydown="tecla($event);" ng-model="searchText">
+						ng-keydown="tecla($event);" ng-model="searchText" ng-if="idioma === 'es'">
+					<input type="text" id="searchText" name="search" placeholder="Search by name"
+					ng-keydown="tecla($event);" ng-model="searchText" ng-if="idioma === 'en'">
 				</div>
 			</div>
 		</div>
@@ -287,8 +290,9 @@
 					</td>
 				</tr>
 			</table>
-			<div class="resultados" ng-if="listaRevistas.length === 0">
-				Sin resultados
+			<div class="resultados" ng-if="listaRevistas.length === 0">				
+				<div ng-if="idioma === 'es'">Sin resultados</div>
+				<div ng-if="idioma === 'en'">No results</div>
 			</div>
 			<div class="carga" ng-if="cargando">
 				<div class="loader"></div>
