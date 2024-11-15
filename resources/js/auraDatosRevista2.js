@@ -141,6 +141,8 @@ app.controller("auraController", function ($scope, $http, $location) {
             }
             //en caso de no mostrar indizaciones o categoría: aplicar reglas desde el backend
             //$scope.textoIndizacion = $scope.datosRevistas['indizacionExtendida'];//['indizacionesExtendido']
+            let fechaTimestamp=$scope.datosRevistas['fechaUltimaActualizacion'];
+            $scope.fechaActualizacion= new Date(fechaTimestamp).toLocaleDateString();
             $scope.obtenerIndizaciones($scope.datosRevistas['indizacionExtendida']);//['indizacionesExtendido']
             $scope.cargoResponsable = $scope.datosRevistas['cargoDelContacto'];//['cargoContacto']
             //$scope.cveCategoria = $scope.datosRevistas['claveCategoriaRevista'];//['cveCategoria']
@@ -176,9 +178,10 @@ app.controller("auraController", function ($scope, $http, $location) {
                 //quitar coma del útimo string
                 $scope.textoIndizacion = $scope.textoIndizacion.slice(0,-2);
             }else
-                $scope.textoIndizacion= indizacion;
+                $scope.textoIndizacion= indizacion;  
         });
     }
+
 
     //obtener categoria db
     $scope.obtenerCategoria = function (clave) {
