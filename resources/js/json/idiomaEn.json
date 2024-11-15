@@ -111,8 +111,10 @@
 
   "opciones": 
   {
-    "prePrint": "Pre-print (without assessment), Post-print (publisher’s version)",
-    "posPrint": "Post-print (publisher’s version)",
+    "prePrintVS": "Pre-print (without assessment)",
+    "prePrintVE": "Pre-print (publisher’s version)",
+    "posPrintVS": "Post-print (without assessment)",
+    "posPrintVE": "Post-print (publisher’s version)",
     "cuandoAutoarchivoOP1": "When the work is sent",
     "cuandoAutoarchivoOP2": "When the work is accepted",
     "cuandoAutoarchivoOP3": "When the work is published",

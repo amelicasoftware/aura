@@ -39,10 +39,10 @@
                 <a href="index.html">
                     <span>{{t.menu.op1}}</span><!--{{t.menu.op1}}-->
                 </a>
-                <a href="http://aura.amelica.org/aura-estadisticas.html">
+                <a href="https://aura.amelica.org/aura-estadisticas.html">
                     <span>{{t.menu.op2}}</span><!--{{t.menu.op2}}-->
                 </a>
-                <a href="http://aura.amelica.org/acerca-de-aura.html">
+                <a href="https://aura.amelica.org/acerca-de-aura.html">
                     <span>{{t.menu.op3}}</span><!--{{t.menu.op3}}-->
                 </a>
                 <a href="incluir-revista.html">
@@ -300,7 +300,7 @@
             </div>
             <div class="form-group">
                 <label for="autoArchivo">{{t.informacionRevistas.autoarchivo}}<span style="color: #d93025;">*</span></label>
-                <select id="autoArchivo" name="autoArchivo" class="custom-select" required ng-click='ocultarAutoArchivo()'>
+                <select id="autoArchivo" name="autoArchivo" class="custom-select" required ng-model="autoArchivo" ng-change='ocultarAutoArchivo()'>
                     <option value="">{{t.informacionRevistas.elegir}}</option>
                     <option value="Sí">{{t.informacionRevistas.si}}</option>
                     <option value="Sí en artículos OA de pago por publicación">{{t.autoArchivos.articulosOA}}</option>
@@ -308,20 +308,21 @@
                     <option value="No se menciona">{{t.autoArchivos.noMenciona}}</option>
                 </select>
             </div>
-            <div class="form-group">
+            <!--<div class="form-group">  ORIGINAL RADIOS
                 <label for="versionDelAutoArchivo1">{{t.informacionRevistas.versionAutoarchivo}}</label>
-                <div class="custom-control custom-radio"><!--custom-checkbox-->
-                    <input name="checks2[]" value={{t.opciones.prePrint}} type="radio" class="custom-control-input" id="a1" ng-disabled="mostrarAutoarchivo" ng-model="auto1" ng-click="opcionesAutoArchivo1()"><!--type="checkbox"-->
+                <div class="custom-control custom-radio">
+                    <input name="checks2[]" value={{t.opciones.prePrint}} type="radio" class="custom-control-input" id="a1" ng-disabled="mostrarAutoarchivo" ng-model="auto1" ng-change="opcionesAutoArchivo1()">
                     <label class="custom-control-label" for="a1">{{t.opciones.prePrint}}</label>
                 </div>
                 <div class="custom-control custom-radio">
-                    <input name="checks2[]" value={{t.opciones.posPrint}} type="radio" class="custom-control-input" id="a2" ng-disabled="mostrarAutoarchivo" ng-model="auto2" ng-click="opcionesAutoArchivo2()"><!--type="checkbox"-->
+                    <input name="checks2[]" value={{t.opciones.posPrint}} type="radio" class="custom-control-input" id="a2" ng-disabled="mostrarAutoarchivo" ng-model="auto2" ng-change="opcionesAutoArchivo2()">
                     <label class="custom-control-label" for="a2">{{t.opciones.posPrint}}</label>
                 </div>
                 <div style="display: none">Ids seleccionados <span id="str2"></span></div>
                 <input name="versionDelAutoArchivo" id="versionDelAutoArchivo" style="display: none">
             </div>
-            <div class="row"></div>
+            <div class="row"></div>-->
+
             <!--<div class="form-group"> original
                 <label for="versionAutoarchivo">{{t.informacionRevistas.versionAutoarchivo}}</label>
                 <div class="custom-control custom-radio">
@@ -333,6 +334,42 @@
                     <label class="custom-control-label" for="customRadio22">{{t.opciones.posPrint}}</label>
                 </div>
             </div>-->
+            <div class="row">
+            <div class="form-group col-sm-6">
+                <label for="versionDelAutoArchivo1">{{t.informacionRevistas.versionAutoarchivo}}<span style="color: #d93025;" ng-show="obligatoria">*</span></label>
+                <div class="custom-control custom-checkbox">
+                    <input name="checks2[]" value={{t.opciones.prePrintVS}} type="checkbox" class="custom-control-input" id="a1" ng-disabled="mostrarAuto1" ng-model="auto1" ng-change = "opcionesAutoArchivo1(this, this.value)">
+                    <label class="custom-control-label" for="a1">{{t.opciones.prePrintVS}}</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input name="checks2[]" value={{t.opciones.prePrintVE}} type="checkbox" class="custom-control-input" id="a2" ng-disabled="mostrarAuto2" ng-model="auto2" ng-change = "opcionesAutoArchivo2(this)">
+                    <label class="custom-control-label" for="a2">{{t.opciones.prePrintVE}}</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input name="checks2[]" value={{t.opciones.posPrintVS}} type="checkbox" class="custom-control-input" id="a3" ng-disabled="mostrarAuto3" ng-model="auto3" ng-change = "opcionesAutoArchivo3(this)">
+                    <label class="custom-control-label" for="a3">{{t.opciones.posPrintVS}}</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input name="checks2[]" value={{t.opciones.posPrintVE}} type="checkbox" class="custom-control-input" id="a4" ng-disabled="mostrarAuto4" ng-model="auto4" ng-change = "opcionesAutoArchivo4(this)">
+                    <label class="custom-control-label" for="a4">{{t.opciones.posPrintVE}}</label>
+                </div>
+                <div style="display: none">Ids seleccionados <span id="str2"></span></div>
+                <input name="versionDelAutoArchivo" id="versionDelAutoArchivo" style="display: none" ng-required="obligatoria">
+            </div>
+            <div class="form-group col-sm-6">
+                    <label for="exampleInputPassword1">{{t.informacionRevistas.colorRomeo}} <!--<span style="color: #d93025;">*</span>--></label>
+                    <select id="colorRomeo" name="colorRomeo" class='form-control' id="inputGroupSelect01" ng-disabled="selectDisabled">
+                        <option value="">{{t.informacionRevistas.elegir}}</option>
+                        <option value="Blanco">Blanco</option>
+                        <option value="Amarillo">Amarillo</option>
+                        <option value="Azul">Azul</option>
+                        <option value="Verde">Verde</option>
+                        <option value="Desconocido">Desconocido</option>
+                    </select>
+            </div>
+            </div>
+            <div class="row"></div>
+            
             <div class="form-group">
                 <label for="autoarchivoCuando">{{t.informacionRevistas.cuandoAutoarchivo}}</label>
                 <div class="custom-control custom-checkbox">
@@ -472,13 +509,13 @@
     <footer>
         <div id="pre-prePie" ng-if="idioma === 'es'">
             <div class="icon-pre-pre">
-                <a href="http://portal.amelica.org/index.oa">
+                <a href="https://portal.amelica.org/index.oa">
                     <img alt="" src="resources/media/proyectos-02-contenido.png" title="Portal de libros y revistas">
                     <p>Portal de libros y revistas</p>
                 </a>
             </div>
             <div class="icon-pre-pre">
-                <a href="http://portal.amelica.org/ameli/">
+                <a href="https://portal.amelica.org/ameli/">
                     <img alt="" src="resources/media/proyectos-03-xml.png" title="Ameli XML">
                     <p>AmeliCA XML</p>
                 </a>
@@ -508,7 +545,7 @@
                 </a>
             </div>
             <div class="icon-pre-pre">
-                <a href="http://aura.amelica.org">
+                <a href="https://aura.amelica.org">
                     <img alt="" src="resources/media/proyectos-08-aura.png" title="Propiedad intelectual">
                     <p>AURA</p>
                 </a>
@@ -526,7 +563,7 @@
                 </a>
             </div>
             <div class="icon-pre-pre">
-                <a href="http://portal.amelica.org/observatorio/">
+                <a href="https://portal.amelica.org/observatorio/">
                     <img alt="" src="resources/media/proyectos-11-observatorio.png" title="Observatorio">
                     <p>Observatorio de Evaluci&oacute;n</p>
                 </a>
@@ -535,13 +572,13 @@
 
         <div id="pre-prePie" ng-if="idioma === 'en'">
             <div class="icon-pre-pre">
-                <a href="http://portal.amelica.org/index.oa">
+                <a href="https://portal.amelica.org/index.oa">
                     <img alt="" src="resources/media/proyectos-02-contenido.png" title="Portal de libros y revistas">
                     <p>Book Portal and journals</p>
                 </a>
             </div>
             <div class="icon-pre-pre">
-                <a href="http://portal.amelica.org/ameli/">
+                <a href="https://portal.amelica.org/ameli/">
                     <img alt="" src="resources/media/proyectos-03-xml.png" title="Ameli XML">
                     <p>AmeliCA XML</p>
                 </a>
@@ -571,7 +608,7 @@
                 </a>
             </div>
             <div class="icon-pre-pre">
-                <a href="http://aura.amelica.org">
+                <a href="https://aura.amelica.org">
                     <img alt="" src="resources/media/proyectos-08-aura.png" title="Propiedad intelectual">
                     <p>AURA</p>
                 </a>
@@ -589,7 +626,7 @@
                 </a>
             </div>
             <div class="icon-pre-pre">
-                <a href="http://portal.amelica.org/observatorio/">
+                <a href="https://portal.amelica.org/observatorio/">
                     <img alt="" src="resources/media/proyectos-11-observatorio.png" title="Observatorio">
                     <p>Evaluation Observatory</p>
                 </a>
@@ -622,19 +659,19 @@
                 <div class="pre-pie-home" ng-if="idioma === 'en'">
                     <div class="content-links">
                         <div class="links-pre-pie">
-                            <a target="_blank" href="http://amelica.org/index.php/en/home/#modeloB">Our model</a>
+                            <a target="_blank" href="https://amelica.org/index.php/en/home/#modeloB">Our model</a>
                         </div>
                         <div class="links-pre-pie">
-                            <a target="_blank" href="http://amelica.org/index.php/en/principles-and-values/">Principles and values</a>
+                            <a target="_blank" href="https://amelica.org/index.php/en/principles-and-values/">Principles and values</a>
                         </div>
                         <div class="links-pre-pie">
-                            <a target="_blank" href="http://amelica.org/index.php/en/about/">About</a>
+                            <a target="_blank" href="https://amelica.org/index.php/en/about/">About</a>
                         </div>
                         <div class="links-pre-pie">
-                            <a target="_blank" href="http://amelica.org/index.php/en/organizational-chart/">Our team</a>
+                            <a target="_blank" href="https://amelica.org/index.php/en/organizational-chart/">Our team</a>
                         </div>
                         <div class="links-pre-pie">
-                            <a target="_blank" href="http://amelica.org/index.php/en/faq/">FAQ</a>
+                            <a target="_blank" href="https://amelica.org/index.php/en/faq/">FAQ</a>
                         </div>
                     </div>
                 </div>

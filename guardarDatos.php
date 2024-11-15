@@ -79,7 +79,7 @@ echo('
  			  showCancelButton: false,
   			  showConfirmButton: true
   			  }).then(function() {
-    		  window.location = "http://aura.amelica.org/";
+    		  window.location = "https://aura.amelica.org/";
 			  });
 		</script>				
 		</body>');

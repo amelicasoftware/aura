@@ -81,10 +81,9 @@ app.controller("auraController", function ($scope, $http, $location) {
     }
     console.log($scope.letraSelected);
     $scope.cargando = true;
-    //carga los primeros datos
     $http({
         method: 'post',
-        url: servidor+'/service/csgAura/getRevistasM2/'+$scope.letraSelected,//'readCSV.php'
+        url: servidor+'/service/csgAura/getRevistasM2/',
         data: { letra: $scope.letraSelected }
         //headers:{'Access-Control-Allow-Origin':"*"}
     }).then(function (response) {        
@@ -101,7 +100,7 @@ app.controller("auraController", function ($scope, $http, $location) {
         console.log('cambio de letra');
         $http({
             method: 'Post',
-            url: servidor+'/service/csgAura/getRevistasM2/'+$scope.letraSelected,//'readCSV.php'
+            url: servidor+'/service/csgAura/getRevistasM2/',
             data: { letra: $scope.letraSelected }
         }).then(function (response) {
             $scope.listaRevistas = response.data;
