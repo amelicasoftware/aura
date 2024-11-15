@@ -47,7 +47,66 @@
     "btnAgregar": "Agregar",
     "placeRevista":"Revista",
     "urlejemplo":"http://www.ejemplo.com",
-    "elegir":"elija una opción..."
+    "elegir":"elija una opción...",
+    "placeInstitucion": "Institución",
+    "titularDerechosSmall":"Dentro de la opción Institución se incluye la institución editora, el editor y/o la revista",
+    "btnEnviar":"Enviar",
+    "placeBuscarIndizadores":"Buscar indizadores",
+    "issn":"ISSN (impreso)",
+    "issne":"ISSN-e (electrónico)",
+    "si":"Sí",
+    "sinResultados":"Sin resultados",
+    "datoNoValido":"Por favor ingrese un dato valido",
+    "issnNoValido":"Dato incorrecto por favor verifica tu ISSN ej. 1234-587X",
+    "existenciaIssn":"Debe ingresar por lo menos un ISSN",
+    "urlNoValida":"URL no valida."
+  },
+
+  "tipoEditorial":{
+    "universidad":"Universidad/Centro de Investigación",
+    "comercial":"Comercial",
+    "asociacion":"Asociación/Sociedad",
+    "museo":"Museo",
+    "fundacion":"Fundación",
+    "colegioProfesional":"Colegio Profesional",
+    "realAcademia":"Real Academia",
+    "gubernamental":"Gubernamental"
+  },
+
+  "acceso": {
+    "gratuito":"Gratuito",
+    "gratuitoDespuesDeEmbargo":"Gratuito después de un embargo",
+    "restringidoSuscriptores":"Restringido a suscriptores",
+    "gratuitoOnline":"Gratuito online - suscripción versión impresa",
+    "hibrido":"Hibrido"
+  },
+
+  "titularDerechos": {
+    "autor": "Autor",
+    "institucion": "Institución"
+  },
+
+  "mencionDerechos": {
+    "paginaInicio":"Página de inicio",
+    "enlaceEspecifico":"Enlace específico",
+    "instruccionesAutores":"Instrucciones para los autores",
+    "paginasCreditos":"En las páginas de créditos"
+  },
+
+  "licenciaPublicacion":{
+    "atribucionCCBY": "Atribución - CC BY",
+    "atribucionNoComercial": "Atribución-No Comercial - CC BY-NC",
+    "atribucionCompartirIgual": "Atribución-Compartir Igual - CC BY-SA",
+    "atribucionSinDerivadas": "Atribución-Sin Derivadas - CC BY-ND",
+    "atribucionCCBYNCSSA": "Atribución-No Comercial-Compartir Igual - CC BY-NC-SA",
+    "atribucionCCBYNCND": "Atribución-No Comercial-Sin Derivadas - CC BY-NC-ND",
+    "ninguna":"Ninguna",
+    "otro": "Otro"
+  },
+
+  "autoArchivos":{
+    "articulosOA":"Sí en artículos OA de pago por publicación",
+    "noMenciona":"No se menciona"
   },
 
   "opciones": 
@@ -64,13 +123,24 @@
     "dondeAutoarchivoOP4": "Otros"
   },
 
+  "romeoColor": {
+    "blanco": "Blanco",
+    "amarillo": "Amarillo",
+    "azul": "Azul",
+    "verde": "Verde",
+    "desconocido": "Desconocido"
+  },
+
   "contacto":
   {
     "titulo": "Datos del contacto",
     "nombre": "Nombre del responsable",
     "cargo": "Cargo del responsable",
     "telefono": "Teléfono de contacto",
-    "email": "Correo electrónico"
+    "email": "Correo electrónico",
+    "placeNombre": "Nombre",
+    "placeTelefono": "Teléfono",
+    "placeCorreo": "Correo electrónico"
   },
 
   "detalleRevista":
