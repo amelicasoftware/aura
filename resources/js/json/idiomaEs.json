@@ -47,7 +47,7 @@
     "btnAgregar": "Agregar",
     "placeRevista":"Revista",
     "urlejemplo":"http://www.ejemplo.com",
-    "elegir":"elija una opción...",
+    "elegir":"Elija una opción...",
     "placeInstitucion": "Institución",
     "titularDerechosSmall":"Dentro de la opción Institución se incluye la institución editora, el editor y/o la revista",
     "btnEnviar":"Enviar",
@@ -59,7 +59,8 @@
     "datoNoValido":"Por favor ingrese un dato valido",
     "issnNoValido":"Dato incorrecto por favor verifica tu ISSN ej. 1234-587X",
     "existenciaIssn":"Debe ingresar por lo menos un ISSN",
-    "urlNoValida":"URL no valida."
+    "urlNoValida":"URL no valida.",
+    "opcionesColor":"Opciones"
   },
 
   "tipoEditorial":{

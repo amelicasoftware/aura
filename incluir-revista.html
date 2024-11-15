@@ -359,12 +359,12 @@
             <div class="form-group col-sm-6">
                     <label for="exampleInputPassword1">{{t.informacionRevistas.colorRomeo}} <!--<span style="color: #d93025;">*</span>--></label>
                     <select id="colorRomeo" name="colorRomeo" class='form-control' id="inputGroupSelect01" ng-disabled="selectDisabled">
-                        <option value="">{{t.informacionRevistas.elegir}}</option>
-                        <option value="Blanco">Blanco</option>
-                        <option value="Amarillo">Amarillo</option>
-                        <option value="Azul">Azul</option>
-                        <option value="Verde">Verde</option>
-                        <option value="Desconocido">Desconocido</option>
+                        <option value="">{{t.informacionRevistas.opcionesColor}}</option>
+                        <option value="Blanco">{{t.romeoColor.blanco}}</option>
+                        <option value="Amarillo">{{t.romeoColor.amarillo}}</option>
+                        <option value="Azul">{{t.romeoColor.azul}}</option>
+                        <option value="Verde">{{t.romeoColor.verde}}</option>
+                        <option value="Desconocido">{{t.romeoColor.desconocido}}</option>
                     </select>
             </div>
             </div>
@@ -418,7 +418,7 @@
                 <div class="form-group" ng-if="autoArchivoDondeOtro">
                     <label for="autoArchivoDondeOtro" >{{t.informacionRevistas.otros}}</label>
                     <input id="autoArchivoDondeOtro" name="ubicacionAutoarchivoOtro" class="form-control" type="text" placeholder="" required>
-                </div>
+                </div>            
             <div class="row">
                 <div class="form-group col-sm-6">
                     <div class="">
