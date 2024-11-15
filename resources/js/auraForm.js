@@ -72,9 +72,48 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
                var arraynew = { cvepais: cvePais, nompais: nomPais, tpoingreso: tipo};
                $scope.paisesArray.push(arraynew);
             }
-            //console.log($scope.paisesArray);
+            //console.log($scope.paisesArray);            
         });
         //$scope.obtenerPaises2();
+    }
+
+    //carga Paises En
+    $scope.obtenerPaisesEn = function () {
+        $scope.paisesArray = [];
+        $scope.paises =[
+            [135, 'Afghanistan', 1], [1, 'Albania', 1], [2, 'Germany', 1], [3, 'Andorra', 1], [4, 'Angola', 1], [6, 'Antigua and Barbuda', 1], [5, 'Antarctica', 1], [7, 'Saudi Arabia', 1], [8, 'Algeria', 1], [9, 'Argentina', 1], [111, 'Armenia', 1], [10, 'Australia', 1],[11, 'Austria', 1], [136, 'Azerbaijan', 1], [12, 'Bahamas', 1], [13, 'Bangladesh', 1], [14, 'Barbados', 1], [137, 'Bahrain', 1], [16, 'Belize', 1], [138, 'Benin', 1], [17, 'Belarus', 1], [18, 'Myanmar', 1], [19, 'Bolivia', 1], [20, 'Bosnia and Herzegovina', 1],
+            [131, 'Botswana', 1], [21, 'Brazil', 1], [140, 'Brunei', 1], [22, 'Bulgaria', 1], [112, 'Burkina Faso', 1], [141, 'Burundi', 1], [139, 'Bhutan', 1], [15, 'Belgium', 1], [167, 'Cape Verde', 1], [23, 'Cambodia', 1], [24, 'Cameroon', 1], [25, 'Canada', 1],[169, 'Chad', 1], [26, 'Chile', 1], [27, 'China', 1], [28, 'Cyprus', 1], [29, 'Vatican City', 1], [30, 'Colombia', 1], [31, 'Congo', 1], [32, 'Korea', 1], [121, 'South Korea', 1], [33, 'Costa Rica', 1], [99, 'Ivory Coast', 1], [34, 'Croatia', 1],
+            [35, 'Cuba', 1], [170, 'Ivory Coast', 1], [36, 'Denmark', 1], [37, 'Ecuador', 1], [38, 'Egypt', 1], [39, 'El Salvador', 1], [105, 'United Arab Emirates', 1], [171, 'Eritrea', 1], [109, 'Scotland', 1], [40, 'Slovakia', 1], [41, 'Slovenia', 1], [42, 'Spain', 1], [206, 'Micronesia', 1], [43, 'United States', 1], [117, 'Estonia', 1], [180, 'Ethiopia', 1], [108, 'West Indies Federation', 1], [172, 'Fiji', 1], [44, 'Philippines', 1], [45, 'Finland', 1], [46, 'France', 1],
+            [142, 'Gabon', 1], [113, 'Wales', 1], [143, 'Gambia', 1], [122, 'Georgia', 1], [47, 'Ghana', 1], [48, 'Gibraltar', 1], [49, 'Grenada', 1], [50, 'Greece', 1], [51, 'Greenland', 1], [52, 'Guatemala', 1], [53, 'Guyana', 1], [54, 'Guinea', 1], [144, 'Guinea-Bissau', 1], [55, 'Haiti', 1], [56, 'Netherlands', 1], [57, 'Honduras', 1], [58, 'Hong Kong', 1], [59, 'Hungary', 1], [60, 'India', 1], [61, 'Indonesia', 1], [62, 'Iraq', 1], [64, 'Ireland', 1], [63, 'Iran', 1],
+            [182, 'Iceland', 1], [192, 'Solomon Islands', 1], [66, 'Israel', 1], [67, 'Italy', 1], [150, 'Libya', 1], [68, 'Jamaica', 1], [69, 'Japan', 1], [70, 'Jordan', 1], [199, 'Kazakhstan', 1], [127, 'Kenya', 1], [200, 'Kyrgyzstan', 1], [71, 'Kuwait', 1], [202, 'Latin Americanists', 1], [148, 'Lesotho', 1], [164, 'East Timor', 1], [147, 'Latvia', 1], [149, 'Liberia', 1], [151, 'Liechtenstein', 1], [152, 'Lithuania', 1], [153, 'Luxembourg', 1], [154, 'Madagascar', 1],
+            [110, 'Malaysia', 1], [155, 'Malawi', 1], [157, 'Malta', 1], [156, 'Mali', 1], [203, 'Dominica', 1], [72, 'Morocco', 1], [159, 'Mauritius', 1], [158, 'Mauritania', 1], [160, 'Moldova', 1], [161, 'Mongolia', 1], [162, 'Montenegro', 1], [118, 'Mozambique', 1], [163, 'Myanmar', 1], [73, 'Mexico', 1], [74, 'Monaco', 1], [176, 'Namibia', 1], [75, 'Nepal', 1], [76, 'Nicaragua', 1], [178, 'Niger', 1], [77, 'Nigeria', 1], [96, 'Unknown', 1], [78, 'Norway', 1], [103, 'New Zealand', 1],
+            [205, 'International Organization', 1], [114, 'Pakistan', 1], [102, 'Palestine', 1], [79, 'Panama', 1], [146, 'Papua New Guinea', 1], [80, 'Paraguay', 1], [177, 'Netherlands Antilles', 1], [101, 'Netherlands', 1], [81, 'Peru', 1], [82, 'Poland', 1], [83, 'Portugal', 1], [97, 'Puerto Rico', 1], [175, 'Qatar', 1], [84, 'United Kingdom', 1], [168, 'Central African Republic', 1], [98, 'Czech Republic', 1], [208, 'Cooperative Republic of Guyana', 1],
+            [183, 'Laos', 1], [209, 'Sao Tome and Principe', 1], [85, 'Dominican Republic', 1], [107, 'Azerbaijan Republic', 1], [115, 'Benin Republic', 1], [204, 'Equatorial Guinea Republic', 1], [207, 'Kosovo Republic', 1], [128, 'Lebanon Republic', 1], [133, 'Macedonia Republic', 1], [201, 'Maldives Republic', 1], [129, 'Malta Republic', 1], [106, 'Serbia Republic', 1], [179, 'Rwanda', 1], [86, 'Romania', 1], [87, 'Russia', 1], [189, 'Samoa', 1], [188, 'Saint Kitts and Nevis', 1],
+            [190, 'San Marino', 1], [116, 'Senegal', 1], [191, 'Sierra Leone', 1], [124, 'Singapore', 1], [120, 'Syria', 1], [193, 'Somalia', 1], [132, 'Sri Lanka', 1], [196, 'Eswatini', 1], [194, 'Sudan', 1], [104, 'South Africa', 1], [88, 'Sweden', 1], [89, 'Switzerland', 1], [126, 'Oman', 1], [195, 'Suriname', 1], [125, 'Thailand', 1], [100, 'Taiwan', 1], [123, 'Tanzania', 1], [145, 'Tajikistan', 1], [187, 'Timor-Leste', 1], [165, 'Togo', 1],
+            [166, 'Tonga', 1], [90, 'Trinidad and Tobago', 1], [173, 'Turkmenistan', 1], [92, 'Turkey', 1], [91, 'Tunisia', 1], [119, 'Ukraine', 1], [174, 'Uganda', 1], [210, 'Comoros', 1], [93, 'Uruguay', 1], [134, 'Uzbekistan', 1], [94, 'Venezuela', 1], [184, 'Vietnam', 1], [185, 'Yemen', 1], [130, 'Yugoslavia', 1], [186, 'Zambia', 1], [95, 'Zimbabwe', 1]
+        ]; 
+        
+        //ordenar alfabeticamente paises
+        $scope.paises.sort(function(a, b) {
+            var nameA = a[1].toLowerCase();
+            var nameB = b[1].toLowerCase();
+            if (nameA < nameB) {
+              return -1;
+            }
+            if (nameA > nameB) {
+              return 1;
+            }
+            return 0;
+        });
+        
+        for (let index = 0; index < $scope.paises.length; index++) {
+            const cvePais = $scope.paises[index][0];
+            const nomPais = $scope.paises[index][1];
+            const tipo = $scope.paises[index][2];
+            var arraynew = { cvepais: cvePais, nompais: nomPais, tpoingreso: tipo};
+            $scope.paisesArray.push(arraynew);
+        }
+        //console.log($scope.paisesArray);
     }
 
     //obtener categoria db
@@ -94,9 +133,27 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
             //console.log($scope.categorias);
         });
     }
-    //obtener cargos
+
+    // //obtener categoria En
+    $scope.obtenerCategoriaEn = function () {
+        $scope.categorias = [];
+        $scope.categoriasArray  = [[6,'Engineering',1],[7,'Experimental sciences',1],[4,'Health sciences',1],[2,'Humanities',1],[3,'Life sciences',1],[8,'Mathematics and physical sciences',1],[1,'Social sciences',1],[5,'Visual and performing arts',1]];
+        for (let index = 0; index < $scope.categoriasArray.length; index++) {
+            var arraynew = {cveCategoria: $scope.categoriasArray[index][0],
+                            nomCategoria: $scope.categoriasArray[index][1]};
+            $scope.categorias.push(arraynew);
+        }
+        // console.log($scope.categorias);
+    }
+
+    //obtener cargos Es
     $scope.obtenerCargo = function () {
         $scope.cargos = 'Administración,Apoyo académico,Apoyo editorial,Apoyo secretarial,Apoyo técnico,Asesor,Asesor técnico,Asistente de producción,Asistente editorial,Codirector,Coeditor,Coeditor Internacional,Comisión consultiva,Comité académico,Comité asesor,Comité científico,Comité Científico y Editorial,Comité de redacción,Comité editorial,Comité ejecutivo,Comité ético,Comité técnico,Consejo asesor,Consejo científico,Consejo Científico Internacional,Consejo Científico Nacional,Consejo de redacciónConsejo directivo,Consejo editorial,Consejo editorial consultivo,Consejo Editorial Internacional,Consejo Editorial Nacional,Consejo honorario,Consejo técnico,Consultor,Coordinación de comité editorial,Coordinador,Coordinador editorial,Corrección de abstracts,Corrección filológica,Corrector de estilo,Corrector de prueba,Corrector editorial,Cuerpo Editorial Científico,Cuidado de la edición impresa,Diagramación,Director,Director adjunto,Director asociado,Director científico,Director colegiado,Director editorial,Director ejecutivo,Director emérito,Director fundador,Director honorario,Diseñador,Diseñador web,Diseño y desarrollo de página web,Diseño y producción,Distribución,Docente Pre-Grado - Ex-Decano,Edición,Edición electrónica,Editor,Editor académico,Editor adjunto,Editor asociado,Editor científico,Editor de distribución,Editor de formato,Editor de la versión electrónica,Editor de redacción,Editor de sección,Editor delegado,Editor ejecutivo,Editor emérito,Editor en jefe,Editor general,Editor honorario,Editor técnico,Editor temático,Equipo editorial,Evaluador,Formación,Fotografía,Fundador,Gerente editorial,Gestión editorial,Maquetación,Mesa de redacción,Montaje,No se conoce,Presidente,Presidente de comité editorial,Presidente de consejo asesor,Presidente de consejo de redacción,Presidente del Consejo editorial,Presidente honorario,Producción editorial,Redacción,Representante legal,Responsable editorial,Secretario,Secretario de redacción,Secretario técnico,Soporte informático,Subdirector,Subeditor,Traductor,Vicepresidente,Vicesecretario,Vocal,Webmaster'.split(',');
+    }
+
+    //obtener cargos En
+    $scope.obtenerCargoEn = function () {
+        $scope.cargos = 'Academic committee, Academic editor, Advisory committee, Advisory council president, Advisory editorial board, Advisor, Associate director, Associate editor, Board of directors, Board member, Collegiate director, Consultant, Copy editor, Coordinator, Delegated editor, Designer, Deputy director, Deputy editor, Distribution, Distribution editor, Editorial assistant, Editorial board, Editorial board coordination, Editorial committee president, Editorial coordinator, Editorial director, Editorial management, Editorial proofreader, Editorial production, Editorial secretary, Editorial team, Editor, Editor-in-chief, Executive board, Executive director, Executive editor, Founder, Founding director, Honorary council, Honorary director, Honorary editor, Honorary president, International Editorial Board, International Scientific Council, Layout design, Legal representative, National Editorial Board, National Scientific Council, Photographer, Philological editing, President, Production assistant, Proofreader, Scientific Editorial Board, Scientific director, Scientific editor, Scientific committee, Secretary, Section editor, Technical advisor, Technical council, Technical editor, Technical secretary, Technical support, Thematic editor, Translator, Undergrad Professor - Former Dean, Vice president, Vice secretary, Web designer, Web design and development, Webmaster'.split(',');
     }
 
     //instituciones

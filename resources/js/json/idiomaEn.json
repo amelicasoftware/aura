@@ -11,7 +11,7 @@
 	{
 		"titulo"  	 : "Aura Registration Form",
 		"descripcion" 	 : "In AURA, AmeliCA aims to reflect the general state of scholarly journals concerning open access policies and exploitation rights of scholarly publishing. AURA’s goal is to know publishing policies of scholarly journals concerning access to their files, exploitation rights and publishing licenses, and how they affect self-archive in institutional or thematic repositories. Journals are classified by colours in accordance with DULCINEA’s and SHERPA/ROMEO’s taxonomy.",
-		"obligatorio"	  	 : "*Obligatorio"
+		"obligatorio"	  	 : "*Required"
   },
 
   "informacionRevistas":
@@ -47,7 +47,66 @@
     "btnAgregar": "Add",
     "placeRevista":"Journal",
     "urlejemplo":"http://www.example.com",
-    "elegir":"choose an option..."
+    "elegir":"choose an option...",
+    "placeInstitucion": "Institution",
+    "titularDerechosSmall":"Within the 'Institution' option, the publishing institution, the editor, and/or the journal are included.",
+    "btnEnviar":"Submit",
+    "placeBuscarIndizadores":"Search Indexers",
+    "issn":"ISSN (printed)",
+    "issne":"ISSN-e (electronic)",
+    "si":"Yes",
+    "sinResultados":"No results",
+    "datoNoValido": "Please enter a valid input",
+    "issnNoValido":"Incorrect data, please check your ISSN. E.g., 1234-587X",
+    "existenciaIssn":"You must enter at least one ISSN",
+    "urlNoValida":"Invalid URL."
+  },
+
+  "tipoEditorial":{
+    "universidad":"Univerisity/Research centre",
+    "comercial":"Commercial",
+    "asociacion":"Association/Society",
+    "museo":"Museum",
+    "fundacion":"Foundation",
+    "colegioProfesional":"Professional Association",
+    "realAcademia":"Royal academy",
+    "gubernamental":"Governmental"
+  },
+
+  "acceso": {
+    "gratuito":"Gratis",
+    "gratuitoDespuesDeEmbargo":"Free after an embargo period",
+    "restringidoSuscriptores":"Restricted to subscribers",
+    "gratuitoOnline":"Free online - subscription for printed version",
+    "hibrido":"Hybrid"
+  },
+
+  "titularDerechos": {
+    "autor": "Author",
+    "institucion": "Institution"
+  },
+
+  "mencionDerechos": {
+    "paginaInicio":"Home Page",
+    "enlaceEspecifico":"Specific link",
+    "instruccionesAutores":"Instructions for authors",
+    "paginasCreditos":"On the credits pages"
+  },
+
+  "licenciaPublicacion":{
+    "atribucionCCBY": "Attribution - CC BY",
+    "atribucionNoComercial": "Attribution-NonCommercial - CC BY-NC",
+    "atribucionCompartirIgual": "Attribution-ShareAlike- CC BY-SA",
+    "atribucionSinDerivadas": "Attribution-NoDerivs - CC BY-ND",
+    "atribucionCCBYNCSSA": "Attribution-NonCommercial-ShareAlike - CC BY-NC-SA",
+    "atribucionCCBYNCND": "Attribution-NonCommercial-NoDerivs - CC BY-NC-ND",
+    "ninguna": "None",
+    "otro": "Other"
+  },
+
+  "autoArchivos":{
+    "articulosOA":"Yes in OA articles with article processing charges (APCs)",
+    "noMenciona":"Not mentioned"
   },
 
   "opciones": 
@@ -66,13 +125,24 @@
     "dondeAutoarchivoOP4": "Other"
   },
 
+  "romeoColor": {
+    "blanco": "White",
+    "amarillo": "Yellow",
+    "azul": "Blue",
+    "verde": "Green",
+    "desconocido": "Unknown"
+  },
+
   "contacto":
   {
     "titulo": "Contact Information",
     "nombre": "Name",
     "cargo": "Position",
     "telefono": "Telephone number",
-    "email": "Email"
+    "email": "Email",
+    "placeNombre": "Name",
+    "placeTelefono": "Telephone",
+    "placeCorreo": "Email"
   },
   
   "detalleRevista":
