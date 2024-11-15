@@ -263,9 +263,9 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
     $scope.obligatoria = false;
     $scope.ocultarAutoArchivo = function () {
         $scope.auto1 = "0";
-            $scope.auto2 = "0";
-            $scope.auto3 = "0";
-            $scope.auto4 = "0";
+        $scope.auto2 = "0";
+        $scope.auto3 = "0";
+        $scope.auto4 = "0";
         elements = [];
         //auto-archivo="No"; deshabilitar items
         if ($scope.autoArchivo === 'Sí' || $scope.autoArchivo === 'Sí en artículos OA de pago por publicación') {
@@ -281,8 +281,7 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
             $scope.mostrarAuto2 = true;
             $scope.mostrarAuto3 = true;
             $scope.mostrarAuto4 = true;
-            //resetear los valores auto-archivo(pre,post)
-            
+            //resetear los valores auto-archivo(pre,post) 
             $('#versionDelAutoArchivo').val("");
             $scope.limpiarItems();
         }else{
@@ -308,7 +307,7 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
         }
         if (element.auto1 === false) {
             $scope.mostrarAuto2 = false;
-            elements.pop('Pre-print (versión sin evaluar)')
+            elements[0] === 'Pre-print (versión sin evaluar)' ? elements.shift() : elements.pop();
         }
         $scope.decisionColor();      
     }
@@ -316,9 +315,11 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
     $scope.opcionesAutoArchivo2 = function(element){
         if (element.auto2 === true) {
             $scope.mostrarAuto1 = true;
+            elements.push('Pre-print (versión editorial)')
         }
         if (element.auto2 === false) {
             $scope.mostrarAuto1 = false;
+            elements[0] === 'Pre-print (versión editorial)' ? elements.shift() : elements.pop();
         }
         $scope.decisionColor();
     }
@@ -326,9 +327,22 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
     $scope.opcionesAutoArchivo3 = function(element){
         if (element.auto3 === true) {
             $scope.mostrarAuto4 = true;
+            elements.push('Post-print (versión sin evaluar)')
         }
         if (element.auto3 === false) {
             $scope.mostrarAuto4 = false;
+            elements[0] === 'Post-print (versión sin evaluar)' ? elements.shift() : elements.pop();
+        }
+        $scope.decisionColor();
+    }
+    $scope.opcionesAutoArchivo4 = function(element){
+        if (element.auto4 === true) {
+            $scope.mostrarAuto3 = true;
+            elements.push('Post-print (versión editorial)')
+        }
+        if (element.auto4 === false) {
+            $scope.mostrarAuto3 = false;
+            elements[0] === 'Post-print (versión editorial)' ? elements.shift() : elements.pop();
         }
         $scope.decisionColor();
     }
@@ -336,14 +350,18 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
     $scope.decisionColor = function(){
         console.log("valor********************", $scope.autoArchivo);
         const selectElement = document.getElementById('colorRomeo');
-        console.log("Auto archivo", $scope.autoArchivo);
-                
+        console.log("Auto archivo", $scope.autoArchivo);;        
         console.log(elements);
         if (elements.length === 2) {
             selectElement.value = 'Verde';
             selectElement.style.color = "#155724";
             selectElement.style.background = "#d4edda";
             selectElement.style.borderColor = "#c3e6cb";
+            elements.sort((a, b) => {
+                if (a.includes("Pre") && !b.includes("Pre")) return -1; // "Pre" antes de "Post"
+                if (b.includes("Pre") && !a.includes("Pre")) return 1;  // "Post" después de "Pre"
+            });
+            console.log("elementos ordenados: ", elements)
             cadena = elements.join(", ");
             console.log("cadena", cadena);
         }else if ((elements.length === 1) && (elements[0].includes("Pos"))) {
@@ -356,23 +374,13 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
             selectElement.style.color = "#856404";
             selectElement.style.background = "#fff3cd";
             selectElement.style.borderColor = "#ffeeba";
-        }else if ((elements.length === 0 || $scope.autoArchivo === 'No' || $scope.autoArchivo === 'No se menciona')) {
+        }else if ((elements.length === 0 || $scope.autoArchivo === 'No' || $scope.autoArchivo === 'No se menciona') && $scope.autoArchivo != undefined) {
             selectElement.value = 'Blanco';
             selectElement.style.color = "#818182";
             selectElement.style.background = "#fefefe";
             selectElement.style.borderColor = "#fdfdfe";
         }
        
-    }
-    
-    $scope.opcionesAutoArchivo4 = function(element){
-        if (element.auto4 === true) {
-            $scope.mostrarAuto3 = true;
-        }
-        if (element.auto4 === false) {
-            $scope.mostrarAuto3 = false;
-        }
-        $scope.decisionColor();
     }
     
     //limpia check y valor de autoArchivoMomento
