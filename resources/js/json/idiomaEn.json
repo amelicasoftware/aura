@@ -40,14 +40,14 @@
     "versionAutoarchivo": "Self-archive version:",
     "cuandoAutoarchivo": "If self-archive is permitted, when could it be done?",
     "dondeAutoarchivo": "Where is self-archive permitted?",
-    "colorRomeo": "ROMEO color",
+    "colorRomeo": "The color Romeo has been assigned based on the version of the self-file",
     "indizaciones": "Indexing",
     "listaIndizaciones": "List of selected indexing",
     "otros": "Another option.",
     "btnAgregar": "Add",
     "placeRevista":"Journal",
     "urlejemplo":"http://www.example.com",
-    "elegir":"choose an option...",
+    "elegir":"Choose an option...",
     "placeInstitucion": "Institution",
     "titularDerechosSmall":"Within the 'Institution' option, the publishing institution, the editor, and/or the journal are included.",
     "btnEnviar":"Submit",
@@ -59,7 +59,8 @@
     "datoNoValido": "Please enter a valid input",
     "issnNoValido":"Incorrect data, please check your ISSN. E.g., 1234-587X",
     "existenciaIssn":"You must enter at least one ISSN",
-    "urlNoValida":"Invalid URL."
+    "urlNoValida":"Invalid URL.",
+    "opcionesColor":"Options"
   },
 
   "tipoEditorial":{
@@ -111,8 +112,10 @@
 
   "opciones": 
   {
-    "prePrint": "Pre-print (without assessment), Post-print (publisher’s version)",
-    "posPrint": "Post-print (publisher’s version)",
+    "prePrintVS": "Pre-print (without assessment)",
+    "prePrintVE": "Pre-print (publisher’s version)",
+    "posPrintVS": "Post-print (without assessment)",
+    "posPrintVE": "Post-print (publisher’s version)",
     "cuandoAutoarchivoOP1": "When the work is sent",
     "cuandoAutoarchivoOP2": "When the work is accepted",
     "cuandoAutoarchivoOP3": "When the work is published",
