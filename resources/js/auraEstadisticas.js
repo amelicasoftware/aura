@@ -121,12 +121,6 @@
     'oddTableRow': 'beige-background'};
 
     const Colors = [];
-    console.log('color1', colorRomeo[1][0]);
-    let dataColor = {
-        'color': '',
-        'total': 0,
-    }
-
     var dataTable = new google.visualization.DataTable();
     if(idiomaG === 'en'){
         dataTable.addColumn('string', "Colours");
@@ -139,8 +133,6 @@
     let contador = 0;
 
     colorRomeo.forEach((element, index ) => {
-        console.log(element);
-        console.log(index);
         if(index > 0){
             
             if(element[0] === 'Azul'){
@@ -165,10 +157,7 @@
                 }
         }
         contador++
-        // console.log('datos vis', dataTable)
     });
-
-    
     var view = new google.visualization.DataView(dataTable);
 
     var optionsTable = {'height': '100%', 'width': '100%', 'cssClassNames': cssClassNames};
@@ -213,46 +202,46 @@
     'headerRow': 'backgroundCell',
     'oddTableRow': 'beige-background'};
 
-    var dataEN = new google.visualization.DataTable();
-    dataEN.addColumn('string', "Access");
-    dataEN.addColumn('number', acceso[0][1]);
-    dataEN.addRows(5);
-    dataEN.setCell(0, 0, "Unknown");
-    dataEN.setCell(0, 1, acceso[1][1]);
-    dataEN.setCell(1, 0, "Free");
-    dataEN.setCell(1, 1, acceso[2][1]);
-    dataEN.setCell(2, 0, "Free after an embargo period");
-    dataEN.setCell(2, 1, acceso[3][1]);
-    // dataEN.setCell(3, 0, "Hybrid");
-    // dataEN.setCell(3, 1, acceso[4][1]);
-    // dataEN.setCell(4, 0, "Hybrid");
-    // dataEN.setCell(4, 1, acceso[5][1]);
-    
-
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', acceso[0][0]);
-    data.addColumn('number', acceso[0][1]);
-    data.addRows(5);
-    data.setCell(0, 0, acceso[1][0]);
-    data.setCell(0, 1, acceso[1][1]);
-    data.setCell(1, 0, acceso[2][0]);
-    data.setCell(1, 1, acceso[2][1]);
-    data.setCell(2, 0, acceso[3][0]);
-    data.setCell(2, 1, acceso[3][1]);
-    // data.setCell(3, 0, acceso[4][0]);
-    // data.setCell(3, 1, acceso[4][1]);
-    // data.setCell(4, 0, acceso[5][0]);
-    // data.setCell(4, 1, acceso[5][1]);
-
-    if(idiomaG === "es"){
-    var view = new google.visualization.DataView(data);
-    }if(idiomaG === "en"){
-    var view = new google.visualization.DataView(dataEN);
-    }else{
-        var view = new google.visualization.DataView(data);
+    const Colors2 = [];
+    var dataTable2 = new google.visualization.DataTable();
+    if(idiomaG === 'en'){
+        dataTable2.addColumn('string', "Access");
+        dataTable2.addColumn('number', "Total");
+    }else {
+        dataTable2.addColumn('string', acceso[0][0]);
+        dataTable2.addColumn('number', acceso[0][1]);
     }
 
-    view.setColumns([0, 1]);
+    let contador = 0;
+
+    acceso.forEach((element, index ) => {
+        if(index > 0){
+            
+            if(element[0] === 'Desconocido'){
+                dataTable2.addRow([idiomaG === 'es' ? element[0] : 'Unknown', element[1]]);
+                    Colors2.push('#9F9F9F');
+                } else
+                if(element[0] === 'Gratuito'){
+                dataTable2.addRow([idiomaG === 'es' ? element[0] : 'Free', element[1]]);
+                    Colors2.push('#8CBC00');
+                } else
+                if(element[0] === 'Hibrido'){
+                dataTable2.addRow([idiomaG === 'es' ? element[0] : 'Hybrid', element[1]]);
+                    Colors2.push('#F7931E');
+                // } else
+                // if(element[0] === 'Verde'){
+                // dataTable.addRow([idiomaG === 'es' ? element[0] : 'Restricted to subscribers', element[1]]);
+                //     Colors2.push('#666666');
+                // }else 
+                // if(element[0] === 'Amarillo'){
+                // dataTable.addRow([idiomaG === 'es' ? element[0] : 'Free after an embargo period', element[1]]);
+                //     Colors2.push('#166822');
+                }
+        }
+        contador++
+    });
+
+    var view = new google.visualization.DataView(dataTable2);
 
     var optionsTable = {'height': '100%', 'width': '100%', 'cssClassNames': cssClassNames};
 
@@ -262,7 +251,7 @@
     var options = {
            //title: total + ' registros - Agrupado por Acceso',
           pieHole: 0.5,
-          colors:['#9F9F9F','#8CBC00','#F7931E','#666666','#166822'],
+          colors:Colors2,
           pieSliceTextStyle: {color: 'black'},
           sliceVisibilityThreshold: .0001
         };
@@ -290,33 +279,35 @@
     var cssClassNames = {
     'headerRow': 'backgroundCell',
     'oddTableRow': 'beige-background'};
-    var dataEN = new google.visualization.DataTable();
-    dataEN.addColumn('string', "Specific mention of right");
-    dataEN.addColumn('number', derechosExplotacion[0][1]);
-    dataEN.addRows(2);
-    dataEN.setCell(0, 0, "Yes");
-    dataEN.setCell(0, 1, derechosExplotacion[1][1]);
-    dataEN.setCell(1, 0, "No");
-    dataEN.setCell(1, 1, derechosExplotacion[2][1]);
 
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', derechosExplotacion[0][0]);
-    data.addColumn('number', derechosExplotacion[0][1]);
-    data.addRows(2);
-    data.setCell(0, 0, derechosExplotacion[1][0]);
-    data.setCell(0, 1, derechosExplotacion[1][1]);
-    data.setCell(1, 0, derechosExplotacion[2][0]);
-    data.setCell(1, 1, derechosExplotacion[2][1]);
-
-    if(idiomaG === "es"){
-    var view = new google.visualization.DataView(data);
-    }if(idiomaG === "en"){
-    var view = new google.visualization.DataView(dataEN);
-    }else{
-        var view = new google.visualization.DataView(data);
+    const Colors3 = [];
+    var dataTable3 = new google.visualization.DataTable();
+    if(idiomaG === 'en'){
+        dataTable3.addColumn('string', "Specific mention of right");
+        dataTable3.addColumn('number', "Total");
+    }else {
+        dataTable3.addColumn('string', derechosExplotacion[0][0]);
+        dataTable3.addColumn('number', derechosExplotacion[0][1]);
     }
 
-    view.setColumns([0, 1]);
+    let contador = 0;
+
+    derechosExplotacion.forEach((element, index ) => {
+        if(index > 0){
+            
+            if(element[0] === 'Sí'){
+                dataTable3.addRow([idiomaG === 'es' ? element[0] : 'Yes', element[1]]);
+                    Colors3.push('#A3C933');
+                } else
+                if(element[0] === 'No'){
+                dataTable3.addRow([idiomaG === 'es' ? element[0] : 'No', element[1]]);
+                    Colors3.push('#495D0E');
+                } 
+                
+        }
+        contador++
+    });
+    var view = new google.visualization.DataView(dataTable3);
 
     var optionsTable = {'height': '100%', 'width': '100%', 'cssClassNames': cssClassNames};
 
@@ -327,7 +318,7 @@
     var options = {
           //title: total + ' regitros - Mención específica de derechos',
           pieHole: 0.5,
-          colors:['#A3C933','#495D0E'],
+          colors: Colors3,
           pieSliceTextStyle: {color: 'black'},
           sliceVisibilityThreshold: .0001
         };
@@ -347,7 +338,8 @@
         data.unshift(dato1);
         //console.log('acceso');
         //console.log(data);
-        autoArchivo = data;
+        autoArchivo = data;+
+        console.log("Auto Archivos", autoArchivo);
       })
     });
 
@@ -357,41 +349,43 @@
     var cssClassNames = {
     'headerRow': 'backgroundCell',
     'oddTableRow': 'beige-background'};
-    var dataEN = new google.visualization.DataTable();
-    dataEN.addColumn('string', "Does it allow self-archive?");
-    dataEN.addColumn('number', autoArchivo[0][1]);
-    dataEN.addRows(4);
-    dataEN.setCell(0, 0, "Yes in pay-to-publish OA articles");
-    dataEN.setCell(0, 1, autoArchivo[1][1]);
-    dataEN.setCell(1, 0, "Yes");
-    dataEN.setCell(1, 1, autoArchivo[2][1]);
-    dataEN.setCell(2, 0, "Not specified");
-    dataEN.setCell(2, 1, autoArchivo[3][1]);
-    // dataEN.setCell(3, 0, autoArchivo[4][0]);
-    // dataEN.setCell(3, 1, autoArchivo[4][1]);
 
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', autoArchivo[0][0]);
-    data.addColumn('number', autoArchivo[0][1]);
-    data.addRows(4);
-    data.setCell(0, 0, autoArchivo[1][0]);
-    data.setCell(0, 1, autoArchivo[1][1]);
-    data.setCell(1, 0, autoArchivo[2][0]);
-    data.setCell(1, 1, autoArchivo[2][1]);
-    data.setCell(2, 0, autoArchivo[3][0]);
-    data.setCell(2, 1, autoArchivo[3][1]);
-    // data.setCell(3, 0, autoArchivo[4][0]);
-    // data.setCell(3, 1, autoArchivo[4][1]);
-
-    if(idiomaG === "es"){
-    var view = new google.visualization.DataView(data);
-    }if(idiomaG === "en"){
-    var view = new google.visualization.DataView(dataEN);
-    }else{
-        var view = new google.visualization.DataView(data);
+    const Colors4 = [];
+    var dataTable4 = new google.visualization.DataTable();
+    if(idiomaG === 'en'){
+        dataTable4.addColumn('string', "Specific mention of right");
+        dataTable4.addColumn('number', "Total");
+    }else {
+        dataTable4.addColumn('string', autoArchivo[0][0]);
+        dataTable4.addColumn('number', autoArchivo[0][1]);
     }
 
-    view.setColumns([0, 1]);
+    let contador = 0;
+
+    autoArchivo.forEach((element, index ) => {
+        if(index > 0){
+            
+            if(element[0] === 'Sí en artículos OA de pago por publicación'){
+                dataTable4.addRow([idiomaG === 'es' ? element[0] : 'Yes in pay-to-publish OA articles', element[1]]);
+                    Colors4.push('#483D8B');
+                } else
+                if(element[0] === 'Sí'){
+                dataTable4.addRow([idiomaG === 'es' ? element[0] : 'Yes', element[1]]);
+                    Colors4.push('#4A55D2');
+                } else
+                if(element[0] === 'No se menciona'){
+                dataTable4.addRow([idiomaG === 'es' ? element[0] : 'Not specified', element[1]]);
+                    Colors4.push('#9370DB');
+                }//else
+                // if(element[0] === 'No'){
+                // dataTable4.addRow([idiomaG === 'es' ? element[0] : 'No', element[1]]);
+                //     Colors4.push('#B7BBED');
+                // }
+                
+        }
+        contador++
+    });
+    var view = new google.visualization.DataView(dataTable4);
 
     var optionsTable = {'height': '100%', 'width': '100%', 'cssClassNames': cssClassNames};
 
@@ -401,7 +395,7 @@
     var options = {
           //title: total + ' registros - ¿Permite el auto-archivo?',
           pieHole: 0.5,
-          colors:['#483D8B','#4A55D2','#9370DB','#B7BBED'],
+          colors:Colors4,
           pieSliceTextStyle: {color: 'black'},
           sliceVisibilityThreshold: .0001
         };
@@ -439,38 +433,39 @@
     var cssClassNames = {
     'headerRow': 'backgroundCell',
     'oddTableRow': 'beige-background'};
-    var dataEN = new google.visualization.DataTable();
-    dataEN.addColumn('string', "Classified by self-archive version");
-    dataEN.addColumn('number', versionAutoarchivo[0][1]);
-    dataEN.addRows(3);
-    dataEN.setCell(0, 0, "Not specified");
-    dataEN.setCell(0, 1, versionAutoarchivo[1][1]);
-    dataEN.setCell(1, 0, "Post-print");
-    dataEN.setCell(1, 1, versionAutoarchivo[2][1]);
-    dataEN.setCell(2, 0, "Pre-print");
-    dataEN.setCell(2, 1, versionAutoarchivo[3][1]);
 
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', versionAutoarchivo[0][0]);
-    data.addColumn('number', versionAutoarchivo[0][1]);
-    data.addRows(3);
-    data.setCell(0, 0, versionAutoarchivo[1][0]);
-    data.setCell(0, 1, versionAutoarchivo[1][1]);
-    data.setCell(1, 0, versionAutoarchivo[2][0]);
-    data.setCell(1, 1, versionAutoarchivo[2][1]);
-    data.setCell(2, 0, versionAutoarchivo[3][0]);
-    data.setCell(2, 1, versionAutoarchivo[3][1]);
-
-    if(idiomaG === "es"){
-    var view = new google.visualization.DataView(data);
-    }if(idiomaG === "en"){
-    var view = new google.visualization.DataView(dataEN);
-    }else{
-        var view = new google.visualization.DataView(data);
+    const Colors5 = [];
+    var dataTable5 = new google.visualization.DataTable();
+    if(idiomaG === 'en'){
+        dataTable5.addColumn('string', "Classified by self-archive version");
+        dataTable5.addColumn('number', "Total");
+    }else {
+        dataTable5.addColumn('string', versionAutoarchivo[0][0]);
+        dataTable5.addColumn('number', versionAutoarchivo[0][1]);
     }
 
+    let contador = 0;
 
-    view.setColumns([0, 1]);
+    versionAutoarchivo.forEach((element, index ) => {
+        if(index > 0){
+            
+            if(element[0] === 'Ninguno'){
+                dataTable5.addRow([idiomaG === 'es' ? element[0] : 'Not specified', element[1]]);
+                    Colors5.push('#99993D');
+                } else
+                if(element[0] === 'Post-print (versión editorial)'){
+                dataTable5.addRow([idiomaG === 'es' ? element[0] : 'Post-print', element[1]]);
+                    Colors5.push('#CB1111');
+                } else
+                if(element[0] === 'Pre-print (versión sin evaluar), Post-print (versión editorial)'){
+                dataTable5.addRow([idiomaG === 'es' ? element[0] : 'Pre-print', element[1]]);
+                    Colors5.push('#E57373');
+                }
+                
+        }
+        contador++
+    });
+    var view = new google.visualization.DataView(dataTable5);
 
     var optionsTable = {'height': '100%', 'width': '100%', 'cssClassNames': cssClassNames};
 
@@ -480,7 +475,7 @@
     var options = {
           //title: total + ' registros - Agrupados segun versión de auto-archivo',
           pieHole: 0.5,
-          colors:['#99993D','#CB1111','#E57373'],
+          colors: Colors5,
           pieSliceTextStyle: {color: 'black'},
           sliceVisibilityThreshold: .0001
         };
