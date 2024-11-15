@@ -163,7 +163,7 @@
 	}
 	
 	.texto-conocimiento {
-		text-align: right;
+		text-align: left;
 		height: auto;
 		max-width: 175px;
 		margin-top: 15px;
@@ -200,7 +200,7 @@
 	}
 	
 	.texto-conocimiento {
-		text-align: right;
+		text-align: left;
 		height: auto;
 		max-width: 175px;
 		margin-top: 15px;
