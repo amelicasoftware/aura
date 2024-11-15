@@ -258,9 +258,15 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
     $scope.mostrarAuto3 = true;
     $scope.mostrarAuto4 = true;
     $scope.selectDisabled = true;
+    var elements = [];
     var cadena = '';
     $scope.obligatoria = false;
     $scope.ocultarAutoArchivo = function () {
+        $scope.auto1 = "0";
+            $scope.auto2 = "0";
+            $scope.auto3 = "0";
+            $scope.auto4 = "0";
+        elements = [];
         //auto-archivo="No"; deshabilitar items
         if ($scope.autoArchivo === 'Sí' || $scope.autoArchivo === 'Sí en artículos OA de pago por publicación') {
             $scope.obligatoria = true;
@@ -276,10 +282,7 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
             $scope.mostrarAuto3 = true;
             $scope.mostrarAuto4 = true;
             //resetear los valores auto-archivo(pre,post)
-            $scope.auto1 = "0";
-            $scope.auto2 = "0";
-            $scope.auto3 = "0";
-            $scope.auto4 = "0";
+            
             $('#versionDelAutoArchivo').val("");
             $scope.limpiarItems();
         }else{
@@ -296,13 +299,16 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
         $scope.decisionColor();
     }
 
-    $scope.opcionesAutoArchivo1 = function(element){
-        console.log(element);
+    $scope.opcionesAutoArchivo1 = function(element, value){
+        console.log(element, value);
+        console.log($scope.auto1);
         if (element.auto1 === true) {
             $scope.mostrarAuto2 = true;
+            elements.push('Pre-print (versión sin evaluar)')
         }
         if (element.auto1 === false) {
             $scope.mostrarAuto2 = false;
+            elements.pop('Pre-print (versión sin evaluar)')
         }
         $scope.decisionColor();      
     }
@@ -331,10 +337,7 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
         console.log("valor********************", $scope.autoArchivo);
         const selectElement = document.getElementById('colorRomeo');
         console.log("Auto archivo", $scope.autoArchivo);
-        var elements = [];
-        $("input:checkbox[name='checks2[]']:checked").each(function(){
-            elements.push($(this).val());
-        });
+                
         console.log(elements);
         if (elements.length === 2) {
             selectElement.value = 'Verde';

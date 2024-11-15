@@ -308,7 +308,7 @@
             <div class="form-group col-sm-6">
                 <label for="versionDelAutoArchivo1">{{t.informacionRevistas.versionAutoarchivo}}<span style="color: #d93025;" ng-show="obligatoria">*</span></label>
                 <div class="custom-control custom-checkbox">
-                    <input name="checks2[]" value={{t.opciones.prePrintVS}} type="checkbox" class="custom-control-input" id="a1" ng-disabled="mostrarAuto1" ng-model="auto1" ng-change = "opcionesAutoArchivo1(this)">
+                    <input name="checks2[]" value={{t.opciones.prePrintVS}} type="checkbox" class="custom-control-input" id="a1" ng-disabled="mostrarAuto1" ng-model="auto1" ng-change = "opcionesAutoArchivo1(this, this.value)">
                     <label class="custom-control-label" for="a1">{{t.opciones.prePrintVS}}</label>
                 </div>
                 <div class="custom-control custom-checkbox">
