@@ -168,7 +168,8 @@
     "autoarchivoMomento":"When?",
     "ubicacionAutoarchivo":"Where?",
     "colorRomeo":"Color ROMEO",
-    "textoIndizacion":"Indexed in"
+    "textoIndizacion":"Indexed in",
+    "fechaActualizacion":"Last update date"
   }
 
 }

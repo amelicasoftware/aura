@@ -186,7 +186,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-sm-6" ng-init="obtenerCategoria()">
+                <!-- <div class="form-group col-sm-6" ng-init="obtenerCategoria()">
                     <label for="categoriaRevista">{{t.informacionRevistas.categoria}} <span style="color: #d93025;">*</span></label>
                     <select id="categoriaRevista" name="categoriaRevista" class="custom-select" id="select-categoria" required ng-model="categoriaRevista" ng-click="categoriaRevistaV($event);">
                         <option value="">{{t.informacionRevistas.elegir}}</option>
@@ -195,7 +195,7 @@
                     <div class="invalid-feedback">
                         {{t.informacionRevistas.elegir}}.
                     </div>
-                </div>
+                </div> -->
                 <div class="form-group col-sm-6" ng-init="obtenerCategoriaEn()" ng-if="idioma === 'en'">
                     <label for="categoriaRevista">{{t.informacionRevistas.categoria}} <span style="color: #d93025;">*</span></label>
                     <select id="categoriaRevista" name="categoriaRevista" class="custom-select" id="select-categoria" required ng-model="categoriaRevista" ng-click="categoriaRevistaV($event);">
@@ -672,9 +672,9 @@
                         <span>  </span> 
                     </div>
                     <div id="texto-pie" class="texto-conocimiento" ng-if="idioma === 'en'">
-                        <p class="texto-resaltado">Open Knowledge <br/> </p>
-                        <span>not-for-profit</span><br>
-                        <span>academy ownership</span> 
+                        <p class="texto-resaltado"> AmeliCA <br/> </p>
+                        <span>Open Science for Common Good</span><br>
+                        <span> </span> 
                     </div>
                     <div id="linea-cs"></div>
                     <div class="nivel">
