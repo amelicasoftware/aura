@@ -8,28 +8,27 @@ app.controller("auraController", function ($scope, $http, $location) {
     // ********** idioma **********************
     if ($scope.idiomaURL !== '') {
         localStorage.setItem('idioma', $scope.idiomaURL);
-        console.log('idiomaURL en localStorage -->' + localStorage.getItem('idioma'));
+        //console.log('idiomaURL en localStorage -->' + localStorage.getItem('idioma'));
     }
 
     $scope.idioma;
-    console.log('idiomaRecuperado ' + localStorage.getItem('idioma'));
+    //console.log('idiomaRecuperado ' + localStorage.getItem('idioma'));
     var idiomaRecuperado = localStorage.getItem('idioma');
     if (idiomaRecuperado !== null) {
         $scope.idioma = idiomaRecuperado;
-        console.log('idiomaLocalStorage: ' + $scope.idioma);
-        //formulario
+        //console.log('idiomaLocalStorage: ' + $scope.idioma);
     } else {
         $scope.idioma = "es";
-        console.log('idiomaDefault: ' + $scope.idioma);
+        //console.log('idiomaDefault: ' + $scope.idioma);
     }
     //formulario
-    console.log("scopeIdioma-->" + $scope.idioma);
+    //console.log("scopeIdioma-->" + $scope.idioma);
     if ($scope.idioma == 'en') {
         $('#formularioES').css('display', 'none');
-        console.log("entro al if Formulario");
+        //console.log("entro al if Formulario");
     } if ($scope.idioma == 'es') {
         $('#formularioEN').css('display', 'none');
-        console.log("entro al if Formulario");
+        //console.log("entro al if Formulario");
     }
 
     // ********** consulta de datos ****************
@@ -38,7 +37,7 @@ app.controller("auraController", function ($scope, $http, $location) {
         $http.get(server + '/service/csgAura/contarDatos/' + busqueda)
             .then(function (response) {
                 $scope.datos = response.data;
-                console.log($scope.datos);
+                //console.log($scope.datos);
             }, function (response) {
                 console.log('Error');
             });
@@ -53,15 +52,15 @@ app.controller("auraController", function ($scope, $http, $location) {
     }
 
     $scope.obtenerDatos($scope.busqueda.colorRomeo);
-    console.log($scope.datos);
+    //console.log($scope.datos);
 
     $scope.myFunc = function (idioma) {
-        console.log(total);
+        //console.log(total);
         $scope.total = total;
         $scope.idioma = idioma;
-        console.log('prueba' + idioma);
+        //console.log('prueba' + idioma);
         localStorage.setItem('idioma', idioma);
-        console.log('guardoIdiomaLocalStorage--> ' + localStorage.getItem('idioma'));
+        //console.log('guardoIdiomaLocalStorage--> ' + localStorage.getItem('idioma'));
         //$scope.colorIdioma(idioma);
         if (idioma == 'en') {
             $('#formularioES').css('display', 'none');
@@ -74,7 +73,7 @@ app.controller("auraController", function ($scope, $http, $location) {
 
         cargaGraficas();
         idiomaG = idioma;
-        console.log('idiomaGra---' + idiomaG);
+        //console.log('idiomaGra---' + idiomaG);
     };
 
 });
@@ -91,26 +90,6 @@ function getParametroURL(parametro) {
 
 var total = 0;
 var idiomaG = localStorage.getItem('idioma');
-
-// var prueba = $.ajax({
-//     url     : server+'/service/csgAura/contarDatos/colorRomeo',
-//     type    : "get",
-//     dataType: "json",
-//     success : (function (data) {
-//         var suma = 0;
-//         for (var i = 0; i< data.length;i++) {
-//             suma = suma + data[i][1];
-//         }
-//         data.sort();
-//         var encabezado = ['Color', 'Total'];
-//         data.unshift(encabezado);
-//         colorRomeo = data;
-//         //console.log(colorRomeo);
-//         total = suma;
-//         $('.numero-registros').text(total);
-//         google.charts.setOnLoadCallback(graficaColor);
-//       })
-// });
 
 new Promise(function (resolve, reject) {
     $.ajax({
@@ -132,20 +111,17 @@ new Promise(function (resolve, reject) {
 
         })
     }).then(function () { //Notese que no necesito declarar la variable
-        console.log('aqui estoy');
         google.charts.setOnLoadCallback(graficaColor);
     })
-        .catch(function (error) {
-            //Capturo los errores posibles en la primer promesa o en la segunda (then)
+        .catch(function (error) {//Capturo los errores posibles en la primer promesa o en la segunda (then)
             console.log(error);
         });
 });
 
 google.charts.load("current", { packages: ["corechart", "table"] });
-//google.charts.setOnLoadCallback(graficaColor);
 
 function graficaColor() {
-    console.log('datoscolor->', colorRomeo);
+    //console.log('datoscolor->', colorRomeo);
     var cssClassNames = {
         'headerRow': 'backgroundCell',
         'oddTableRow': 'beige-background'
@@ -225,12 +201,10 @@ new Promise(function (resolve, reject) {
             acceso = data;
         })
     }).then(function () { //Notese que no necesito declarar la variable
-        console.log('aqui estoy');
         google.charts.setOnLoadCallback(graficaAcceso);
 
     })
-        .catch(function (error) {
-            //Capturo los errores posibles en la primer promesa o en la segunda (then)
+        .catch(function (error) {//Capturo los errores posibles en la primer promesa o en la segunda (then)
             console.log(error);
         });
 });
@@ -238,7 +212,7 @@ new Promise(function (resolve, reject) {
 //google.charts.setOnLoadCallback(graficaAcceso);
 
 function graficaAcceso() {
-    console.log('accessooo', acceso);
+    //console.log('accessooo', acceso);
     var cssClassNames = {
         'headerRow': 'backgroundCell',
         'oddTableRow': 'beige-background'
@@ -315,12 +289,10 @@ new Promise(function (resolve, reject) {
             derechosExplotacion = data;
         })
     }).then(function () { //Notese que no necesito declarar la variable
-        console.log('aqui estoy');
         google.charts.setOnLoadCallback(graficaDerechos);
 
     })
-        .catch(function (error) {
-            //Capturo los errores posibles en la primer promesa o en la segunda (then)
+        .catch(function (error) {//Capturo los errores posibles en la primer promesa o en la segunda (then)
             console.log(error);
         });
 });
@@ -394,16 +366,14 @@ new Promise(function (resolve, reject) {
             data.unshift(dato1);
             //console.log('acceso');
             //console.log(data);
-            autoArchivo = data; +
-                console.log("Auto Archivos", autoArchivo);
+            autoArchivo = data; 
+                //console.log("Auto Archivos", autoArchivo);
         })
     }).then(function () { //Notese que no necesito declarar la variable
-        console.log('aqui estoy');
         google.charts.setOnLoadCallback(graficaAutoArchivo);
 
     })
-        .catch(function (error) {
-            //Capturo los errores posibles en la primer promesa o en la segunda (then)
+        .catch(function (error) { //Capturo los errores posibles en la primer promesa o en la segunda (then)
             console.log(error);
         });
 });
@@ -477,8 +447,7 @@ new Promise(function (resolve, reject) {
         type: "get",
         dataType: "json",
         success: (function (data) {
-            console.log("dataVersionAUtoArchivo");
-            console.log(data);
+            //console.log(data);
             var dato1 = ['Agrupados segun versión de auto-archivo', 'Total'];
             data.sort();
             //console.log(data[1][1]);
@@ -494,12 +463,10 @@ new Promise(function (resolve, reject) {
             versionAutoarchivo = data;
         })
     }).then(function () { //Notese que no necesito declarar la variable
-        console.log('aqui estoy');
         google.charts.setOnLoadCallback(graficaVersion);
 
     })
-        .catch(function (error) {
-            //Capturo los errores posibles en la primer promesa o en la segunda (then)
+        .catch(function (error) {//Capturo los errores posibles en la primer promesa o en la segunda (then)
             console.log(error);
         });
 });
@@ -563,9 +530,9 @@ function graficaVersion() {
 }
 
 function cargaGraficas() {
-    console.log('actulizarGraficas');
-
-    // google.charts.setOnLoadCallback(graficaDerechos);
-    // google.charts.setOnLoadCallback(graficaAutoArchivo);
-    // google.charts.setOnLoadCallback(graficaVersion);
+    google.charts.setOnLoadCallback(graficaColor);
+    google.charts.setOnLoadCallback(graficaAcceso);
+    google.charts.setOnLoadCallback(graficaDerechos);
+    google.charts.setOnLoadCallback(graficaAutoArchivo);
+    google.charts.setOnLoadCallback(graficaVersion);
 }

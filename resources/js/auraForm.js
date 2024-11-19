@@ -6,7 +6,6 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
     //obtiene la ip de servicio;
     const servidor = server;
     const idiomaJson = cargarJson;
-    console.log('inicio');
     //idioma
     
     $scope.traducir = function (idioma) {
@@ -15,40 +14,37 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
             url: idiomaJson+idioma+'.json'//url: '../aura/resources/js/json/'+idioma+'.json'
         }).then(function (data) {
             $scope.t = data.data;
-            console.log(data);
-            console.log('traduccion');
-            console.log($scope.t);
+            //console.log(data);
+            // console.log('traduccion');
+            // console.log($scope.t);
         }, function (error) {
             console.log("Error al cargar archivo Traducción");
         });
     }
 
     $scope.idioma;
-    console.log('idiomaRecuperado ' + localStorage.getItem('idioma'));
+   // console.log('idiomaRecuperado ' + localStorage.getItem('idioma'));
     var idiomaRecuperado = localStorage.getItem('idioma');
     if (idiomaRecuperado !== null) {
         $scope.idioma = idiomaRecuperado;
-        console.log('idiomaLocalStorage: ' + $scope.idioma);
-        //formulario
+        //console.log('idiomaLocalStorage: ' + $scope.idioma);
     } else {
         $scope.idioma = "es";
-        console.log('idiomaDefault: ' + $scope.idioma);
+       // console.log('idiomaDefault: ' + $scope.idioma);
     }
     //formulario
-    console.log("scopeIdioma-->" + $scope.idioma);
+    //console.log("scopeIdioma-->" + $scope.idioma);
     if ($scope.idioma == 'en') {
         $scope.traducir('idiomaEn');
-        console.log("entro al if Formulario");
     } if ($scope.idioma == 'es') {
         $scope.traducir('idiomaEs');
-        console.log("entro al if Formulario");
     }
 
     $scope.myFunc = function (idioma) {
         $scope.idioma = idioma;
-        console.log('prueba' + idioma);
+        //console.log('prueba' + idioma);
         localStorage.setItem('idioma', idioma);
-        console.log('guardoIdiomaLocalStorage--> ' + localStorage.getItem('idioma'));
+        //console.log('guardoIdiomaLocalStorage--> ' + localStorage.getItem('idioma'));
         //$scope.colorIdioma(idioma);
         if (idioma == 'en') {
             $scope.traducir('idiomaEn');
@@ -175,7 +171,7 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
                         var arraynew = { cveentint: cveentint, nomentint: nomentint};
                         $scope.searchResult.push(arraynew);
                     }
-                    console.log($scope.searchResult);
+                    //console.log($scope.searchResult);
                 });
             } else {
                 $scope.searchResult = {};
@@ -206,23 +202,22 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
     $scope.productsCve2;
     $scope.addItem = function ($event) {
         if(!isValidData($scope.addText)){
-            console.log('indizacion->'+$scope.addText);
+            //console.log('indizacion->'+$scope.addText);
             $scope.products.push($scope.addText);
             $scope.productsCve.push($scope.addCve);
             $scope.productsCve2 = $scope.productsCve.toString();
-            console.log($scope.productsCve2);
+            //console.log($scope.productsCve2);
             $scope.addText = '';
             $scope.searchText1 = '';
             $event.stopPropagation();
         }
     }
     $scope.removeItem = function (x) {
-        console.log('borras datos');
-        console.log(x);
+        //console.log('borras datos', x);
         $scope.products.splice(x, 1);
         $scope.productsCve.splice(x, 1);
         $scope.productsCve2 = $scope.productsCve;
-        console.log('3 '+$scope.productsCve2);
+        //console.log('3 '+$scope.productsCve2);
     }
 
     $scope.buscarIndizaciones = function () {
@@ -254,7 +249,7 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
         $scope.searchText1 = $scope.searchResultIndizacion[index].nomentinx; //searchResult1
         $scope.addText = $scope.searchResultIndizacion[index].nomentinx;     //searchResult1
         $scope.addCve = $scope.searchResultIndizacion[index].cveentinx;      //searchResult1
-        console.log($scope.searchResultIndizacion[index].cveentinx);
+        //console.log($scope.searchResultIndizacion[index].cveentinx);
         $scope.searchResultIndizacion = {};                                  //searchResult1
         $event.stopPropagation();
     }
@@ -270,7 +265,7 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
     //mostrar campos otro institución
     $scope.otroInstitucion = false;
     $scope.mostrarOtro = function ($event) {
-        console.log("valor check->" + $scope.otroInstitucion);
+        //console.log("valor check->" + $scope.otroInstitucion);
         $scope.searchText = '';
         $scope.cveInstitucion = '';
         jQuery('#institucion').prop('required', false);
@@ -298,10 +293,7 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
         } else {
             $scope.mostrarLicenciaPublicacionOtro = false;
         }
-        console.log('Holaa')
-        console.log('valor categoria: ' + $scope.licenciaPublicacion);
-        console.log($scope.mostrarLicenciaPublicacionOtro);
-        //$scope.decisionColor();
+        //console.log($scope.mostrarLicenciaPublicacionOtro);
     }
     //
 
@@ -356,8 +348,8 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
     }
 
     $scope.opcionesAutoArchivo1 = function(element, value){
-        console.log(element, value);
-        console.log($scope.auto1);
+        // console.log(element, value);
+        // console.log($scope.auto1);
         if (element.auto1 === true) {
             $scope.mostrarAuto2 = true;
             elements.push('Pre-print (versión sin evaluar)')
@@ -405,10 +397,7 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
     }
 
     $scope.decisionColor = function(){
-        console.log("valor********************", $scope.autoArchivo);
-        const selectElement = document.getElementById('colorRomeo');
-        console.log("Auto archivo", $scope.autoArchivo);;        
-        console.log(elements);
+        const selectElement = document.getElementById('colorRomeo');       
         if (elements.length === 2) {
             selectElement.value = 'Verde';
             selectElement.style.color = "#155724";
@@ -418,9 +407,7 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
                 if (a.includes("Pre") && !b.includes("Pre")) return -1; // "Pre" antes de "Post"
                 if (b.includes("Pre") && !a.includes("Pre")) return 1;  // "Post" después de "Pre"
             });
-            console.log("elementos ordenados: ", elements)
             cadena = elements.join(", ");
-            console.log("cadena", cadena);
         }else if ((elements.length === 1) && (elements[0].includes("Pos"))) {
             selectElement.value = 'Azul';
             selectElement.style.color = "#004085";
@@ -486,14 +473,12 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
             var arr = $('[name="checks2[]"]:checked').map(function () {
                 return this.value;
             }).get();
-            console.log("# de valores", arr.length);
             var str = "";
             (arr.length === 2 && cadena !='') ? str = cadena : str = arr.join(', ');
-            console.log("cadena insertada", str);
             $('#arr').text(JSON.stringify(arr));
             $('#str2').text(str);
             $('#versionDelAutoArchivo').val(str);
-            console.log($('#versionDelAutoArchivo').val());
+           // console.log($('#versionDelAutoArchivo').val());
         });
         // auto-archivoCuando
         $('[name="checksAutoarchivoDonde[]"]').click(function () {
@@ -508,11 +493,11 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
     });
 
     $issn_group = $(".checkIssn");
-    console.log($issn_group);
+    //console.log($issn_group);
     $issn_group.prop('required', true);
     $('.checkIssn').blur(function () {
-        console.log($(this).attr("id"));
-        console.log($(this).val().length);
+        // console.log($(this).attr("id"));
+        // console.log($(this).val().length);
         if ($(this).val().length > 0) {
             $issn_group.prop('required', false);
         } else {
@@ -522,45 +507,45 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
     });
 
     function validarIssn(issn, id) {
-        console.log('datos->' + issn + ' ' + id);
+        //console.log('datos->' + issn + ' ' + id);
         if (issn.length > 0) {
             if (issn.length !== 9) {
-                console.log('valor invalido -->' + issn);
+                //console.log('valor invalido -->' + issn);
                 $('#' + id).addClass('is-invalid');
             } else {
-                console.log('dato bueno');
+                //console.log('dato bueno');
                 $('#' + id).removeClass('is-invalid');
                 $('#' + id).addClass('is-valid');
                 if (issn.indexOf("-") != -1) {
-                    console.log("Si tiene -");
-                    console.log('posicion--->' + issn.charAt(4));
+                    // console.log("Si tiene -");
+                    // console.log('posicion--->' + issn.charAt(4));
                     if (issn.charAt(4) === "-") {
-                        console.log('posicion correcta');
+                        //console.log('posicion correcta');
                         $('#' + id).removeClass('is-invalid');
                         $('#' + id).addClass('is-valid');
                     } else {
-                        console.log('posicion invalida');
+                        //console.log('posicion invalida');
                         $('#' + id).addClass('is-invalid');
                     }
                 } else {
-                    console.log('no tiene -');
+                    //console.log('no tiene -');
                     $('#' + id).addClass('is-invalid');
                 }
             }
-            console.log('datos->' + id + ' - '+issn);
+            //console.log('datos->' + id + ' - '+issn);
             $.ajax({
                 type: 'POST',//es POST
                 url: servidor+'/service/csgAura/getIssn/'+id+'/'+issn, //,getIssn.php
                 //data: { issn: issn, tabla: id },
                 success: function (response) {
                     response = JSON.parse(response);
-                    console.log('respuesta: '+response);
+                    //console.log('respuesta: '+response);
                     //if (response === false) {
                     //validación, sí no exciste, regresa un campo vacio
                     if (response == "") {
-                        console.log('isss no existe');
+                       // console.log('isss no existe');
                     } else {
-                        console.log('issn ya registrado');
+                        //console.log('issn ya registrado');
                         //alert('El issn ingresado ya esta registrado');
                         swal({
                             title: "Estimado usuario:",
@@ -641,7 +626,7 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
                     "claveRedalyc":"",//se modifica después
                     "fechaUltimaActualizacion":"",//se modifica después
             };
-            console.log(jsonData);
+            //console.log("Json que se guarda",jsonData);
             $scope.guardando=true;
             $http.post(
                 servidor+'/service/csgAura/incluirRevista',//datosPagina
