@@ -6,6 +6,7 @@
             var forms = document.getElementsByClassName('needs-validation1');
             // Loop over them and prevent submission
             //console.log(forms); //volver a colocar
+            var idioma = localStorage.getItem('idioma'); // Recuperar idioma para mostrar error
             var validation = Array.prototype.filter.call(forms, function(form) {
                 form.addEventListener('submit', function(event) {
                     if (form.checkValidity() === false) {
@@ -14,12 +15,22 @@
                         console.log('invalido');
                         $('#formAura').val(false);
                         $('#formAuraUpdate').val(false);
-                        swal({
-                            title: "Datos invalidos",
-                            text: "Revisar formulario",
-                            icon: "warning",
-                            button: true
-                        });
+                        if(idioma == 'es') {
+                            swal({
+                                title: "Datos invalidos",
+                                text: "Revisar formulario",
+                                icon: "warning",
+                                button: true
+                            });
+                        } else if (idioma == 'en') {
+                            swal({
+                                title: "Invalid data",
+                                text: "Verify the form",
+                                icon: "warning",
+                                button: true
+                            });
+                        }
+                        
                     }else{
                         event.stopPropagation();
                         //console.log('valido');

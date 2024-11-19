@@ -40,7 +40,7 @@
     "versionAutoarchivo": "Self-archive version:",
     "cuandoAutoarchivo": "If self-archive is permitted, when could it be done?",
     "dondeAutoarchivo": "Where is self-archive permitted?",
-    "colorRomeo": "The color Romeo has been assigned based on the version of the self-file",
+    "colorRomeo": "The color Romeo has been assigned based on the version of the self-archive",
     "indizaciones": "Indexing",
     "listaIndizaciones": "List of selected indexing",
     "otros": "Another option.",
@@ -76,9 +76,9 @@
 
   "acceso": {
     "gratuito":"Gratis",
-    "gratuitoDespuesDeEmbargo":"Free after an embargo period",
-    "restringidoSuscriptores":"Restricted to subscribers",
-    "gratuitoOnline":"Free online - subscription for printed version",
+    "gratuitoDespuesDeEmbargo":"Gratis after an embargo period",
+    "restringidoSuscriptores":"Only for subscribers",
+    "gratuitoOnline":"Gratis online-subscription printed version",
     "hibrido":"Hybrid"
   },
 
@@ -106,8 +106,8 @@
   },
 
   "autoArchivos":{
-    "articulosOA":"Yes in OA articles with article processing charges (APCs)",
-    "noMenciona":"Not mentioned"
+    "articulosOA":"Yes in pay-to-publish OA articles",
+    "noMenciona":"Not specified"
   },
 
   "opciones": 
@@ -136,7 +136,7 @@
 
   "contacto":
   {
-    "titulo": "Contact Information",
+    "titulo": "Contact information",
     "nombre": "Name",
     "cargo": "Position",
     "telefono": "Telephone number",

@@ -554,17 +554,31 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
                     } else {
                         console.log('issn ya registrado');
                         //alert('El issn ingresado ya esta registrado');
-                        swal({
-                            title: "Estimado usuario:",
-                            text: "ISSN ya registrado",
-                            icon: "error",
-                            showCancelButton: false,
-                            showConfirmButton: true
-                        }).then(function () {
-                            $('#' + id).val('');
-                            $('#' + id).addClass('is-invalid');
-                            //window.location = "http://148.215.24.37/proyectoAura/aura/incluir-revista.html";
-                        });
+                        if ($scope.idioma == 'es') {
+                            swal({
+                                title: "Estimado usuario:",
+                                text: "ISSN ya registrado",
+                                icon: "error",
+                                showCancelButton: false,
+                                showConfirmButton: true
+                            }).then(function () {
+                                $('#' + id).val('');
+                                $('#' + id).addClass('is-invalid');
+                                //window.location = "http://148.215.24.37/proyectoAura/aura/incluir-revista.html";
+                            });
+                        } else if ($scope.idioma == 'en') {
+                            swal({
+                                title: "Dear user:",
+                                text: "ISSN already registred",
+                                icon: "error",
+                                showCancelButton: false,
+                                showConfirmButton: true
+                            }).then(function () {
+                                $('#' + id).val('');
+                                $('#' + id).addClass('is-invalid');
+                            });
+                        }
+                        
                     }
                 }
             });
@@ -640,7 +654,11 @@ app.controller("auraController", function ($window, $scope, $http, $location) {/
                 jsonData
             ).then(function successCallback(response) {
                 if(response.data=="1")
-                    alert('El registro de su revista se ha realizado exitosamente');
+                    if($scope.idioma == 'es') {
+                        alert('El registro de su revista se ha realizado exitosamente');
+                    } else if ($scope.idioma == 'en') {
+                        alert('The registration of your journal has been successfully completed');
+                    }
                 else
                     alert('Error al registrar');
                 $('#formAura').val(false);
