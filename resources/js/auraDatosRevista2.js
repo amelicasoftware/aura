@@ -111,32 +111,46 @@ app.controller("auraController", function ($scope, $http, $location) {
                 case 'Azul':
                     $scope.color_romeo={
                         color:"#0C0B0B",
-                        backgroundColor:'#cce5ff'
+                        backgroundColor:'#cce5ff'                        
                     }
+                    $scope.color_romeo_border = {
+                        border: '#cce5ff solid 4px'
+                    }                                                            
                     break;
                 case 'Verde':
                     $scope.color_romeo={
                         color:"#0C0B0B",
                         backgroundColor:'#d4edda'
                     }
+                    $scope.color_romeo_border = {
+                        border: '#d4edda solid 4px'
+                    }
                     break;
                 case 'Amarillo':
                     $scope.color_romeo={
                        color:"#0C0B0B",
                        backgroundColor:'#fff3cd'
-                     }
-                     break;
+                    }
+                    $scope.color_romeo_border = {
+                        border: '#fff3cd solid 4px'
+                    }
+                    break;
                 case 'Blanca':
                     $scope.color_romeo={
                        color:"#0C0B0B",
                        backgroundColor:'#f5f5f5'
-                     }
-                     break;
+                    }
+                    $scope.color_romeo_border = {
+                        border: '#f5f5f5 solid 4px'
+                    }
+                    break;
                 default:
                     $scope.color_romeo={
                         color:"#0C0B0B",
-                        backgroundColor:'#f5f5f5'
-    
+                        backgroundColor:'#f5f5f5'    
+                    }
+                    $scope.color_romeo_border = {
+                        border: '#dee2e6 solid 4px'
                     }
             }
             //en caso de no mostrar indizaciones o categoría: aplicar reglas desde el backend
@@ -145,8 +159,21 @@ app.controller("auraController", function ($scope, $http, $location) {
             $scope.cargoResponsable = $scope.datosRevistas['cargoDelContacto'];//['cargoContacto']
             //$scope.cveCategoria = $scope.datosRevistas['claveCategoriaRevista'];//['cveCategoria']
             $scope.editorial = $scope.datosRevistas['tipoDeEditorial'];//['tipoEditorial']
-        });
 
+            // Validar existencia ISSNs
+            console.log($scope.issnElectronico)
+            console.log($scope.issnImpreso )
+            console.log($scope.issnL)
+            if ($scope.issnElectronico == null || $scope.issnElectronico.length == 0){
+                $('#issnE').remove();
+            }
+            if ($scope.issnImpreso == null || $scope.issnImpreso.length == 0){
+                $('#issnI').remove();
+            }
+            if ($scope.issnL == null || $scope.issnL.length == 0){                
+                $('#issnL').remove();
+            }
+        });
     }
     //obtener indizaciones
     //$scope.textoIndizacion='';

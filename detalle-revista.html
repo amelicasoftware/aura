@@ -18,13 +18,22 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 		<title>Detalle de revista</title>
-		<style type="text/css">
-			.table td, .table th {
-    			border: 2px solid #dee2e6;
-    			text-align: center;
+		<style type="text/css">        
+            .table {                
+                border-radius: 10px;                
+                border-collapse: separate;
+                border-spacing: 0;
+                overflow: hidden;
+            }
 
-    			
+			.table td, .table th{    			
+                text-align: left;
+                border: 1px solid #dee2e6;
 			}
+            
+            .table th {
+                text-align: center;
+            }
 			
 			.bg-success {
     			background-color: #28a745!important;
@@ -55,7 +64,7 @@
 						<span>{{t.menu.op3}}</span><!--{{t.menu.op3}}-->
 					</a>
 					<a href="incluir-revista.html">
-						<span class="header-option-now">{{t.menu.op4}}</span><!--{{t.menu.op4}}-->
+						<span>{{t.menu.op4}}</span><!--{{t.menu.op4}}-->
 					</a>
 				</div>
 				<div id="header-idioma">
@@ -68,22 +77,28 @@
 		<div class="content" style="margin: 30px auto">
 			<div class="list-title text-bold" style="text-align: left!important; width: 92%!important">
 				<a href="index.html">
-					<span>&#62;&#62; {{t.detalleRevista.regresar}}</span><!--{{t.menu.op3}}-->
+					<span style="display: flex; align-items: center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" x-bind:width="size" x-bind:height="size" viewBox="0 0 24 24" fill="none" stroke="currentColor" x-bind:stroke-width="stroke" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke-width="2">
+                            <path d="M9 14l-4 -4l4 -4"></path>
+                            <path d="M5 10h11a4 4 0 1 1 0 8h-1"></path>
+                        </svg>
+                        {{t.detalleRevista.regresar}}
+                    </span><!--{{t.menu.op3}}-->
 				</a>
 			</div>
+
+            <p colspan="3" style="text-align: left;border: none;text-align: center;"  ng-if="idioma === 'es'">Políticas de apertura y derechos de explotación de:</p>
+            <p colspan="3" style="text-align: left;border: none;text-align: center;"  ng-if="idioma === 'en'">Opening polices and exploitation of rights of:</p>
 
 			<div class="table-responsive-xl">
 				<!--<div ng-if="idioma === 'es'" style="background: #efefef; width: 100%; height: 10px; padding: 10px;">Políticas de apertura y derechos de explotación de:</div>
 				<div ng-if="idioma === 'en'" style="background: #efefef; width: 100%; height: 10px; padding: 10px;">Opening policies and exploitation rights of:</div>
-				<div><img style="width: 100%" src="resources/documents/fichas/{{claveRevista}}.PNG"></div>-->
-				
+				<div><img style="width: 100%" src="resources/documents/fichas/{{claveRevista}}.PNG"></div>-->			
+                
+
 				<div id="ficha" ng-init="cargarDatos()">
-					<table class="table">
+					<table class="table" ng-style="color_romeo_border">
 					    <thead>
-					    <tr>
-					      <th colspan="3" style="text-align: left;border: none;text-align: center;"  ng-if="idioma === 'es'">Políticas de apertura y derechos de explotación de:</th>
-					      <th colspan="3" style="text-align: left;border: none;text-align: center;"  ng-if="idioma === 'en'">Opening polices and exploitation of rights of:</th>
-					      </tr>
 					      <tr>
 					        <th colspan="3" class="tr-background"  ng-style="color_romeo">{{nomRevista}}</th>
 					      </tr>
@@ -93,23 +108,23 @@
 					        <td style="width: 35%;">{{t.detalleRevista.editorial}}:</td><!--editorial-->
 					        <td> {{nomInstitucion}}</td><!--{{nomInstitucion}}-->
 					      </tr>
-					      <tr class="danger tr-background" ng-style="color_romeo">
+					      <tr class="danger tr-background">
 					        <td>{{t.detalleRevista.titularDerechos}}:</td><!--titularDerechos-->
 					        <td>{{titularDerechos}}</td>
 					      </tr>
-					      <tr class="info">
+					      <tr class="info" id="issnE">
 					        <td>{{t.detalleRevista.issnElectronico}}: </td>
 					        <td>{{issnElectronico}}</td>
 					      </tr>
-					      <tr class="warning tr-background"ng-style="color_romeo">
-					        <td>{{t.detalleRevista.issnImpreso}}: </td>
+					      <tr class="warning tr-background" id="issnI">
+					        <td>{{t.detalleRevista.issnImpreso}}:</td>
 					        <td>{{issnImpreso}}</td>
 					      </tr>
-					      <tr class="warning tr-background">
+					      <tr class="warning tr-background" id="issnL">
 					        <td>{{t.detalleRevista.issnL}}: </td>
 					        <td>{{issnL}}</td>
 					      </tr>
-					      <tr class="active"ng-style="color_romeo">
+					      <tr class="active">
 					        <td>{{t.detalleRevista.urlRevista}}: </td>
 					        <td><a href={{urlRevista}}>{{urlRevista}}</a></td>
 					      </tr>
@@ -117,7 +132,7 @@
 					        <td>{{t.detalleRevista.nomCategoria}}: </td>
 							<td>{{nomCategoria}}</td>
 					      </tr>
-					      <tr class="active"ng-style="color_romeo">
+					      <tr class="active">
 					        <td>{{t.detalleRevista.acceso}}: </td>
 					        <td>{{acceso}}</td>
 					      </tr>
@@ -125,7 +140,7 @@
 					        <td>{{t.detalleRevista.mesesEmbargo}}: </td>
 					        <td>{{mesesEmbargo}}</td>
 					      </tr>
-					      <tr class="active"ng-style="color_romeo">
+					      <tr class="active">
 					        <td>{{t.detalleRevista.derechosExplotacion}}: </td>
 					        <td>{{derechosExplotacion}}</td>
 					      </tr>
@@ -133,7 +148,7 @@
 					        <td>{{t.detalleRevista.ubicacionMencionDerechos}}: </td>
 					        <td>{{ubicacionMencionDerechos}}</td>
 					      </tr>
-					      <tr class="active" ng-style="color_romeo">
+					      <tr class="active">
 					        <td>{{t.detalleRevista.urlMencionDerechos}}: </td>
 					        <td><a href={{urlMencionDerechos}}>{{urlMencionDerechos}}</a></td>
 					      </tr>
@@ -141,7 +156,7 @@
 					        <td>{{t.detalleRevista.licenciaPublicacion}}: </td>
 					        <td>{{licenciaPublicacion}}</td>
 					      </tr>	
-					      <tr class="active" ng-style="color_romeo">
+					      <tr class="active">
 					        <td>{{t.detalleRevista.urlInstruccionAutor}}: </td>
 					        <td><a href={{urlInstruccionAutor}}>{{urlInstruccionAutor}}</a></td>
 					      </tr>	
@@ -166,9 +181,9 @@
 					          <td>{{colorRomeo}}</td>
 					          <div ng-style="color_romeo"></div>
 					      </tr>-->
-							<tr class="active " ng-style="color_romeo" ng-init="obtenerIndizaciones();">
+							<tr class="active" ng-init="obtenerIndizaciones();">
 					        <td>{{t.detalleRevista.textoIndizacion}}: </td>
-							<td >{{textoIndizacion}} </td>
+							<td>{{textoIndizacion}} </td>
 
 					      </tr>	
 
