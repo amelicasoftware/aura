@@ -25,6 +25,31 @@ HEADER
     min-width: 250px;
 }
 
+#aLink{
+    color: white !important;
+}
+
+#main-aura{
+    padding: 2px;
+    background: #000000; 
+    /* width: 100%; */
+}
+
+#text-aura{
+    padding-top: 45px;
+}
+
+.content2, .content1{
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.content1{
+    background: #dddddd;
+}
+
 .cochochiL {
     position: relative;
     display: inline-block;
@@ -57,6 +82,11 @@ HEADER
 .logoAmeliLetras {
     display: none;
 }
+
+.header-ligas a, .header-ligas{
+    color: white !important;
+}
+
 
 /**
 FOOTER
@@ -167,6 +197,25 @@ a:active {
 }
 
 /****************************************************************/
+@media only screen and (max-width: 920px) {
+    #text-aura{
+        padding-top: 5px;
+    }
+}
+@media only screen and (max-width: 814px) {
+    .content2, .content1 {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        padding-top: 15px;
+        padding-bottom: 15px;
+      }
+      #header-idioma {
+        padding-top: 5px;
+      }
+      
+    
+}
 @media only screen and (max-width: 768px) {
     .logoAmeli {
         width: 65%;
@@ -196,6 +245,9 @@ a:active {
     .links-pre-pie{
 		width: 13%;
 	}
+    #text-aura{
+        padding-top: 15px;
+    }
 }
 
 @media only screen and (max-width: 640px) {
@@ -239,6 +291,9 @@ a:active {
     .logoAmeli img {
         width: 383px;
     }
+    #text-aura{
+        padding-top: 15px;
+    }
 }
 
 @media only screen and (max-width: 480px) {
@@ -271,5 +326,8 @@ a:active {
     .icon-pre-pre {
         width: 28%;
         margin: 5px auto;
+    }
+    #text-aura{
+        padding-top: 15px;
     }
 }
