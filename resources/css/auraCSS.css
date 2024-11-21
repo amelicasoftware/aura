@@ -30,7 +30,12 @@ body {
     max-width: 1100px;
     min-width: 300px;
 }
-
+.content3 {
+    width: 90%;
+    margin: 0px auto 0px auto;
+    max-width: 1100px;
+    min-width: 300px;
+  }
 #header-aura {
     display: flex;
     flex-wrap: wrap;
@@ -40,6 +45,21 @@ body {
     /*display: table;*/
     font-size: 12pt;
 }
+#header-aura2 {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 0px auto;
+    /* height: 100px;
+    display: table;
+    font-size: 12pt; */
+  }
+#header-idioma2 {
+    display: table-cell;
+    width: 5%;
+    margin: 0px auto;
+    vertical-align: middle;
+  }
 
 .header-logo-aura {
     display: table-cell;
@@ -58,8 +78,14 @@ body {
     /*margin: 0px auto;*/
     vertical-align: middle;
 }
+.header-ligas2 {
+    display: table-cell;
+    width: 50%;
+    margin: 0px auto;
+    vertical-align: middle;
+  }
 
-.header-ligas span {
+.header-ligas span, .header-ligas2 span {
     margin: 0px 10px;
 }
 
@@ -338,6 +364,10 @@ tr {
         display: table;
         font-size: 12pt;
       }
+      #header-aura2 {
+        align-items: center;
+        flex-direction: column;
+    }
   
 }
 
@@ -349,6 +379,10 @@ tr {
     #header-aura {
         height: auto;
         display: block;
+    }
+    #header-aura2 {
+        align-items: center;
+        flex-direction: column;
     }
 
     .header-logo-aura {
@@ -428,6 +462,10 @@ tr {
         margin: 15px 25px;
         display: inline-block;
         /* vertical-align: middle; */
+    }
+    #header-aura2 {
+        align-items: center;
+        flex-direction: column;
     }
 }
 

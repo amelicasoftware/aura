@@ -83,7 +83,7 @@ HEADER
     display: none;
 }
 
-.header-ligas a, .header-ligas{
+.header-ligas a, .header-ligas, .header-ligas2 a, .header-ligas2{
     color: white !important;
 }
 
