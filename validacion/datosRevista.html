@@ -2,7 +2,7 @@
 <html ng-app="auraApp">
 
 <head>
-    <title>Datos Revista AURA</title>
+    <!--<title>Datos Revista AURA</title>
     <link rel="shortcut icon" href="../resources/media/miniaura.ico" />
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -22,8 +22,28 @@
     <script src="../resources/js/validacionForm.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../style.css">
+    https://love2dev.com/blog/css-placeholder-color/-->
+    <title>Datos Revista AURA</title>
+    <link rel="shortcut icon" href="../resources/media/miniaura.ico" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="../resources/css/header-footer.css">
+    <link rel="stylesheet" href="../resources/css/pie-ameli.css">
+    <link rel="stylesheet" href="../resources/css/auraCSS.css" type="text/css">
+    <link rel="stylesheet" href="../resources/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="../resources/js/jquery-slim.min.js"  crossorigin="anonymous"></script>
+    <script src="../resources/js/popper.min.js"  crossorigin="anonymous"></script>
+    <script src="../resources/js/bootstrap.min.js"  crossorigin="anonymous"></script>
+    <script src="../resources/js/angularJS.js"></script>
+    <script src="../resources/js/angularJS-route.js"></script>
+    <script src="../resources/js/jquery.min-1.8.js"></script>
+    <script src="../resources/js/dirPagination.js"></script>
+    <script src="../resources/js/auraDatosRevista.js"></script>    
+    <script src="../resources/js/config.js"></script>    
+    <script src="../resources/js/validacionForm.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../style.css">
     <!--https://love2dev.com/blog/css-placeholder-color/-->
-
 </head>
 <body ng-controller="auraController" ng-init="obtenerPaises()">
     <div class="content">
@@ -301,28 +321,43 @@
                         <option value="No se menciona">No se menciona</option>
                     </select>
                 </div>
-                <div class="form-group col-sm-6">
-                    <label for="versionAutoarchivo">Versión auto-archivo:</label>
-                    <!-- <div class="custom-control custom-radio">
-                        <input name="versionAutoarchivo[]" value="Pre-print (versión sin evaluar ), Post-print (versión editorial)" type="checkbox" id="customRadio21" class="custom-control-input" ng-model="autoArchivo1">
-                        <label class="custom-control-label" for="customRadio21">Pre-print (versión sin evaluar ), Post-print (versión editorial)</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input name="versionAutoarchivo[]" value="Post-print (versión editorial)" type="checkbox" id="customRadio22" class="custom-control-input" ng-model="autoArchivo2">
-                        <label class="custom-control-label" for="customRadio22">Post-print (versión editorial)</label>
-                    </div> -->
-
-                    <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" value="Pre-print (versión sin evaluar), Post-print (versión editorial)" ng-disabled="mostrarAutoarchivo" id="customControlValidation2" name="versionAutoarchivo[]" ng-model="autoArchivo.name" ng-click="opcionesAutoArchivo1()">
-                        <label class="custom-control-label" for="customControlValidation2">Pre-print (versión sin evaluar), Post-print (versión editorial)</label>
-                    </div>
-                    <div class="custom-control custom-radio mb-3">
-                        <input type="radio" class="custom-control-input" value="Post-print (versión editorial)" ng-disabled="mostrarAutoarchivo" id="customControlValidation3" name="versionAutoarchivo[]" ng-model="autoArchivo.name" ng-click="opcionesAutoArchivo2()">
-                        <label class="custom-control-label" for="customControlValidation3">Post-print (versión editorial)</label>
-                    </div>
-                    <input name="versionAutoarchivo" id="versionAutoarchivoV" ng-model="pruba" style="display:none">
-                </div>
+                
             </div>
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label for="versionDelAutoArchivo1">Versión auto-archivo:<span style="color: #d93025;" ng-show="obligatoria">*</span></label>
+                    <div class="custom-control custom-checkbox">
+                        <input name="checks2[]" value="Pre-print (versión sin evaluar)" type="checkbox" class="custom-control-input" id="a1" ng-disabled="mostrarAuto1" ng-model="auto1" ng-change = "opcionesAutoArchivo1(this, this.value)">
+                        <label class="custom-control-label" for="a1">Pre-print (versión sin evaluar)</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input name="checks2[]" value="Pre-print (versión editorial)" type="checkbox" class="custom-control-input" id="a2" ng-disabled="mostrarAuto2" ng-model="auto2" ng-change = "opcionesAutoArchivo2(this)">
+                        <label class="custom-control-label" for="a2">Pre-print (versión editorial)</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input name="checks2[]" value="Post-print (versión sin evaluar)" type="checkbox" class="custom-control-input" id="a3" ng-disabled="mostrarAuto3" ng-model="auto3" ng-change = "opcionesAutoArchivo3(this)">
+                        <label class="custom-control-label" for="a3">Post-print (versión sin evaluar)</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input name="checks2[]" value="Post-print (versión editorial)" type="checkbox" class="custom-control-input" id="a4" ng-disabled="mostrarAuto4" ng-model="auto4" ng-change = "opcionesAutoArchivo4(this)">
+                        <label class="custom-control-label" for="a4">Post-print (versión editorial)</label>
+                    </div>
+                    <div style="display: none">Ids seleccionados <span id="str2"></span></div>
+                    <input name="versionDelAutoArchivo" id="versionDelAutoArchivo" style="display: none" ng-required="obligatoria">
+                </div>
+                <div class="form-group col-sm-6">
+                        <label for="exampleInputPassword1">El color Romeo ha sido asignado en base a la versión del auto-archivo:  <!--<span style="color: #d93025;">*</span>--></label>
+                        <select id="colorRomeo" name="colorRomeo" class='form-control' id="inputGroupSelect01" ng-disabled="selectDisabled">
+                            <option value="">Opciones</option>
+                            <option value="Blanco">Blanco</option>
+                            <option value="Amarillo">Amarillo</option>
+                            <option value="Azul">Azul</option>
+                            <option value="Verde">Verde</option>
+                            <option value="Desconocido">Desconocido</option>
+                        </select>
+                </div>
+                </div>
+                <div class="row"></div>
             <div class="row">
                 <div class="form-group col-sm-6">
                     <label for="autoarchivoCuando">Sí permite el autoarchivo o deposito de los trabajos ¿Cuándo puede realizarse?</label>
@@ -372,19 +407,7 @@
                 <label for="autoArchivoDondeOtro">Escribe otra opción.</label>
                 <input id="autoArchivoDondeOtro" name="ubicacionAutoarchivoOtro" class="form-control otroPrueba" type="text" placeholder="" ng-model="autoArchivoDondeOtrotxt">
             </div>
-            <div class="row">
-                <div class="form-group col-sm-6">
-                    <label for="exampleInputPassword1">Color ROMEO <span style="color: #d93025;">*</span></label>
-                    <select id="colorRomeo" name="colorRomeo" ng-model="colorRomeo" class='form-control' id="inputGroupSelect01" required value=""><!--['colorRomeo']-->
-                        <option value="">Elija una opción...</option>
-                        <option value="Blanco">Blanco</option>
-                        <option value="Amarillo">Amarillo</option>
-                        <option value="Azul">Azul</option>
-                        <option value="Verde">Verde</option>
-                        <option value="Desconocido">Desconocido</option>
-                    </select>
-                </div>
-            </div>
+           
             <div class="row">
                 <div class="form-group col-sm-6">
                     <div class="">

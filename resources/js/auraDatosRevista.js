@@ -4,7 +4,7 @@ var app = angular.module("auraApp", ['ngRoute', 'angularUtils.directives.dirPagi
 app.controller("auraController", function ($scope, $http, $window, $location) {
     
     const servidor = server;
-    
+
     console.log('Datos Revitsa Aura');
     $scope.cveRevista = getParametroURL('cveRevista');
     $scope.cargarDatos = function () {
@@ -164,19 +164,19 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
                 }
             }
             $scope.ocultarAutoArchivo();
-            if ($scope.datosRevistas['versionDelAutoArchivo'] === 'Pre-print (versión sin evaluar), Post-print (versión editorial)') {//['versionAutoarchivo']
-                $scope.autoArchivo = {
-                    name: 'Pre-print (versión sin evaluar), Post-print (versión editorial)'
-                };
-                $scope.pruba = 'Pre-print (versión sin evaluar), Post-print (versión editorial)';
-                $scope.opcionesAutoArchivo1();
-            } if ($scope.datosRevistas['versionDelAutoArchivo'] === 'Post-print (versión editorial)') {
-                $scope.autoArchivo = {
-                    name: 'Post-print (versión editorial)'
-                };
-                $scope.pruba = 'Post-print (versión editorial)';
-                $scope.opcionesAutoArchivo2();
-            }
+            // if ($scope.datosRevistas['versionDelAutoArchivo'] === 'Pre-print (versión sin evaluar), Post-print (versión editorial)') {//['versionAutoarchivo']
+            //     $scope.autoArchivo = {
+            //         name: 'Pre-print (versión sin evaluar), Post-print (versión editorial)'
+            //     };
+            //     $scope.pruba = 'Pre-print (versión sin evaluar), Post-print (versión editorial)';
+            //     $scope.opcionesAutoArchivo1();
+            // } if ($scope.datosRevistas['versionDelAutoArchivo'] === 'Post-print (versión editorial)') {
+            //     $scope.autoArchivo = {
+            //         name: 'Post-print (versión editorial)'
+            //     };
+            //     $scope.pruba = 'Post-print (versión editorial)';
+            //     $scope.opcionesAutoArchivo2();
+            // }
             $scope.obtenerCargo();
         });
 
@@ -488,6 +488,7 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
         if(document.getElementById("formAuraUpdate").value){
             if(confirm("¿Esta seguro?, Los datos serán actualizados")){
                 //construcción del json (Revista)
+                console.log("entre aquí 11111")
                 if($scope.otrainstitucionMostrar){
                     $scope.searchText='';
                     $scope.cveInstitucion='';
@@ -508,7 +509,7 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
 
                 if(isUndefinedOrNull($scope.indizacionesExtendido))
                     $scope.indizacionesExtendido='';
-
+                console.log("entre aquí")
                 var jsonDataRevista = {
                     "claveRevista": $scope.cveRevista,
                     "nombreRevista" : $scope.nombreRevista,
@@ -532,10 +533,10 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
                     "urlTiposLicencia": $scope.urlTipoPublicacion,
                     "urlInstruccionDelAutor": $scope.urlInstruccionAutor,
                     "opcionAutoArchivo": $scope.autoArchivo1,
-                    "versionDelAutoArchivo": document.getElementById('versionAutoarchivoV').value,
+                    "versionDelAutoArchivo": document.getElementById('versionDelAutoArchivo').value,
                     "autoArchivoDelMomento": document.getElementById('autoarchivoMomento').value,
                     "ubicacionDelAutoArchivo": document.getElementById('autoarchivoDonde').value,
-                    "colorDeRomeo": $scope.colorRomeo,
+                    "colorDeRomeo": document.getElementById('colorRomeo').value,
                     "indizacionExtendida": $scope.productsCve2,//indizacion Normalizada
                     "nombreDelContacto": $scope.nombreResponsable,
                     "cargoDelContacto": $scope.cargoResponsable,
@@ -552,7 +553,7 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
                     //"nombreInstitucion":"indizacion" no normalizada
                     "nombreInstitucion" : $scope.indizacionesExtendido
                 };
-                console.log(jsonDataRevista);
+                console.log("json -->",jsonDataRevista);
                 $http.post(
                     servidor+'/service/csgAura/updateRevista',//datosPagina
                     jsonDataRevista
@@ -572,17 +573,40 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
         }
     }
 
+    // *** permite: auto-archivo? ***
+    $scope.mostrarAuto1 = true;
+    $scope.mostrarAuto2 = true;
+    $scope.mostrarAuto3 = true;
+    $scope.mostrarAuto4 = true;
+    $scope.selectDisabled = true;
+    var elements = [];
+
+    $scope.obligatoria = false;
     //********** validación para el auto-archivo ***************
     $scope.mostrarAutoarchivo = true;
     $scope.opcionesAa1 = true;
     $scope.opcionesAa2 = true;
     $scope.ocultarAutoArchivo = function () {
+        $scope.auto1 = "0";
+        $scope.auto2 = "0";
+        $scope.auto3 = "0";
+        $scope.auto4 = "0";
+        elements = [];
         //auto-archivo="No"; deshabilitar items
+        if ($scope.autoArchivo1 === 'Sí' || $scope.autoArchivo1 === 'Sí en artículos OA de pago por publicación') {
+            $scope.obligatoria = true;
+        } else if($scope.autoArchivo1 === 'No' || $scope.autoArchivo1 === 'No se menciona'){
+            $scope.obligatoria = false;
+        }
         if($scope.autoArchivo1 == "No"){
             console.log('opcion-> No');
             $scope.mostrarAutoarchivo = true;
             $scope.opcionesAa1 = true;
             $scope.opcionesAa2 = true;
+            $scope.mostrarAuto1 = true;
+            $scope.mostrarAuto2 = true;
+            $scope.mostrarAuto3 = true;
+            $scope.mostrarAuto4 = true;
             //resetear los valores auto-archivo(pre,post)
             $scope.autoArchivo.name = "0";
             //$('#versionDelAutoArchivo').val("");
@@ -592,22 +616,92 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
             $scope.mostrarAutoarchivo = false;
             $scope.opcionesAa1 = false;
             $scope.opcionesAa2 = false;
+            $scope.mostrarAuto1 = false;
+            $scope.mostrarAuto2 = false;
+            $scope.mostrarAuto3 = false;
+            $scope.mostrarAuto4 = false;
         }
+        $scope.decisionColor();
     }
 
-    $scope.opcionesAutoArchivo1 = function(){
-        $scope.opcionesAa2 = false;
-        $scope.opcionesAa1 = true;
-        //limpiar 4to
-        $scope.autoArchivoOp4 = "0";
+    $scope.opcionesAutoArchivo1 = function(element, value){
+        // console.log(element, value);
+        // console.log($scope.auto1);
+        if (element.auto1 === true) {
+            $scope.mostrarAuto2 = true;
+            elements.push('Pre-print (versión sin evaluar)')
+        }
+        if (element.auto1 === false) {
+            $scope.mostrarAuto2 = false;
+            elements[0] === 'Pre-print (versión sin evaluar)' ? elements.shift() : elements.pop();
+        }
+        $scope.decisionColor();      
     }
 
-    $scope.opcionesAutoArchivo2 = function(){
-        $scope.opcionesAa1 = false;
-        $scope.opcionesAa2 = true;
-        //limpiar 1,2 do
-        $scope.autoArchivoOp1 = "0";
-        $scope.autoArchivoOp2 = "0";
+    $scope.opcionesAutoArchivo2 = function(element){
+        if (element.auto2 === true) {
+            $scope.mostrarAuto1 = true;
+            elements.push('Pre-print (versión editorial)')
+        }
+        if (element.auto2 === false) {
+            $scope.mostrarAuto1 = false;
+            elements[0] === 'Pre-print (versión editorial)' ? elements.shift() : elements.pop();
+        }
+        $scope.decisionColor();
+    }
+
+    $scope.opcionesAutoArchivo3 = function(element){
+        if (element.auto3 === true) {
+            $scope.mostrarAuto4 = true;
+            elements.push('Post-print (versión sin evaluar)')
+        }
+        if (element.auto3 === false) {
+            $scope.mostrarAuto4 = false;
+            elements[0] === 'Post-print (versión sin evaluar)' ? elements.shift() : elements.pop();
+        }
+        $scope.decisionColor();
+    }
+    $scope.opcionesAutoArchivo4 = function(element){
+        if (element.auto4 === true) {
+            $scope.mostrarAuto3 = true;
+            elements.push('Post-print (versión editorial)')
+        }
+        if (element.auto4 === false) {
+            $scope.mostrarAuto3 = false;
+            elements[0] === 'Post-print (versión editorial)' ? elements.shift() : elements.pop();
+        }
+        $scope.decisionColor();
+    }
+
+    $scope.decisionColor = function(){
+        const selectElement = document.getElementById('colorRomeo');       
+        if (elements.length === 2) {
+            selectElement.value = 'Verde';
+            selectElement.style.color = "#155724";
+            selectElement.style.background = "#d4edda";
+            selectElement.style.borderColor = "#c3e6cb";
+            elements.sort((a, b) => {
+                if (a.includes("Pre") && !b.includes("Pre")) return -1; // "Pre" antes de "Post"
+                if (b.includes("Pre") && !a.includes("Pre")) return 1;  // "Post" después de "Pre"
+            });
+            cadena = elements.join(", ");
+        }else if ((elements.length === 1) && (elements[0].includes("Pos"))) {
+            selectElement.value = 'Azul';
+            selectElement.style.color = "#004085";
+            selectElement.style.background = "#cce5ff";
+            selectElement.style.borderColor = "#b8daff";
+        }else if ((elements.length === 1) && (elements[0].includes("Pre"))) {
+            selectElement.value = 'Amarillo';
+            selectElement.style.color = "#856404";
+            selectElement.style.background = "#fff3cd";
+            selectElement.style.borderColor = "#ffeeba";
+        }else if ((elements.length === 0 || $scope.autoArchivo1 === 'No' || $scope.autoArchivo1 === 'No se menciona') && $scope.autoArchivo1 != undefined) {
+            selectElement.value = 'Blanco';
+            selectElement.style.color = "#818182";
+            selectElement.style.background = "#fefefe";
+            selectElement.style.borderColor = "#fdfdfe";
+        }
+       
     }
 
     $scope.limpiarItems = function(){
@@ -646,7 +740,7 @@ function getParametroURL(parametro) {
 }
 
 $(document).ready(function () {
-
+    var cadena = '';
     cveRevista = getParametroURL('cveRevista');
     $issn_group = $(".checkIssn");
     console.log('validar issn2');
@@ -792,14 +886,26 @@ $(document).ready(function () {
         $('#fuente').val(str);
     });
     //versionAutoarchivo
-    $('[name="versionAutoarchivo[]"]').click(function () {
-        var arr = $('[name="versionAutoarchivo[]"]:checked').map(function () {
-            console.log(this.value);
+    // $('[name="versionAutoarchivo[]"]').click(function () {
+    //     var arr = $('[name="versionAutoarchivo[]"]:checked').map(function () {
+    //         console.log(this.value);
+    //         return this.value;
+    //     }).get();
+    //     console.log(arr);
+    //     var str = arr.join(', ');
+    //     $('#versionAutoarchivoV').val(str);
+    // });
+
+    $('[name="checks2[]"]').click(function () {
+        var arr = $('[name="checks2[]"]:checked').map(function () {
             return this.value;
         }).get();
-        console.log(arr);
-        var str = arr.join(', ');
-        $('#versionAutoarchivoV').val(str);
+        var str = "";
+        (arr.length === 2 && cadena !='') ? str = cadena : str = arr.join(', ');
+        $('#arr').text(JSON.stringify(arr));
+        $('#str2').text(str);
+        $('#versionDelAutoArchivo').val(str);
+    //    console.log("--->>>",$('#versionDelAutoArchivo').val());
     });
 
     selectDatos();
