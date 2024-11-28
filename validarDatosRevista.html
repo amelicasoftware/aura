@@ -38,7 +38,7 @@
     <script src="../resources/js/angularJS-route.js"></script>
     <script src="../resources/js/jquery.min-1.8.js"></script>
     <script src="../resources/js/dirPagination.js"></script>
-    <script src="../resources/js/auraDatosRevista.js"></script>    
+    <script src="../resources/js/auraValidarDatosRevista.js"></script>    
     <script src="../resources/js/config.js"></script>    
     <script src="../resources/js/validacionForm.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -51,7 +51,7 @@
 			<div id="header-aura">	
 				<div class="header-logo-aura">
 					<a href="index.html"><!--"https://aura.amelica.org/"-->
-						<img src="../resources/media/aura-01.png">
+						<img src="resources/media/aura-01.png">
 					</a>
 				</div>
 				<div id="text-aura">
@@ -64,11 +64,11 @@
     <br>
     <div id="content-form" style="width: 80%; margin:auto;">
     <div class="container">
-        <div class="list-title text-bold" style="text-align: left!important; width: 92%!important">
+        <!-- <div class="list-title text-bold" style="text-align: left!important; width: 92%!important">
                 <a href="index.html">
                     <span>&#62;&#62; Regresar a la lista</span>
                 </a>
-        </div>
+        </div> -->
         <div >
                 <h1 style="text-align: center;">Validación de revistas Aura</h1><!--{{t.formulario.título}}-->
         </div>
@@ -458,9 +458,9 @@
                     <input id="emailResponsable" name="emailResponsable" ng-model="emailResponsable" type="email" class="form-control" id="emailResponsable" placeholder="Correo electrónico" required value=""><!--['emailUsu']-->
                 </div>
             </div>
-            <div style="background: rgb(139, 188, 2); color: white; display: flex; justify-content: center; align-items: center; height: 50px; border-radius: 5px;">Validar Revista</div>
+            <div style="background: rgb(139, 188, 2); color: white; display: none; justify-content: center; align-items: center; height: 50px; border-radius: 5px;">Validar Revista</div>
             <br>
-            <div class="row">
+            <div class="row" style="display: none;">
                 <div class="form-group col">
                     <label for="fuente">Fuente <span style="color: #d93025;"></span></label>
                     <div class="custom-control custom-checkbox">
