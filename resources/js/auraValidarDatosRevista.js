@@ -2,6 +2,9 @@ var app = angular.module("auraApp", ['ngRoute', 'angularUtils.directives.dirPagi
 
 
 app.controller("auraController", function ($scope, $http, $window, $location) {
+
+    $scope.reqAutoArchivo = true;
+
     const urlParam = new URLSearchParams(window.location.search);
     let token = urlParam.get('token');
 
@@ -78,6 +81,12 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
                 $scope.telefonoResponsable =
                     $scope.datosRevistas["telefonoUsuario"];
                 $scope.emailResponsable = $scope.datosRevistas["emailUsuario"];
+                console.log($scope.datosRevistas["opcionAutoArchivo"]);
+                if( $scope.datosRevistas["opcionAutoArchivo"] === 'Sí'){
+                    $scope.reqAutoArchivo = true;
+                }else if($scope.datosRevistas["opcionAutoArchivo"] === 'No'){
+                    $scope.reqAutoArchivo = false;
+                }
                 $scope.autoArchivo1 = $scope.datosRevistas["opcionAutoArchivo"];
                 $scope.autoArchivo = { name: "0" };
                 $scope.token = $scope.datosRevistas['token'];
@@ -766,6 +775,7 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
     $scope.opcionesAutoArchivo1 = function (element, value) {
         // console.log(element, value);
         // console.log($scope.auto1);
+        $scope.reqAutoArchivo = false;
         if (element.auto1 === true) {
             $scope.mostrarAuto2 = true;
             elements.push('Pre-print (versión sin evaluar)')
@@ -778,6 +788,8 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
     }
 
     $scope.opcionesAutoArchivo2 = function (element) {
+        $scope.reqAutoArchivo = false;
+
         if (element.auto2 === true) {
             $scope.mostrarAuto1 = true;
             elements.push('Pre-print (versión editorial)')
@@ -790,6 +802,8 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
     }
 
     $scope.opcionesAutoArchivo3 = function (element) {
+        $scope.reqAutoArchivo = false;
+
         if (element.auto3 === true) {
             $scope.mostrarAuto4 = true;
             elements.push('Post-print (versión sin evaluar)')
@@ -801,6 +815,8 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
         $scope.decisionColor();
     }
     $scope.opcionesAutoArchivo4 = function (element) {
+        $scope.reqAutoArchivo = false;
+
         if (element.auto4 === true) {
             $scope.mostrarAuto3 = true;
             elements.push('Post-print (versión editorial)')

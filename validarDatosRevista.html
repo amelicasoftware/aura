@@ -37,7 +37,7 @@
     <script src="../resources/js/angularJS.js"></script>
     <script src="../resources/js/angularJS-route.js"></script>
     <script src="../resources/js/jquery.min-1.8.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="../resources/js/sweetalert.min.js"></script>
     <script src="../resources/js/dirPagination.js"></script>
     <script src="../resources/js/auraValidarDatosRevista.js"></script>    
     <script src="../resources/js/config.js"></script>    
@@ -78,7 +78,8 @@
         <!--<hr>-->
         <div style="background: rgb(139, 188, 2); color: white; display: flex; justify-content: center; align-items: center; height: 50px; border-radius: 5px; margin-bottom: 20px;">Datos de la revista {{nomRevista}}</div>
         <!--<form class="needs-validation1" novalidate name="formAura" action="../actualizarDatosPg.php" method="post" style="margin-bottom: 50px" ng-init="cargarDatos();">-->
-        <form class="needs-validation1" novalidate id="formAuraUpdate" name="formAuraUpdate" ng-submit="actualizarDatos()" method="post" style="margin-bottom: 50px" ng-init="cargarDatos();">
+        <form class="needs-validation1" novalidate id="formAuraUpdate" name="formAuraUpdate" ng-submit="actualizarDatos()" 
+                method="post" style="margin-bottom: 50px" ng-init="cargarDatos();">
             <div class="row">
                 <div class="form-group col-sm-6">
                     <input name="cveRevista" ng-model="cveRevista" style="display:none">
@@ -313,19 +314,23 @@
                 <div class="form-group col-sm-6">
                     <label for="versionDelAutoArchivo1">Versión auto-archivo:<span style="color: #d93025;" ng-show="obligatoria">*</span></label>
                     <div class="custom-control custom-checkbox">
-                        <input name="checks2[]" value="Pre-print (versión sin evaluar)" type="checkbox" class="custom-control-input" id="a1" ng-disabled="mostrarAuto1" ng-model="auto1" ng-change = "opcionesAutoArchivo1(this, this.value)">
+                        <input name="checks2[]" value="Pre-print (versión sin evaluar)" type="checkbox" class="custom-control-input" id="a1" 
+                                ng-disabled="mostrarAuto1" ng-model="auto1" ng-change = "opcionesAutoArchivo1(this, this.value)" ng-required="reqAutoArchivo">
                         <label class="custom-control-label" for="a1">Pre-print (versión sin evaluar)</label>
                     </div>
                     <div class="custom-control custom-checkbox">
-                        <input name="checks2[]" value="Pre-print (versión editorial)" type="checkbox" class="custom-control-input" id="a2" ng-disabled="mostrarAuto2" ng-model="auto2" ng-change = "opcionesAutoArchivo2(this)">
+                        <input name="checks2[]" value="Pre-print (versión editorial)" type="checkbox" class="custom-control-input" id="a2" 
+                                ng-disabled="mostrarAuto2" ng-model="auto2" ng-change = "opcionesAutoArchivo2(this)" ng-required="reqAutoArchivo">
                         <label class="custom-control-label" for="a2">Pre-print (versión editorial)</label>
                     </div>
                     <div class="custom-control custom-checkbox">
-                        <input name="checks2[]" value="Post-print (versión sin evaluar)" type="checkbox" class="custom-control-input" id="a3" ng-disabled="mostrarAuto3" ng-model="auto3" ng-change = "opcionesAutoArchivo3(this)">
+                        <input name="checks2[]" value="Post-print (versión sin evaluar)" type="checkbox" class="custom-control-input" id="a3" 
+                                ng-disabled="mostrarAuto3" ng-model="auto3" ng-change = "opcionesAutoArchivo3(this)" ng-required="reqAutoArchivo">
                         <label class="custom-control-label" for="a3">Post-print (versión sin evaluar)</label>
                     </div>
                     <div class="custom-control custom-checkbox">
-                        <input name="checks2[]" value="Post-print (versión editorial)" type="checkbox" class="custom-control-input" id="a4" ng-disabled="mostrarAuto4" ng-model="auto4" ng-change = "opcionesAutoArchivo4(this)">
+                        <input name="checks2[]" value="Post-print (versión editorial)" type="checkbox" class="custom-control-input" id="a4" 
+                                ng-disabled="mostrarAuto4" ng-model="auto4" ng-change = "opcionesAutoArchivo4(this)" ng-required="reqAutoArchivo">
                         <label class="custom-control-label" for="a4">Post-print (versión editorial)</label>
                     </div>
                     <div style="display: none">Ids seleccionados <span id="str2"></span></div>
