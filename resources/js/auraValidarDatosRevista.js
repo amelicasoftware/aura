@@ -2,24 +2,40 @@ var app = angular.module("auraApp", ['ngRoute', 'angularUtils.directives.dirPagi
 
 
 app.controller("auraController", function ($scope, $http, $window, $location) {
+
+    $scope.reqAutoArchivo = true;
+
     const urlParam = new URLSearchParams(window.location.search);
-    //const token = urlParam.get('token');    
-    const token = "MTc+Pj5SZXZpc3RhIEFsZXJnaWEgTcOpeGljbw==";
+    let token = urlParam.get('token');
+
+    const queryString = window.location.search.split('?')[1]; // Extrae todo después del `?`
+
+    const preservedPlus = queryString.replace(/\+/g, '%2B'); // Convierte `+` a su codificación literal
+    let decodedURL = decodeURIComponent(preservedPlus);
+    decodedURL = decodedURL.slice(6);
+    token = decodedURL;
+    console.log('token', decodedURL);
+
+    const decodedString = decodeURIComponent(escape(atob(decodedURL)));
+    console.log('token decodificado', decodedString);
+    const dataToken = decodedString.split('>>>');
     console.log("Entra a validar datos de la revistaa")
     const servidor = server;
-    console.log('Datos Revitsa Aura');
-    $scope.cveRevista = getParametroURL('cveRevista');
+    console.log('Datos Revitsa Aura', dataToken[0]);
+    $scope.cveRevista = dataToken[0];
     $scope.cargarDatos = function () {
         console.log("token: ", token);
         $http({
             method: 'post',
-            url: servidor+'/service/csgAura/getDataJournalToken2',//'../getRevistaCve.php'
+            url: servidor + '/service/csgAura/getDataJournalToken2',//'../getRevistaCve.php'
             data: { token: token }
         }).then(function successCallback(response) {
             $scope.datosRevistas = response.data;
             console.log($scope.datosRevistas);
             if ($scope.datosRevistas['bndpertok']) {
                 console.log("La bandera es verdadera");
+                $scope.cveRevista = $scope.datosRevistas["claveRevista"];
+                console.log('nueva clave de revista', $scope.cveRevista);
                 $scope.cveInstitucion = $scope.datosRevistas["claveIntitucion"]; //['cveInstitucion']
                 //$scope.nomRevista = $scope.datosRevistas['nombreRevista'];//['nomRevista']
                 $scope.nombreRevista = $scope.datosRevistas["nombreRevista"]; //['nomRevista']
@@ -31,40 +47,46 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
                 $scope.organoExpresion = $scope.datosRevistas["nombreOrgano"];
                 $scope.issnImpreso = $scope.datosRevistas["issnTipoImpreso"];
                 $scope.issnElectronico =
-                $scope.datosRevistas["issnTipoElectronico"];
+                    $scope.datosRevistas["issnTipoElectronico"];
                 $scope.issnL = $scope.datosRevistas["issnTipoL"];
                 $scope.acceso = $scope.datosRevistas["tipoAcceso"];
                 $scope.mesesEmbargo = parseInt(
-                $scope.datosRevistas["mesesDeEmbargo"]
+                    $scope.datosRevistas["mesesDeEmbargo"]
                 );
                 $scope.cveCategoria = $scope.datosRevistas["claveCategoriaRevista"]; //['cveCategoria']
                 $scope.derechosExplotacion =
-                $scope.datosRevistas["derechoExplotacion"];
+                    $scope.datosRevistas["derechoExplotacion"];
                 $scope.titularDerechos = $scope.datosRevistas["titularDerecho"];
                 $scope.ubicacionMencionDerechos =
-                $scope.datosRevistas["ubicacionCopyrigth"];
+                    $scope.datosRevistas["ubicacionCopyrigth"];
                 $scope.urlMencionDerechos =
-                $scope.datosRevistas["urlMencionCopyrigth"];
+                    $scope.datosRevistas["urlMencionCopyrigth"];
                 $scope.licenciaPublicacion = $scope.licencia(
-                $scope.datosRevistas["nombreLicenciaPublicacion"]
+                    $scope.datosRevistas["nombreLicenciaPublicacion"]
                 ); //['licenciaPublicacion']
                 $scope.urlTipoPublicacion =
-                $scope.datosRevistas["urlTiposLicencia"];
+                    $scope.datosRevistas["urlTiposLicencia"];
                 $scope.urlInstruccionAutor =
-                $scope.datosRevistas["urlInstruccionDelAutor"];
+                    $scope.datosRevistas["urlInstruccionDelAutor"];
                 $scope.colorRomeo = $scope.datosRevistas["colorDeRomeo"];
                 $scope.cargoResponsable = $scope.datosRevistas["cargoDelContacto"]; //['cargoContacto']
                 $scope.editorial = $scope.datosRevistas["tipoDeEditorial"]; //['tipoEditorial']
                 $scope.indizacionesExtendido =
-                $scope.datosRevistas["indizacionExtendida"]; //['indizacionesExtendido']
+                    $scope.datosRevistas["indizacionExtendida"]; //['indizacionesExtendido']
                 $scope.valAutoarchivo =
-                $scope.datosRevistas["ubicacionDelAutoArchivo"]; //['ubicacionAutoarchivo']
+                    $scope.datosRevistas["ubicacionDelAutoArchivo"]; //['ubicacionAutoarchivo']
                 $scope.nombreResponsable =
-                $scope.datosRevistas["nombreDelContacto"];
+                    $scope.datosRevistas["nombreDelContacto"];
                 $scope.cargoResponsable = $scope.datosRevistas["cargoDelContacto"];
                 $scope.telefonoResponsable =
-                $scope.datosRevistas["telefonoUsuario"];
+                    $scope.datosRevistas["telefonoUsuario"];
                 $scope.emailResponsable = $scope.datosRevistas["emailUsuario"];
+                console.log($scope.datosRevistas["opcionAutoArchivo"]);
+                if( $scope.datosRevistas["opcionAutoArchivo"] === 'Sí'){
+                    $scope.reqAutoArchivo = true;
+                }else if($scope.datosRevistas["opcionAutoArchivo"] === 'No'){
+                    $scope.reqAutoArchivo = false;
+                }
                 $scope.autoArchivo1 = $scope.datosRevistas["opcionAutoArchivo"];
                 $scope.autoArchivo = { name: "0" };
                 $scope.token = $scope.datosRevistas['token'];
@@ -72,28 +94,28 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
                 //$scope.ocultarAutoArchivo();
                 $scope.Fuente = $scope.datosRevistas["decripcionFuente"]; //['Fuente']
                 if ($scope.Fuente != null && $scope.Fuente != "") {
-                //comparacion ||
-                $scope.FuenteA =
-                    $scope.datosRevistas["decripcionFuente"].split(", ");
-                console.log($scope.FuenteA);
-                for (i = 0; i < $scope.FuenteA.length; i++) {
-                    valor2 = $scope.FuenteA[i];
-                    console.log(valor2);
-                    if (valor2 === "Redalyc") {
-                    $scope.RevRedalyc = true;
+                    //comparacion ||
+                    $scope.FuenteA =
+                        $scope.datosRevistas["decripcionFuente"].split(", ");
+                    console.log($scope.FuenteA);
+                    for (i = 0; i < $scope.FuenteA.length; i++) {
+                        valor2 = $scope.FuenteA[i];
+                        console.log(valor2);
+                        if (valor2 === "Redalyc") {
+                            $scope.RevRedalyc = true;
+                        }
+                        if (valor2 === "AmeliCA") {
+                            //Ameli
+                            $scope.RevAmeli = true;
+                        }
                     }
-                    if (valor2 === "AmeliCA") {
-                    //Ameli
-                    $scope.RevAmeli = true;
-                    }
-                }
                 }
 
                 //$scope.validarRevista = $scope.datosRevistas['estadoValidada'];//['Validada']
                 $scope.validarRevista = false;
                 if ($scope.datosRevistas["estadoValidada"] == "1")
-                //$scope.validarRevista
-                $scope.validarRevista = true;
+                    //$scope.validarRevista
+                    $scope.validarRevista = true;
                 $scope.cveAmeli = $scope.datosRevistas["claveAmeli"]; //['cverevameli']
                 $scope.cveRedalyc = $scope.datosRevistas["claveRedalyc"]; //['cverevredalyc']
                 $scope.Validada = $scope.datosRevistas["estadoValidada"]; //['Validada']
@@ -101,28 +123,28 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
                 //console.log('otraInstitucion->' + $scope.datosRevistas['nombreOtraInstitucion']);//['otraInstitucion']
 
                 if (
-                $scope.datosRevistas["nombreOtraInstitucion"] === "" ||
-                $scope.datosRevistas["nombreOtraInstitucion"] === null
+                    $scope.datosRevistas["nombreOtraInstitucion"] === "" ||
+                    $scope.datosRevistas["nombreOtraInstitucion"] === null
                 ) {
-                //['otrainstitucion']
-                $scope.otrainstitucionMostrar = false;
-                console.log(
-                    "otraInstitucionMostrar->" + $scope.otrainstitucionMostrar
-                );
-                jQuery("#otroNombreInstitucion").prop("required", false);
-                jQuery("#institucion").prop("required", true);
+                    //['otrainstitucion']
+                    $scope.otrainstitucionMostrar = false;
+                    console.log(
+                        "otraInstitucionMostrar->" + $scope.otrainstitucionMostrar
+                    );
+                    jQuery("#otroNombreInstitucion").prop("required", false);
+                    jQuery("#institucion").prop("required", true);
                 } else {
-                $scope.otrainstitucionMostrar = true;
-                $scope.otroNombreInstitucion =
-                    $scope.datosRevistas["nombreOtraInstitucion"];
-                jQuery("#otroNombreInstitucion").prop("required", true);
-                jQuery("#institucion").prop("required", false);
+                    $scope.otrainstitucionMostrar = true;
+                    $scope.otroNombreInstitucion =
+                        $scope.datosRevistas["nombreOtraInstitucion"];
+                    jQuery("#otroNombreInstitucion").prop("required", true);
+                    jQuery("#institucion").prop("required", false);
                 }
 
                 if ($scope.licenciaPublicacion === "Otro") {
-                $scope.mostrarLicenciaPublicacionOtro = true;
-                $scope.licenciaPublicacionOtro =
-                    $scope.datosRevistas["nombreLicenciaPublicacion"]; ////['licenciaPublicacion']
+                    $scope.mostrarLicenciaPublicacionOtro = true;
+                    $scope.licenciaPublicacionOtro =
+                        $scope.datosRevistas["nombreLicenciaPublicacion"]; ////['licenciaPublicacion']
                 }
 
                 /*if ($scope.datosRevistas['versionDelAutoArchivo'] === 'Pre-print (versión sin evaluar), Post-print (versión editorial)') {//['versionAutoarchivo']
@@ -140,77 +162,77 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
                 }*/
 
                 $scope.autoarchivoDonde =
-                $scope.datosRevistas["ubicacionDelAutoArchivo"]; //['ubicacionAutoarchivo']
+                    $scope.datosRevistas["ubicacionDelAutoArchivo"]; //['ubicacionAutoarchivo']
                 jQuery("#inputOtro").hide();
                 if (
-                $scope.datosRevistas["ubicacionDelAutoArchivo"] != null &&
-                $scope.datosRevistas["ubicacionDelAutoArchivo"] != ""
+                    $scope.datosRevistas["ubicacionDelAutoArchivo"] != null &&
+                    $scope.datosRevistas["ubicacionDelAutoArchivo"] != ""
                 ) {
-                // || !=''
-                $scope.autoArchivoDondeA =
-                    $scope.datosRevistas["ubicacionDelAutoArchivo"].split(", ");
-                //console.log($scope.autoArchivoDondeA);
-                // console.log($scope.autoArchivoDondeA.length);
+                    // || !=''
+                    $scope.autoArchivoDondeA =
+                        $scope.datosRevistas["ubicacionDelAutoArchivo"].split(", ");
+                    //console.log($scope.autoArchivoDondeA);
+                    // console.log($scope.autoArchivoDondeA.length);
 
-                for (i = 0; i < $scope.autoArchivoDondeA.length; i++) {
-                    valor2 = $scope.autoArchivoDondeA[i];
-                    //console.log('wero'+valor2);
-                    if (valor2 === "Repositorio institucional") {
-                    $scope.repositorioI = true;
-                    //jQuery('#inputOtro').hide();
+                    for (i = 0; i < $scope.autoArchivoDondeA.length; i++) {
+                        valor2 = $scope.autoArchivoDondeA[i];
+                        //console.log('wero'+valor2);
+                        if (valor2 === "Repositorio institucional") {
+                            $scope.repositorioI = true;
+                            //jQuery('#inputOtro').hide();
+                        }
+                        if (valor2 === "Repositorio temático") {
+                            $scope.repositorioT = true;
+                            //jQuery('#inputOtro').hide();
+                        }
+                        if (valor2 === "Web personal") {
+                            $scope.web = true;
+                            //jQuery('#inputOtro').hide();
+                        }
+                        if (
+                            valor2 != "Repositorio institucional" &&
+                            valor2 != "Repositorio temático" &&
+                            valor2 != "Web personal" &&
+                            valor2 != ""
+                        ) {
+                            $scope.autoArchivoOtro = true;
+                            $scope.autoArchivoDondeOtro = true;
+                            $scope.autoArchivoDondeOtrotxt = $scope.autoArchivoDondeA[i];
+                            console.log("muestro otro");
+                            jQuery("#inputOtro").show();
+                            //jQuery('#inputOtro').show();
+                        }
                     }
-                    if (valor2 === "Repositorio temático") {
-                    $scope.repositorioT = true;
-                    //jQuery('#inputOtro').hide();
-                    }
-                    if (valor2 === "Web personal") {
-                    $scope.web = true;
-                    //jQuery('#inputOtro').hide();
-                    }
-                    if (
-                    valor2 != "Repositorio institucional" &&
-                    valor2 != "Repositorio temático" &&
-                    valor2 != "Web personal" &&
-                    valor2 != ""
-                    ) {
-                    $scope.autoArchivoOtro = true;
-                    $scope.autoArchivoDondeOtro = true;
-                    $scope.autoArchivoDondeOtrotxt = $scope.autoArchivoDondeA[i];
-                    console.log("muestro otro");
-                    jQuery("#inputOtro").show();
-                    //jQuery('#inputOtro').show();
-                    }
-                }
                 }
 
                 $scope.autoarchivoMomento =
-                $scope.datosRevistas["autoArchivoDelMomento"]; //['autoarchivoMomento']
+                    $scope.datosRevistas["autoArchivoDelMomento"]; //['autoarchivoMomento']
                 if (
-                $scope.datosRevistas["autoArchivoDelMomento"] != null &&
-                $scope.datosRevistas["autoArchivoDelMomento"] != ""
+                    $scope.datosRevistas["autoArchivoDelMomento"] != null &&
+                    $scope.datosRevistas["autoArchivoDelMomento"] != ""
                 ) {
-                // if.. || ..)
-                $scope.autoarchivoMomentoA =
-                    $scope.datosRevistas["autoArchivoDelMomento"].split(", ");
-                // console.log($scope.autoarchivoMomento);
-                // console.log($scope.autoarchivoMomentoA.length);
+                    // if.. || ..)
+                    $scope.autoarchivoMomentoA =
+                        $scope.datosRevistas["autoArchivoDelMomento"].split(", ");
+                    // console.log($scope.autoarchivoMomento);
+                    // console.log($scope.autoarchivoMomentoA.length);
 
-                for (i = 0; i < $scope.autoarchivoMomentoA.length; i++) {
-                    valor2 = $scope.autoarchivoMomentoA[i];
-                    console.log(valor2);
-                    if (valor2 === "Al envío") {
-                    $scope.checkMomentoAutoArchivo1 = true;
+                    for (i = 0; i < $scope.autoarchivoMomentoA.length; i++) {
+                        valor2 = $scope.autoarchivoMomentoA[i];
+                        console.log(valor2);
+                        if (valor2 === "Al envío") {
+                            $scope.checkMomentoAutoArchivo1 = true;
+                        }
+                        if (valor2 === "A la aceptación del trabajo") {
+                            $scope.checkMomentoAutoArchivo2 = true;
+                        }
+                        if (valor2 === "En el momento de la publicación") {
+                            $scope.checkMomentoAutoArchivo3 = true;
+                        }
+                        if (valor2 === "Después de un periodo de embargo") {
+                            $scope.checkMomentoAutoArchivo4 = true;
+                        }
                     }
-                    if (valor2 === "A la aceptación del trabajo") {
-                    $scope.checkMomentoAutoArchivo2 = true;
-                    }
-                    if (valor2 === "En el momento de la publicación") {
-                    $scope.checkMomentoAutoArchivo3 = true;
-                    }
-                    if (valor2 === "Después de un periodo de embargo") {
-                    $scope.checkMomentoAutoArchivo4 = true;
-                    }
-                }
                 }
                 $scope.ocultarAutoArchivo();
                 // if ($scope.datosRevistas['versionDelAutoArchivo'] === 'Pre-print (versión sin evaluar), Post-print (versión editorial)') {//['versionAutoarchivo']
@@ -227,17 +249,17 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
                 //     $scope.opcionesAutoArchivo2();
                 // }
                 $scope.obtenerCargo();
-            }else{
-                Swal.fire({
+            } else {
+                swal({
                     title: "Estimado usuario:",
                     text: "El token no está disponible o ya ha sido utilizado. Por favor, verifique la información proporcionada o comuníquese con nosotros a través del correo electrónico: test@gmail.com.",
                     icon: "error",
                     confirmButtonText: "Aceptar"
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      window.location.href = "index.html";
-                    }
-                });                  
+                }).then((result) => {
+                    console.log('redirecciono')
+                    window.location.href = "index.html";
+
+                });
             }
         });
 
@@ -247,7 +269,7 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
         console.log('borro datos');
         $scope.searchText = '';
         $scope.cveInstitucion = '';
-        console.log($scope.pais+' <- pais');
+        console.log($scope.pais + ' <- pais');
     }
 
     $scope.autoArchivoOtroF = function () {
@@ -311,8 +333,8 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
     //carga Paises desde la DB
     $scope.obtenerPaises = function () {
         $http({
-            method:'GET',
-            url:servidor+'/service/csgAura/getPaises'//'../getPais.php'
+            method: 'GET',
+            url: servidor + '/service/csgAura/getPaises'//'../getPais.php'
         }).then(function (response) {
             $scope.paises = response.data;
         }, function errorCallback(response) {
@@ -324,7 +346,7 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
     $scope.obtenerCategoria = function () {
         $http({
             method: 'GET',
-            url: servidor+'/service/csgAura/getCatRevista'//'../getCategoria.php'
+            url: servidor + '/service/csgAura/getCatRevista'//'../getCategoria.php'
         }).then(function (response) {
             $scope.categorias = response.data;
         });
@@ -332,9 +354,9 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
     //obtener cargos
     $scope.obtenerCargo = function () {
         $scope.cargos = 'Administración,Apoyo académico,Apoyo editorial,Apoyo secretarial,Apoyo técnico,Asesor,Asesor técnico,Asistente de producción,Asistente editorial,Codirector,Coeditor,Coeditor Internacional,Comisión consultiva,Comité académico,Comité asesor,Comité científico,Comité Científico y Editorial,Comité de redacción,Comité editorial,Comité ejecutivo,Comité ético,Comité técnico,Consejo asesor,Consejo científico,Consejo Científico Internacional,Consejo Científico Nacional,Consejo de redacciónConsejo directivo,Consejo editorial,Consejo editorial consultivo,Consejo Editorial Internacional,Consejo Editorial Nacional,Consejo honorario,Consejo técnico,Consultor,Coordinación de comité editorial,Coordinador,Coordinador editorial,Corrección de abstracts,Corrección filológica,Corrector de estilo,Corrector de prueba,Corrector editorial,Cuerpo Editorial Científico,Cuidado de la edición impresa,Diagramación,Director,Director adjunto,Director asociado,Director científico,Director colegiado,Director editorial,Director ejecutivo,Director emérito,Director fundador,Director honorario,Diseñador,Diseñador web,Diseño y desarrollo de página web,Diseño y producción,Distribución,Docente Pre-Grado - Ex-Decano,Edición,Edición electrónica,Editor,Editor académico,Editor adjunto,Editor asociado,Editor científico,Editor de distribución,Editor de formato,Editor de la versión electrónica,Editor de redacción,Editor de sección,Editor delegado,Editor ejecutivo,Editor emérito,Editor en jefe,Editor general,Editor honorario,Editor técnico,Editor temático,Equipo editorial,Evaluador,Formación,Fotografía,Fundador,Gerente editorial,Gestión editorial,Maquetación,Mesa de redacción,Montaje,No se conoce,Presidente,Presidente de comité editorial,Presidente de consejo asesor,Presidente de consejo de redacción,Presidente del Consejo editorial,Presidente honorario,Producción editorial,Redacción,Representante legal,Responsable editorial,Secretario,Secretario de redacción,Secretario técnico,Soporte informático,Subdirector,Subeditor,Traductor,Vicepresidente,Vicesecretario,Vocal,Webmaster'.split(',');
-        for(i=0;i<$scope.cargos.length;i++){
-            if(!$scope.cargos.includes( $scope.cargoResponsable )){
-                console.log('agrego el cargo->'+$scope.cargoResponsable);
+        for (i = 0; i < $scope.cargos.length; i++) {
+            if (!$scope.cargos.includes($scope.cargoResponsable)) {
+                console.log('agrego el cargo->' + $scope.cargoResponsable);
                 $scope.cargos.push($scope.cargoResponsable);
             }
         }
@@ -342,13 +364,13 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
 
     //instituciones
     $scope.fetchUsers = function () {
-        if(!isUndefinedOrNull($scope.searchText)){
+        if (!isUndefinedOrNull($scope.searchText)) {
             var searchText_len = $scope.searchText.trim().length;
             // Check search text length
             if (searchText_len > 3) {
                 $http({
                     method: 'get',
-                    url: servidor+'/service/csgAura/getInstitucion/'+$scope.pais+'/'+$scope.searchText//'../getInstitucion.php'
+                    url: servidor + '/service/csgAura/getInstitucion/' + $scope.pais + '/' + $scope.searchText//'../getInstitucion.php'
                     //data: { searchText: $scope.searchText, 'pais_id': $scope.cvePais }
                 }).then(function successCallback(response) {
                     $scope.searchResult = response.data;
@@ -383,17 +405,19 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
     $scope.obtenerIndizaciones = function () {
         $http({
             method: 'post',
-            url: servidor+'/service/csgAura/getRevistaIndezadaEn/'+$scope.cveRevista
+            url: servidor + '/service/csgAura/getRevistaIndezadaEn/' + $scope.cveRevista
             //data: { cveRevista: $scope.cveRevista }
         }).then(function successCallback(response) {
             //response.data[[cveentinx][nomentinx][cverevind]] -> traer el Objeto en Json
             var listOfIndizacion = [];
-            for(let i=0; i<response.data.length; i++){
-                var arraynew = { cverevind: response.data[i][2], 
-                                cveRevista: $scope.cveRevista, 
-                                cveIndizacion: $scope.addCve, 
-                                cveentinx: response.data[i][0], 
-                                nomentinx: response.data[i][1] };
+            for (let i = 0; i < response.data.length; i++) {
+                var arraynew = {
+                    cverevind: response.data[i][2],
+                    cveRevista: $scope.cveRevista,
+                    cveIndizacion: $scope.addCve,
+                    cveentinx: response.data[i][0],
+                    nomentinx: response.data[i][1]
+                };
                 listOfIndizacion.push(arraynew);
             }
             //almacena las indizaciones normalizadas (existentes) para poder borrar "delete(JsonIndizacion)"
@@ -403,9 +427,9 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
         });
     }
 
-    $scope.getIndizacionesRevista = function(){
-        if(isUndefinedOrNull($scope.indizacionesExtendido))
-            $scope.indizacionesExtendido="";
+    $scope.getIndizacionesRevista = function () {
+        if (isUndefinedOrNull($scope.indizacionesExtendido))
+            $scope.indizacionesExtendido = "";
     }
 
     $scope.removeItemDB = function (x, callback) {
@@ -429,11 +453,11 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
     $scope.elimiarIndizaciones = function (rIndizacion) {//cverevind
         $http({
             method: 'post',
-            url: servidor+'/service/csgAura/deleteRevista',// 'deleteRevistaIndizacion.php'
+            url: servidor + '/service/csgAura/deleteRevista',// 'deleteRevistaIndizacion.php'
             data: rIndizacion//cveRevista: cverevind
         }).then(function successCallback(response) {
             console.log(response.data);
-        //en caso de error al eliminar, refresca las indizaciones
+            //en caso de error al eliminar, refresca las indizaciones
         }, function errorCallback(response) {
             console.log(response.status)
             alert('Error al eliminar indización');
@@ -447,8 +471,8 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
 
     //object x, cveIndizacion, index(ListItemIndizacion n)
     $scope.removeUser = function (x, cveIndizacion, index) {
-        var revistaIndizacion={
-            "claveIndizacionRevistaId" : x.cverevind,
+        var revistaIndizacion = {
+            "claveIndizacionRevistaId": x.cverevind,
             "claveRevista": $scope.cveRevista,
             "claveIndizacion": x.cveentinx
         };
@@ -472,13 +496,13 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
     //claves de cada indizacion
     $scope.productsCve2;
     $scope.addItem = function ($event) {
-        if(!isValidData($scope.addText)){
-            console.log('aqui we->'+$scope.addText)
-            if(isUndefinedOrNull($scope.datosIndizaciones))
-                $scope.datosIndizaciones=[];
+        if (!isValidData($scope.addText)) {
+            console.log('aqui we->' + $scope.addText)
+            if (isUndefinedOrNull($scope.datosIndizaciones))
+                $scope.datosIndizaciones = [];
             var arraynew = { cverevind: "", cveRevista: $scope.cveRevista, cveIndizacion: $scope.addCve, cveentinx: $scope.addCve, nomentinx: $scope.addText };
             $scope.datosIndizaciones.push(arraynew);
-            console.log('add-> '+arraynew);
+            console.log('add-> ' + arraynew);
             console.log($scope.datosIndizaciones);
             $scope.productsCve.push($scope.addCve);
             $scope.productsCve2 = $scope.productsCve.toString();
@@ -500,21 +524,21 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
     }
 
     //refrescar la lista de indizacion "Nueva"
-    $scope.clearIndizacion = function(){
+    $scope.clearIndizacion = function () {
         $scope.productsCve2 = [];
         $scope.productsCve = [];
-        $scope.datosIndizaciones=[];
+        $scope.datosIndizaciones = [];
     }
     //busca indizaciones de una "barra de busqueda"
     $scope.buscarIndizaciones = function () {
         console.log("holas");
-        if(!isUndefinedOrNull($scope.searchText1)){
+        if (!isUndefinedOrNull($scope.searchText1)) {
             var searchText_len = $scope.searchText1.trim().length;
             // Check search text length
             if (searchText_len > 3) {
                 $http({
                     method: 'post',
-                    url: servidor+'/service/csgAura/getIndizacion/'+$scope.searchText1//'../getIndizaciones.php'
+                    url: servidor + '/service/csgAura/getIndizacion/' + $scope.searchText1//'../getIndizaciones.php'
                     //data: { searchText: $scope.searchText1, 'country_id': $scope.country }
                 }).then(function successCallback(response) {
                     $scope.searchResult1 = response.data;
@@ -544,38 +568,49 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
     }
 
     //*************  actualizar Revista ******************
-    $scope.actualizarDatos = function(){
+    $scope.actualizarDatos = function () {
         //validaciion del form y elegir una institucion 
-        if(document.getElementById("formAuraUpdate").value){
-            if(confirm("¿Esta seguro?, Los datos serán actualizados")){
-                //construcción del json (Revista)
-                console.log("entre aquí 11111")
-                if($scope.otrainstitucionMostrar){
-                    $scope.searchText='';
-                    $scope.cveInstitucion='';
+        if (document.getElementById("formAuraUpdate").value) {
+
+            swal({
+                title: "Estimado usuario:",
+                text: "Por favor, revise cuidadosamente su información, ya que esta URL tiene un único uso y no podrá ser reutilizada.",
+                icon: "info",
+                buttons: [
+                  'Cancelar',
+                  'Aceptar'
+                ],
+                dangerMode: true,
+              }).then(function(isConfirm) {
+                if (isConfirm) {
+
+                    console.log("entre aquí 11111")
+                if ($scope.otrainstitucionMostrar) {
+                    $scope.searchText = '';
+                    $scope.cveInstitucion = '';
                     $scope.otroNombreInstitucion = document.getElementById('otroNombreInstitucion').value;
-                }else{
-                    $scope.otroNombreInstitucion="";
+                } else {
+                    $scope.otroNombreInstitucion = "";
                 }
 
-                if($scope.mostrarLicenciaPublicacionOtro){
+                if ($scope.mostrarLicenciaPublicacionOtro) {
                     $scope.licenciaPublicacion = document.getElementById('licenciaPublicacionOtro').value;
                 }
-                var estatusValidacion='0';
-                if($scope.validarRevista)
+                var estatusValidacion = '0';
+                if ($scope.validarRevista)
                     estatusValidacion = '1';
 
-                if(isUndefinedOrNull($scope.productsCve2))
-                    $scope.productsCve2='';
+                if (isUndefinedOrNull($scope.productsCve2))
+                    $scope.productsCve2 = '';
 
-                if(isUndefinedOrNull($scope.indizacionesExtendido))
-                    $scope.indizacionesExtendido='';
+                if (isUndefinedOrNull($scope.indizacionesExtendido))
+                    $scope.indizacionesExtendido = '';
                 console.log("entre aquí")
                 var jsonDataRevista = {
                     "claveRevista": $scope.cveRevista,
-                    "nombreRevista" : $scope.nombreRevista,
-                    "urlRevista" : $scope.urlRevista,
-                    "clavePais" : $scope.pais,
+                    "nombreRevista": $scope.nombreRevista,
+                    "urlRevista": $scope.urlRevista,
+                    "clavePais": $scope.pais,
                     //"nombreInstitucion" : $scope.searchText,
                     "claveIntitucion": $scope.cveInstitucion,
                     "tipoDeEditorial": $scope.tipoEditorial,
@@ -609,67 +644,80 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
                     "nombreOtraInstitucion": $scope.otroNombreInstitucion,//nombreOtraInstitucion,
                     "claveAmeli": $scope.cveAmeli,
                     "claveRedalyc": $scope.cveRedalyc,
-                    "fechaUltimaActualizacion":"",//set in service
+                    "fechaUltimaActualizacion": "",//set in service
                     //cambiar esto
                     //"nombreInstitucion":"indizacion" no normalizada
-                    "nombreInstitucion" : $scope.indizacionesExtendido,
+                    "nombreInstitucion": $scope.indizacionesExtendido,
                     "token": token,
                     "bndpertok": false
                 };
-                console.log("json -->",jsonDataRevista);
+                console.log("json -->", jsonDataRevista);
                 $http.post(
-                    servidor+'/service/csgAura/updateRevista',//datosPagina
+                    servidor + '/service/csgAura/updateRevista',//datosPagina
                     jsonDataRevista
                 ).then(function successCallback(response) {
+
                     swal({
-                        title: "Estimado usuario:",
-                        text: "Por favor, revise cuidadosamente su información, ya que esta URL tiene un único uso y no podrá ser reutilizada.",
-                        icon: "info",
-                        showCancelButton: true,
-                        confirmButtonText: "Guardar",
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            swal({
-                                position: "center",
-                                icon: "success",
-                                title: "Modificación Realizada",
-                                showConfirmButton: false,
-                                timer: 3000
-                            }).then(() => {
-                                window.location.href = "index.html"; 
-                            });
-                        } else {
-                            window.location.reload();
-                        }
+                        position: "center",
+                        icon: "success",
+                        title: "Modificación Realizada",
+                        showConfirmButton: false,
+                        timer: 3000
+                    }).then(() => {
+                        window.location.href = "index.html";
                     });
-                    
+
                     //alert('Modificación Realizada');
                     $('#formAuraUpdate').val(false);
                     //$window.location.href = '../validacion/';
                 }, function errorCallback(response) {
                     console.log(response.status)
-                    if(response.status == 500){
-                        Swal.fire({
+                    if (response.status == 500) {
+                        swal({
                             title: "Error en el servidor",
                             icon: "error",
                             confirmButtonText: false,
-                            timer:3000
-                        });   
+                            timer: 3000
+                        });
                         //alert('Error en el servidor');
-                    }else{
+                    } else {
                         swal({
                             position: "center",
                             icon: "error",
                             title: "Error, Intente de nuevo",
                             confirmButtonText: "OK",
                         }).then(() => {
-                            if (result.isConfirmed) {window.location.reload();}
+                            if (result.isConfirmed) { window.location.reload(); }
                         });
                     }
-                        //alert('Error, Intente de nuevo');
+                    //alert('Error, Intente de nuevo');
                     // $window.location.href = '../validacion/';
                 });
-            }
+
+
+                //   swal({
+                //     title: 'Shortlisted!',
+                //     text: 'Candidates are successfully shortlisted!',
+                //     icon: 'success'
+                //   }).then(function() {
+                //     form.submit();
+                //   });
+                } else {
+                  //swal("Cancelled", "Your imaginary file is safe :)", "error");
+                }
+              });
+
+
+
+
+
+
+
+
+            // if (confirm("¿Esta seguro?, Los datos serán actualizados")) {
+            //     //construcción del json (Revista)
+                
+            // }
         }
     }
 
@@ -695,10 +743,10 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
         //auto-archivo="No"; deshabilitar items
         if ($scope.autoArchivo1 === 'Sí' || $scope.autoArchivo1 === 'Sí en artículos OA de pago por publicación') {
             $scope.obligatoria = true;
-        } else if($scope.autoArchivo1 === 'No' || $scope.autoArchivo1 === 'No se menciona'){
+        } else if ($scope.autoArchivo1 === 'No' || $scope.autoArchivo1 === 'No se menciona') {
             $scope.obligatoria = false;
         }
-        if($scope.autoArchivo1 == "No"){
+        if ($scope.autoArchivo1 == "No") {
             console.log('opcion-> No');
             $scope.mostrarAutoarchivo = true;
             $scope.opcionesAa1 = true;
@@ -711,7 +759,7 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
             $scope.autoArchivo.name = "0";
             //$('#versionDelAutoArchivo').val("");
             $scope.limpiarItems();
-        }else{
+        } else {
             //habilitar items con estas etiquetas (auto-archivo != No)
             $scope.mostrarAutoarchivo = false;
             $scope.opcionesAa1 = false;
@@ -724,9 +772,10 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
         $scope.decisionColor();
     }
 
-    $scope.opcionesAutoArchivo1 = function(element, value){
+    $scope.opcionesAutoArchivo1 = function (element, value) {
         // console.log(element, value);
         // console.log($scope.auto1);
+        $scope.reqAutoArchivo = false;
         if (element.auto1 === true) {
             $scope.mostrarAuto2 = true;
             elements.push('Pre-print (versión sin evaluar)')
@@ -735,10 +784,12 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
             $scope.mostrarAuto2 = false;
             elements[0] === 'Pre-print (versión sin evaluar)' ? elements.shift() : elements.pop();
         }
-        $scope.decisionColor();      
+        $scope.decisionColor();
     }
 
-    $scope.opcionesAutoArchivo2 = function(element){
+    $scope.opcionesAutoArchivo2 = function (element) {
+        $scope.reqAutoArchivo = false;
+
         if (element.auto2 === true) {
             $scope.mostrarAuto1 = true;
             elements.push('Pre-print (versión editorial)')
@@ -750,7 +801,9 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
         $scope.decisionColor();
     }
 
-    $scope.opcionesAutoArchivo3 = function(element){
+    $scope.opcionesAutoArchivo3 = function (element) {
+        $scope.reqAutoArchivo = false;
+
         if (element.auto3 === true) {
             $scope.mostrarAuto4 = true;
             elements.push('Post-print (versión sin evaluar)')
@@ -761,7 +814,9 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
         }
         $scope.decisionColor();
     }
-    $scope.opcionesAutoArchivo4 = function(element){
+    $scope.opcionesAutoArchivo4 = function (element) {
+        $scope.reqAutoArchivo = false;
+
         if (element.auto4 === true) {
             $scope.mostrarAuto3 = true;
             elements.push('Post-print (versión editorial)')
@@ -773,8 +828,8 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
         $scope.decisionColor();
     }
 
-    $scope.decisionColor = function(){
-        const selectElement = document.getElementById('colorRomeo');       
+    $scope.decisionColor = function () {
+        const selectElement = document.getElementById('colorRomeo');
         if (elements.length === 2) {
             selectElement.value = 'Verde';
             selectElement.style.color = "#155724";
@@ -785,26 +840,26 @@ app.controller("auraController", function ($scope, $http, $window, $location) {
                 if (b.includes("Pre") && !a.includes("Pre")) return 1;  // "Post" después de "Pre"
             });
             cadena = elements.join(", ");
-        }else if ((elements.length === 1) && (elements[0].includes("Pos"))) {
+        } else if ((elements.length === 1) && (elements[0].includes("Pos"))) {
             selectElement.value = 'Azul';
             selectElement.style.color = "#004085";
             selectElement.style.background = "#cce5ff";
             selectElement.style.borderColor = "#b8daff";
-        }else if ((elements.length === 1) && (elements[0].includes("Pre"))) {
+        } else if ((elements.length === 1) && (elements[0].includes("Pre"))) {
             selectElement.value = 'Amarillo';
             selectElement.style.color = "#856404";
             selectElement.style.background = "#fff3cd";
             selectElement.style.borderColor = "#ffeeba";
-        }else if ((elements.length === 0 || $scope.autoArchivo1 === 'No' || $scope.autoArchivo1 === 'No se menciona') && $scope.autoArchivo1 != undefined) {
+        } else if ((elements.length === 0 || $scope.autoArchivo1 === 'No' || $scope.autoArchivo1 === 'No se menciona') && $scope.autoArchivo1 != undefined) {
             selectElement.value = 'Blanco';
             selectElement.style.color = "#818182";
             selectElement.style.background = "#fefefe";
             selectElement.style.borderColor = "#fdfdfe";
         }
-       
+
     }
 
-    $scope.limpiarItems = function(){
+    $scope.limpiarItems = function () {
         $scope.autoArchivoOp1 = "0";
         $scope.autoArchivoOp2 = "0";
         $scope.autoArchivoOp3 = "0";
@@ -888,13 +943,13 @@ $(document).ready(function () {
             }
             $.ajax({
                 type: "POST",
-                url: server +'/service/csgAura/getIssn2/'+id+'/'+issn+'/'+cveRevista,//''../getIssn2.php''
+                url: server + '/service/csgAura/getIssn2/' + id + '/' + issn + '/' + cveRevista,//''../getIssn2.php''
                 //data: { issn: issn, tabla: id, cveRevista: cveRevista },
                 success: function (response) {
                     response = JSON.parse(response);
                     console.log(response);
                     //validación, sí no exciste, regresa un campo vacio
-                     //if (response === false) {
+                    //if (response === false) {
                     if (response == "") {
                         console.log('isss no existe');
                     } else {
@@ -1001,11 +1056,11 @@ $(document).ready(function () {
             return this.value;
         }).get();
         var str = "";
-        (arr.length === 2 && cadena !='') ? str = cadena : str = arr.join(', ');
+        (arr.length === 2 && cadena != '') ? str = cadena : str = arr.join(', ');
         $('#arr').text(JSON.stringify(arr));
         $('#str2').text(str);
         $('#versionDelAutoArchivo').val(str);
-    //    console.log("--->>>",$('#versionDelAutoArchivo').val());
+        //    console.log("--->>>",$('#versionDelAutoArchivo').val());
     });
 
     selectDatos();
@@ -1166,16 +1221,16 @@ function validarIssn2(issn, id) {
                 $('#' + id).addClass('is-invalid');
             }
         }
-        
+
     }
 }
 
-function isUndefinedOrNull(val){
-    return angular.isUndefined(val) || val === null 
+function isUndefinedOrNull(val) {
+    return angular.isUndefined(val) || val === null
 }
 
-function isValidData(val){
-    return angular.isUndefined(val) || val === null || val.length==0
+function isValidData(val) {
+    return angular.isUndefined(val) || val === null || val.length == 0
 }
 /*
 <?php include_once('../conexionPg.php'); ?>
