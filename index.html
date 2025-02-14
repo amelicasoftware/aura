@@ -120,10 +120,10 @@
 	<div id="main-aura">
 		<div class="content2">
 			<div class="header-ligas" ng-if="idioma === 'es'">
-				<a href="index.html"><!--"https://aura.amelica.org/"-->
+				<a id="index" ng-href="{{nuevaIndexURL}}"><!--"https://aura.amelica.org/"-->
 					<span id="menu-listado" class="header-option-now lang">Listado de revistas</span>
 				</a>
-				<a href="aura-estadisticas.html">
+				<a id="estadisticas" ng-href="{{nuevaURL}}">
 					<span id="menu-estadisticas" class="lang">Estadísticas</span>
 				</a>
 				<a href="https://aura.amelica.org/acerca-de-aura.html">
@@ -134,10 +134,10 @@
 				</a>
 			</div>
 			<div class="header-ligas" ng-if="idioma === 'en'">
-				<a href="index.html">
+				<a id="index" ng-href="{{nuevaIndexURL}}">
 					<span id="menu-listado" class="header-option-now lang">Journals</span>
 				</a>
-				<a id="estadisticas" href="aura-estadisticas.html">
+				<a id="estadisticas" ng-href="{{nuevaURL}}">
 					<span id="menu-estadisticas" class="lang">Statistics</span>
 				</a>
 				<a href="https://aura.amelica.org/acerca-de-aura.html">

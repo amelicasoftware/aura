@@ -4,6 +4,14 @@ app.controller("auraController", function ($scope, $http, $location) {
     const servidor = server;
 
     //obtener idioma desde URL
+    $scope.comunidadParticular = [];
+	$scope.clavesComunidad = "";
+    $scope.nuevaIndexURL = ""; 
+    $scope.nuevaURL = "";
+    $scope.comunidadURL = getParametroURL("comunidad");
+    localStorage.setItem("nomComunidad", $scope.comunidadURL);
+    //console.log("comunidad", $scope.comunidadURL);
+
     $scope.idiomaURL = getParametroURL('lang');
     // ********** idioma **********************
     if ($scope.idiomaURL !== '') {
@@ -30,17 +38,48 @@ app.controller("auraController", function ($scope, $http, $location) {
         $('#formularioEN').css('display', 'none');
         //console.log("entro al if Formulario");
     }
-
+    if($scope.comunidadURL != 0){
+        $scope.nuevaIndexURL = 'index.html?comunidad='  + $scope.comunidadURL;
+        $scope.nuevaURL = 'aura-estadisticas.html?comunidad=' + $scope.comunidadURL;
+        $http({
+            method : "GET",
+            url : servidor+'/service/csg/getComunidades'
+        }).then(function(response) {
+            var datosComunidad = response.data;
+            var comunidad = localStorage.getItem('nomComunidad');
+			$scope.comunidadParticular = datosComunidad[comunidad].map(pais => pais.clavePais);
+			$scope.clavesComunidad = $scope.comunidadParticular.join(", ");
+			localStorage.setItem("clavesComunidad", $scope.clavesComunidad);
+                
+        });
+    }else{
+        $scope.nuevaIndexURL = 'index.html';
+    }
     // ********** consulta de datos ****************
     $scope.datos = "";
     $scope.obtenerDatos = function (busqueda) {
-        $http.get(server + '/service/csgAura/contarDatos/' + busqueda)
+        if($scope.comunidadURL != 0){
+            var claves = localStorage.getItem('clavesComunidad');
+			if(claves != '' || claves != null){
+                $http({
+                    method: 'Post',
+                    url: server + '/service/csgAura/contarDatosComunidad/',
+                    data: {busqueda: busqueda, comunidad: claves}
+                }).then(function (response) {
+                    $scope.datos = response.data;
+                }, function (response) {
+                    console.log('Error');
+                });
+            }
+        }else{
+            $http.get(server + '/service/csgAura/contarDatos/' + busqueda)
             .then(function (response) {
                 $scope.datos = response.data;
-                //console.log($scope.datos);
             }, function (response) {
                 console.log('Error');
             });
+        }
+        
     };
 
     $scope.busqueda = {
@@ -90,32 +129,68 @@ function getParametroURL(parametro) {
 
 var total = 0;
 var idiomaG = localStorage.getItem('idioma');
+var colorRomeoG = "colorRomeo";
 
 new Promise(function (resolve, reject) {
-    $.ajax({
-        url: server + '/service/csgAura/contarDatos/colorRomeo',
-        type: "get",
-        dataType: "json",
-        success: (function (data) {
-            var suma = 0;
-            for (var i = 0; i < data.length; i++) {
-                suma = suma + data[i][1];
-            }
-            data.sort();
-            var encabezado = ['Color', 'Total'];
-            data.unshift(encabezado);
-            colorRomeo = data;
-            //console.log(colorRomeo);
-            total = suma;
-            $('.numero-registros').text(total);
+    var comunidadURL = getParametroURL("comunidad");
+    if(comunidadURL != 0){
+        var claves = localStorage.getItem('clavesComunidad');
+        if(claves != '' || claves != null){
+            $.ajax({
+                url: server + '/service/csgAura/contarDatosComunidad/',
+                type: "Post",
+                data: JSON.stringify({busqueda: colorRomeoG, comunidad: claves}),
+                contentType: "application/json",
+                dataType: "json",
+                success: (function (data) {
+                    //console.log("datos colorRomeo", data);
+                    var suma = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        suma = suma + data[i][1];  
+                    }
+                    data.sort();
+                    var encabezado = ['Color', 'Total'];
+                    data.unshift(encabezado);
+                    colorRomeo = data;
+                    //console.log("color romeo",colorRomeo);
+                    total = suma;
+                    //console.log("total", total);
+                    $('.numero-registros').text(total);
+    
+                })
+            }).then(function () { //Notese que no necesito declarar la variable
+                google.charts.setOnLoadCallback(graficaColor);
+            })
+                .catch(function (error) {//Capturo los errores posibles en la primer promesa o en la segunda (then)
+                    console.log(error);
+            });
+        }
+    }else{
+        $.ajax({
+            url: server + '/service/csgAura/contarDatos/colorRomeo',
+            type: "get",
+            dataType: "json",
+            success: (function (data) {
+                var suma = 0;
+                for (var i = 0; i < data.length; i++) {
+                    suma = suma + data[i][1];
+                }
+                data.sort();
+                var encabezado = ['Color', 'Total'];
+                data.unshift(encabezado);
+                colorRomeo = data;
+                //console.log("color romeo",colorRomeo);
+                total = suma;
+                $('.numero-registros').text(total);
 
+            })
+        }).then(function () { //Notese que no necesito declarar la variable
+            google.charts.setOnLoadCallback(graficaColor);
         })
-    }).then(function () { //Notese que no necesito declarar la variable
-        google.charts.setOnLoadCallback(graficaColor);
-    })
-        .catch(function (error) {//Capturo los errores posibles en la primer promesa o en la segunda (then)
-            console.log(error);
+            .catch(function (error) {//Capturo los errores posibles en la primer promesa o en la segunda (then)
+                console.log(error);
         });
+    }
 });
 
 google.charts.load("current", { packages: ["corechart", "table"] });
@@ -184,29 +259,91 @@ function graficaColor() {
     chart.draw(view, options);
 }
 
+var totalAcceso = 0;
+var accesoG1 = "acceso";
 new Promise(function (resolve, reject) {
-    $.ajax({
-        url: server + '/service/csgAura/contarDatos/acceso',
-        type: "get",
-        dataType: "json",
-        success: (function (data) {
-            var dato1 = ['Acceso', 'Total'];
-            //data.shift();
-            datoDesconodico = data[0][1];
-            //console.log(datoDesconodico);
-            data.splice(0, 1, ['Desconocido', datoDesconodico]);
-            data.unshift(dato1);
-            //console.log('acceso');
-            //console.log(data);
-            acceso = data;
-        })
-    }).then(function () { //Notese que no necesito declarar la variable
-        google.charts.setOnLoadCallback(graficaAcceso);
+    var comunidadURL = getParametroURL("comunidad");
+    var claves = localStorage.getItem('clavesComunidad');
+    if(comunidadURL != 0){
+        if(claves != '' || claves != null){
+            $.ajax({
+                url: server + '/service/csgAura/contarDatosComunidad/',
+                type: "Post",
+                data: JSON.stringify({busqueda: accesoG1, comunidad: claves}),
+                contentType: "application/json",
+                dataType: "json",
+                success: (function (data) {
+                    //console.log("Datos de acceso", data);
+                    var suma = 0;
+                    var dato1 = ['Acceso', 'Total'];
+                    //data.shift();
+                    datoDesconodico = data[0][1];
+                    //console.log(datoDesconodico);
+                    data.splice(0, 1, ['Desconocido', datoDesconodico]);
+                    let datos = data.filter(item => 
+                        ["Desconocido", "Gratuito", "Hibrido"].some(tipo => item[0].includes(tipo))
+                    );
+                    for (var i = 0; i < datos.length; i++) {  
+                        let acceso = String(data[i][0]).trim(); 
+                        let cantidad = Number(data[i][1]) || 0;  
+                        if( acceso == "Desconocido" || acceso == "Gratuito" || acceso == "Hibrido"){
+                            suma += cantidad;
+                        }
+                    }
+                    data.unshift(dato1);
+                    //console.log('acceso');
+                    //console.log(data);
+                    acceso = data;
+                    totalAcceso = suma;
+                    $('.numero-registrosAcceso').text(totalAcceso);
+                })
+            }).then(function () { //Notese que no necesito declarar la variable
+                google.charts.setOnLoadCallback(graficaAcceso);
+    
+            })
+                .catch(function (error) {//Capturo los errores posibles en la primer promesa o en la segunda (then)
+                    console.log(error);
+            });
+        }
+    }else{
+        $.ajax({
+            url: server + '/service/csgAura/contarDatos/acceso',
+            type: "get",
+            dataType: "json",
+            success: (function (data) {
+                //console.log("datos", data);
+                var dato1 = ['Acceso', 'Total'];
+                //data.shift();
+                datoDesconodico = data[0][1];
+                //console.log(datoDesconodico);
+                data.splice(0, 1, ['Desconocido', datoDesconodico]);
+                var suma = 0;
+                let datos = data.filter(item => 
+                    ["Desconocido", "Gratuito", "Hibrido"].some(tipo => item[0].includes(tipo))
+                );
+                for (var i = 0; i < datos.length; i++) {  
+                    let acceso = String(data[i][0]).trim(); 
+                    let cantidad = Number(data[i][1]) || 0;  
+                    if( acceso == "Desconocido" || acceso == "Gratuito" || acceso == "Hibrido"){
+                        suma += cantidad;
+                    }
+                }
+                data.unshift(dato1);
+                //console.log('acceso');
+                //console.log(data);
+                acceso = data;
+                totalAcceso = suma;
+                $('.numero-registrosAcceso').text(totalAcceso);
+            })
+        }).then(function () { //Notese que no necesito declarar la variable
+            google.charts.setOnLoadCallback(graficaAcceso);
 
-    })
-        .catch(function (error) {//Capturo los errores posibles en la primer promesa o en la segunda (then)
-            console.log(error);
+        })
+            .catch(function (error) {//Capturo los errores posibles en la primer promesa o en la segunda (then)
+                console.log(error);
         });
+    }
+    
 });
 
 //google.charts.setOnLoadCallback(graficaAcceso);
@@ -276,25 +413,67 @@ function graficaAcceso() {
     chart.draw(view, options);
 }
 
+var totalDerechos = 0;
+var derechosExplotacionG = "derechosExplotacion";
 new Promise(function (resolve, reject) {
-    $.ajax({
-        url: server + '/service/csgAura/contarDatos/derechosExplotacion',
-        type: "get",
-        dataType: "json",
-        success: (function (data) {
-            var dato1 = ['Mención específica de derechos', 'Total'];
-            data.unshift(dato1);
-            //console.log('derechos');
-            //console.log(data);
-            derechosExplotacion = data;
-        })
-    }).then(function () { //Notese que no necesito declarar la variable
-        google.charts.setOnLoadCallback(graficaDerechos);
+    var comunidadURL = getParametroURL("comunidad");
+    if(comunidadURL != 0){
+        var claves = localStorage.getItem('clavesComunidad');
+        if(claves != '' || claves != null){
+            $.ajax({
+                url: server + '/service/csgAura/contarDatosComunidad/',
+                type: "Post",
+                data: JSON.stringify({busqueda: derechosExplotacionG, comunidad: claves}),
+                contentType: "application/json",
+                dataType: "json",
+                success: (function (data) {
+                    //console.log("datos derechosExplotacion", data);
+                    var dato1 = ['Mención específica de derechos', 'Total'];
+                    var suma = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        suma += Number(data[i][1] || 0);
+                    }
+                    data.unshift(dato1);
+                    //console.log('derechos');
+                    //console.log(data);
+                    derechosExplotacion = data;
+                    totalDerechos = suma;
+                    $('.numero-registrosDerechos').text(totalDerechos);
+                })
+            }).then(function () { //Notese que no necesito declarar la variable
+                google.charts.setOnLoadCallback(graficaDerechos);
+    
+            })
+                .catch(function (error) {//Capturo los errores posibles en la primer promesa o en la segunda (then)
+                    console.log(error);
+            });
+        }
+    }else{
+        $.ajax({
+            url: server + '/service/csgAura/contarDatos/derechosExplotacion',
+            type: "get",
+            dataType: "json",
+            success: (function (data) {
+                var dato1 = ['Mención específica de derechos', 'Total'];
+                var suma = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        suma += Number(data[i][1] || 0);
+                    }
+                data.unshift(dato1);
+                //console.log('derechos');
+                //console.log(data);
+                derechosExplotacion = data;
+                totalDerechos = suma;
+                $('.numero-registrosDerechos').text(totalDerechos);
+            })
+        }).then(function () { //Notese que no necesito declarar la variable
+            google.charts.setOnLoadCallback(graficaDerechos);
 
-    })
-        .catch(function (error) {//Capturo los errores posibles en la primer promesa o en la segunda (then)
-            console.log(error);
+        })
+            .catch(function (error) {//Capturo los errores posibles en la primer promesa o en la segunda (then)
+                console.log(error);
         });
+    }
 });
 
 //google.charts.setOnLoadCallback(graficaDerechos);
@@ -352,30 +531,87 @@ function graficaDerechos() {
     chart.draw(view, options);
 }
 
-
-
+var totalAutoArchivo = 0;
 new Promise(function (resolve, reject) {
-    $.ajax({
-        url: server + '/service/csgAura/contarDatos/autoArchivo',
-        type: "get",
-        dataType: "json",
-        success: (function (data) {
-            //console.log("datos...2");
-            //console.log(data);
-            var dato1 = ['¿Permite el auto-archivo?', 'Total'];
-            data.unshift(dato1);
-            //console.log('acceso');
-            //console.log(data);
-            autoArchivo = data; 
-                //console.log("Auto Archivos", autoArchivo);
-        })
-    }).then(function () { //Notese que no necesito declarar la variable
-        google.charts.setOnLoadCallback(graficaAutoArchivo);
+    var autoArchivoG = "autoArchivo";
+    var comunidadURL = getParametroURL("comunidad");
+    if(comunidadURL != 0){
+        var claves = localStorage.getItem('clavesComunidad');
+        if(claves != '' || claves != null){
+            $.ajax({
+                url: server + '/service/csgAura/contarDatosComunidad/',
+                type: "Post",
+                data: JSON.stringify({busqueda: autoArchivoG, comunidad: claves}),
+                contentType: "application/json",
+                dataType: "json",
+                success: (function (data) {
+                    //console.log("datos autoArchivo", data);
+                    //console.log("datos...2");
+                    //console.log(data);
+                    data.sort();
+                    var dato1 = ['¿Permite el auto-archivo?', 'Total'];
+                    var suma = 0;
+                    let datos = data.filter(item => 
+                        ["Sí en artículos OA de pago por publicación", "Sí", "No se menciona"].some(tipo => item[0].includes(tipo))
+                    );
+                    console.log("datosss", datos);
+                    for (var i = 0; i < datos.length; i++) {  
+                        let cantidad = Number(datos[i][1]) || 0;  
+                        suma += cantidad;
 
-    })
-        .catch(function (error) { //Capturo los errores posibles en la primer promesa o en la segunda (then)
-            console.log(error);
+                    }
+                    data.unshift(dato1);
+                    //console.log('acceso');
+                    //console.log(data);
+                    autoArchivo = data; 
+                    totalAutoArchivo = suma;
+                    $('.numero-registrosAutoArchivo').text(totalAutoArchivo);
+                        //console.log("Auto Archivos", autoArchivo);
+                })
+            }).then(function () { //Notese que no necesito declarar la variable
+                google.charts.setOnLoadCallback(graficaAutoArchivo);
+
+            })
+                .catch(function (error) { //Capturo los errores posibles en la primer promesa o en la segunda (then)
+                    console.log(error);
         });
+        }
+    }else{
+        $.ajax({
+                url: server + '/service/csgAura/contarDatos/autoArchivo',
+                type: "get",
+                dataType: "json",
+                success: (function (data) {
+                    //console.log("datos autoArchivo", data);
+                    //console.log("datos...2");
+                    //console.log(data);
+                    var dato1 = ['¿Permite el auto-archivo?', 'Total'];
+                    var suma = 0;
+                    let datos = data.filter(item => 
+                        ["Sí en artículos OA de pago por publicación", "Sí", "No se menciona"].some(tipo => item[0].includes(tipo))
+                    );
+                    for (var i = 0; i < datos.length; i++) {  
+                        let cantidad = Number(datos[i][1]) || 0;  
+                        suma += cantidad;
+
+                    }
+                    data.unshift(dato1);
+                    //console.log('acceso');
+                    //console.log(data);
+                    autoArchivo = data; 
+                    totalAutoArchivo = suma;
+                    $('.numero-registrosAutoArchivo').text(totalAutoArchivo);
+                        //console.log("Auto Archivos", autoArchivo);
+                })
+            }).then(function () { //Notese que no necesito declarar la variable
+                google.charts.setOnLoadCallback(graficaAutoArchivo);
+
+            })
+                .catch(function (error) { //Capturo los errores posibles en la primer promesa o en la segunda (then)
+                    console.log(error);
+        });
+    }
+    
 });
 
 //google.charts.setOnLoadCallback(graficaAutoArchivo);
@@ -397,7 +633,6 @@ function graficaAutoArchivo() {
     }
 
     let contador = 0;
-
     autoArchivo.forEach((element, index) => {
         if (index > 0) {
 
@@ -440,35 +675,87 @@ function graficaAutoArchivo() {
     chart.draw(view, options);
 }
 
-
+var totalVersionAutoA = 0
 new Promise(function (resolve, reject) {
-    $.ajax({
-        url: server + '/service/csgAura/contarDatos/versionAutoarchivo',
-        type: "get",
-        dataType: "json",
-        success: (function (data) {
-            //console.log(data);
-            var dato1 = ['Agrupados segun versión de auto-archivo', 'Total'];
-            data.sort();
-            //console.log(data[1][1]);
-            dato = data[1][1];
-            var datoNinguno = data[0][1];
-            data.splice(0, 1, ['Ninguno', datoNinguno]);
-            data[0][1] += dato;
-            //console.log(data[0]);
-            data.unshift(dato1);
-            data.splice(2, 1);
-            //console.log('versionAutoarchivo');
-            //console.log(data);
-            versionAutoarchivo = data;
-        })
-    }).then(function () { //Notese que no necesito declarar la variable
-        google.charts.setOnLoadCallback(graficaVersion);
+    var versionAutoarchivoG = "versionAutoarchivo";
+    var comunidadURL = getParametroURL("comunidad");
+    if(comunidadURL != 0){
+        
+        var claves = localStorage.getItem('clavesComunidad');
+        if(claves != '' || claves != null){
+            $.ajax({
+                url: server + '/service/csgAura/contarDatosComunidad/',
+                type: "Post",
+                data: JSON.stringify({busqueda: versionAutoarchivoG, comunidad: claves}),
+                contentType: "application/json",
+                dataType: "json",
+                success: (function (data) {
+                    //console.log("Datos de version -->",data);
+                    var dato1 = ['Agrupados segun versión de auto-archivo', 'Total'];
+                    data.sort();
+                //console.log(data[1][1]);
+                data = data.map(d => [d[0] === "" ? "Ninguno" : d[0], d[1]]);
+                var suma = 0;
+                for (var i = 0; i < data.length; i++) {  
+                    let acceso = String(data[i][0]).trim(); 
+                    let cantidad = Number(data[i][1]) || 0;  
+                    if( acceso == "Ninguno" || acceso == "Post-print (versión editorial)" || acceso == "Pre-print (versión sin evaluar), Post-print (versión editorial)"){
+                        suma += cantidad;
+                    }
+                }
+                data.unshift(dato1); 
+                versionAutoarchivo = data;
+                totalVersionAutoA = suma; 
+                $('.numero-registrostotalVersionAutoA').text(totalVersionAutoA);
+                })
+            }).then(function () { //Notese que no necesito declarar la variable
+                google.charts.setOnLoadCallback(graficaVersion);
+        
+            })
+                .catch(function (error) {//Capturo los errores posibles en la primer promesa o en la segunda (then)
+                    console.log(error);
+                }); 
+        }
+    }else{
 
-    })
-        .catch(function (error) {//Capturo los errores posibles en la primer promesa o en la segunda (then)
-            console.log(error);
+        $.ajax({
+            url: server + '/service/csgAura/contarDatos/versionAutoarchivo',
+            type: "get",
+            dataType: "json",
+            success: (function (data) {
+                //console.log(data);
+                var dato1 = ['Agrupados segun versión de auto-archivo', 'Total'];
+                data.sort();
+                //console.log(data[1][1]);
+                dato = data[1][1];
+                var datoNinguno = data[0][1];
+                data.splice(0, 1, ['Ninguno', datoNinguno]);
+                data[0][1] += dato;
+                var suma = 0;
+                for (var i = 0; i < data.length; i++) {  
+                    let acceso = String(data[i][0]).trim(); 
+                    let cantidad = Number(data[i][1]) || 0;  
+                    if( acceso == "Ninguno" || acceso == "Post-print (versión editorial)" || acceso == "Pre-print (versión sin evaluar), Post-print (versión editorial)"){
+                        suma += cantidad;
+                    }
+                }
+                //console.log(data[0]);
+                data.unshift(dato1);
+                data.splice(2, 1);
+                //console.log('versionAutoarchivo');
+                //console.log(data);
+                versionAutoarchivo = data;
+                totalVersionAutoA = suma;
+                $('.numero-registrostotalVersionAutoA').text(totalVersionAutoA);
+            })
+        }).then(function () { //Notese que no necesito declarar la variable
+            google.charts.setOnLoadCallback(graficaVersion);
+
+        })
+            .catch(function (error) {//Capturo los errores posibles en la primer promesa o en la segunda (then)
+                console.log(error);
         });
+    }
 });
 
 // google.charts.setOnLoadCallback(graficaVersion);
@@ -493,7 +780,7 @@ function graficaVersion() {
 
     versionAutoarchivo.forEach((element, index) => {
         if (index > 0) {
-
+                //console.log("Elementos --->", element);
             if (element[0] === 'Ninguno') {
                 dataTable5.addRow([idiomaG === 'es' ? element[0] : 'Not specified', element[1]]);
                 Colors5.push('#99993D');

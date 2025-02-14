@@ -38,10 +38,10 @@
 		<div id="main-aura">
 			<div class="content2">
 				<div class="header-ligas" ng-if="idioma === 'es'">
-					<a href="index.html"><!--"https://aura.amelica.org/"-->
+					<a id="index" ng-href="{{nuevaIndexURL}}"><!--"https://aura.amelica.org/"-->
 						<span id="menu-listado" class="header-option-now lang">Listado de revistas</span>
 					</a>
-					<a href="aura-estadisticas.html">
+					<a id="estadisticas" ng-href="{{nuevaURL}}">
 						<span id="menu-estadisticas" class="lang">Estadísticas</span>
 					</a>
 					<a href="https://aura.amelica.org/acerca-de-aura.html">
@@ -52,10 +52,10 @@
 					</a>
 				</div>
 				<div class="header-ligas" ng-if="idioma === 'en'">
-					<a href="index.html">
+					<a id="index" ng-href="{{nuevaIndexURL}}">
 						<span id="menu-listado" class="header-option-now lang">Journals</span>
 					</a>
-					<a href="aura-estadisticas.html">
+					<a id="estadisticas" ng-href="{{nuevaURL}}">
 						<span id="menu-estadisticas" class="lang">Statistics</span>
 					</a>
 					<a href="https://aura.amelica.org/acerca-de-aura.html">
@@ -96,8 +96,8 @@
 		 	</div>
 
 		 	<div class="contenedorGrafica" style="display: flex;">
-		 		<div class="titulo-grafica" ng-if="idioma === 'es'"><span class="numero-registros">{{total}}</span> <span class="texto-regitros"> registros </span>- Agrupados por Acceso</div>
-		 		<div class="titulo-grafica" ng-if="idioma === 'en'"><span class="numero-registros">{{total}}</span> <span class="texto-regitros"> registrations </span>- Classified by Access</div>
+		 		<div class="titulo-grafica" ng-if="idioma === 'es'"><span class="numero-registrosAcceso">{{totalAcceso}}</span> <span class="texto-regitros"> registros </span>- Agrupados por Acceso</div>
+		 		<div class="titulo-grafica" ng-if="idioma === 'en'"><span class="numero-registrosAcceso">{{totalAcceso}}</span> <span class="texto-regitros"> registrations </span>- Classified by Access</div>
 		 		<div class="grafica">
 		 			<div id="grafica_acceso" class="chart_Container"></div>
 		 		</div>
@@ -107,8 +107,8 @@
 		 	</div>
 
 		 	<div class="contenedorGrafica" style="display: flex;">
-		 		<div class="titulo-grafica" ng-if="idioma === 'es'"><span class="numero-registros">{{total}}</span> <span class="texto-regitros"> registros </span>- Mención específica de derechos</div>
-		 		<div class="titulo-grafica" ng-if="idioma === 'en'"><span class="numero-registros">{{total}}</span> <span class="texto-regitros"> registrations </span>- Specific mention of rights</div>
+		 		<div class="titulo-grafica" ng-if="idioma === 'es'"><span class="numero-registrosDerechos">{{totalDerechos}}</span> <span class="texto-regitros"> registros </span>- Mención específica de derechos</div>
+		 		<div class="titulo-grafica" ng-if="idioma === 'en'"><span class="numero-registrosDerechos">{{totalDerechos}}</span> <span class="texto-regitros"> registrations </span>- Specific mention of rights</div>
 
 		 		<div class="grafica">
 		 			<div id="grafica_derechos" class="chart_Container"></div>
@@ -119,8 +119,8 @@
 		 	</div>
 
 		 	<div class="contenedorGrafica" style="display: flex;">
-		 		<div class="titulo-grafica" ng-if="idioma === 'es'"><span class="numero-registros">{{total}}</span> <span class="texto-regitros"> registros </span>- ¿Permite el auto-archivo?</div>
-		 		<div class="titulo-grafica" ng-if="idioma === 'en'"><span class="numero-registros">{{total}}</span> <span class="texto-regitros"> registrations </span>- Does it allow self-archive?</div>
+		 		<div class="titulo-grafica" ng-if="idioma === 'es'"><span class="numero-registrosAutoArchivo">{{totalAutoArchivo}}</span> <span class="texto-regitros"> registros </span>- ¿Permite el auto-archivo?</div>
+		 		<div class="titulo-grafica" ng-if="idioma === 'en'"><span class="numero-registrosAutoArchivo">{{totalAutoArchivo}}</span> <span class="texto-regitros"> registrations </span>- Does it allow self-archive?</div>
 
 		 		<div class="grafica">
 		 			<div id="grafica_autoarchivo" class="chart_Container"></div>
@@ -131,8 +131,8 @@
 		 	</div>
 
 		 	<div class="contenedorGrafica" style="display: flex;">
-		 		<div class="titulo-grafica" ng-if="idioma === 'es'"><span class="numero-registros">{{total}}</span> <span class="texto-regitros"> registros </span>- Agrupados segun versión de auto-archivo</div>
-		 		<div class="titulo-grafica"ng-if="idioma === 'en'"><span class="numero-registros">{{total}}</span> <span class="texto-regitros"> registrations </span>- Classified by self-archive version</div>
+		 		<div class="titulo-grafica" ng-if="idioma === 'es'"><span class="numero-registrostotalVersionAutoA">{{totalVersionAutoA}}</span> <span class="texto-regitros"> registros </span>- Agrupados segun versión de auto-archivo</div>
+		 		<div class="titulo-grafica"ng-if="idioma === 'en'"><span class="numero-registrostotalVersionAutoA">{{totalVersionAutoA}}</span> <span class="texto-regitros"> registrations </span>- Classified by self-archive version</div>
 
 		 		<div class="grafica">
 		 			<div id="grafica_version" class="chart_Container"></div>

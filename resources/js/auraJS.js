@@ -13,6 +13,8 @@ app.controller("auraController", function ($scope, $http, $location) {
     $scope.searchText = '';
     $scope.comunidadParticular = [];
 	$scope.clavesComunidad = "";
+    $scope.nuevaURL = "";
+    $scope.nuevaIndexURL = "";
     var arrayRevistas;
 
     $scope.claveRevista = getParametroURL("id");
@@ -20,45 +22,36 @@ app.controller("auraController", function ($scope, $http, $location) {
     //obtener idioma desde URL
     $scope.idiomaURL = getParametroURL('lang');
     $scope.comunidadURL = getParametroURL("comunidad");
-    console.log("comunidad", $scope.comunidadURL);
+    localStorage.setItem("nomComunidad", $scope.comunidadURL);
+    //console.log("comunidad", $scope.comunidadURL);
 
     if ($scope.idiomaURL !== '') {
         localStorage.setItem('idioma', $scope.idiomaURL);
         console.log('idiomaURL en localStorage -->' + localStorage.getItem('idioma'));
     }
-    // document.addEventListener("DOMContentLoaded", function () {
-    //     if ($scope.comunidadURL && $scope.comunidadURL.trim() !== "") {
-    //         var urlEstadisticas = "aura-estadisticas.html?comunidad=" + $scope.comunidadURL;
-    //         console.log("URL generada:", urlEstadisticas);
-    //         var link = document.getElementById("estadisticas");
-    
-    //         if (link) {
-    //             link.href = urlEstadisticas;
-    //         } else {
-    //             console.error("El elemento con ID 'estadisticas' no existe en el DOM.");
-    //         }
-    //     }
-    // });
  
-    if($scope.comunidadURL != ""){
+    if($scope.comunidadURL != 0){
+        $scope.nuevaURL = 'aura-estadisticas.html?comunidad=' + $scope.comunidadURL;
+        $scope.nuevaIndexURL = 'index.html?comunidad='  + $scope.comunidadURL;
+        //document.getElementById("estadisticas").href = nuevaURL;
         $http({
             method : "GET",
             url : servidor+'/service/csg/getComunidades'
         }).then(function(response) {
             var datosComunidad = response.data;
-            console.log(datosComunidad);
-            var comunidad = getParametroURL("comunidad");
-			if(comunidad === "caribe"){
-				$scope.comunidadParticular = datosComunidad.caribe.map(pais => pais.clavePais);
-				console.log($scope.comunidadParticular);
-				$scope.clavesComunidad = $scope.comunidadParticular.join(", ");
-				localStorage.setItem("clavesComunidad", $scope.clavesComunidad);
-				console.log($scope.clavesComunidad);
-				$scope.comunidad();
-			}
+            //console.log(datosComunidad);
+            var comunidad = localStorage.getItem('nomComunidad');
+			$scope.comunidadParticular = datosComunidad[comunidad].map(pais => pais.clavePais);
+			//console.log($scope.comunidadParticular);
+			$scope.clavesComunidad = $scope.comunidadParticular.join(", ");
+			localStorage.setItem("clavesComunidad", $scope.clavesComunidad);
+			//console.log($scope.clavesComunidad);
+			$scope.comunidad();
                 
         });
     }else{
+        $scope.nuevaURL = 'aura-estadisticas.html';
+        $scope.nuevaIndexURL = 'index.html';
         $http({
         method: 'post',
         url: servidor+'/service/csgAura/getRevistasM2/',
@@ -67,16 +60,14 @@ app.controller("auraController", function ($scope, $http, $location) {
         }).then(function (response) {        
             //$scope.listaRevistas = getListaObject(response.data);//arrayRevistas
             $scope.listaRevistas = response.data; //para recibir el json hdtptm
-            console.log($scope.listaRevistas);
+            //console.log($scope.listaRevistas);
             $scope.cargando = false;
         });
     }
 
     $scope.comunidad = function () {
-        console.log("He llegado aquí");
         var claves = localStorage.getItem('clavesComunidad');
 			if(claves != '' || claves != null){
-                console.log("llegaron las claves", claves);
 				$http({
                     method: 'post',
                     url: servidor+'/service/csgAura/getRevistasM2Comunidad/',
@@ -86,9 +77,8 @@ app.controller("auraController", function ($scope, $http, $location) {
 						if(datos == undefined || datos !=null){
 							$scope.cargando = true;
 						}
-						console.log("Datos que se traen del servicio",datos);
 						$scope.listaRevistas = datos;
-                        console.log($scope.listaRevistas);			
+                        //console.log($scope.listaRevistas);			
 						$scope.cargando = false;
 											
 					}); 
@@ -98,9 +88,8 @@ app.controller("auraController", function ($scope, $http, $location) {
     $scope.buscarNombre = function () {
         $scope.cargando = true;
         $scope.listaRevistas = [];
-        console.log('buscar texto ->' + $scope.searchText);
+        //console.log('buscar texto ->' + $scope.searchText);
         $scope.searchText = document.getElementById("searchText").value;
-        console.log('Respuesta del buscador', $scope.searchText);
         if($scope.searchText.length>0){
             if($scope.comunidadURL !==""){
                 var claves = localStorage.getItem('clavesComunidad');
@@ -111,7 +100,7 @@ app.controller("auraController", function ($scope, $http, $location) {
                         data: { texto: $scope.searchText, comunidad: claves}
                     }).then(function (response) {
                         $scope.listaRevistas = response.data;//
-                        console.log($scope.listaRevistas);
+                        //console.log($scope.listaRevistas);
                         $scope.cargando = false;
                     });
                 }
@@ -122,31 +111,43 @@ app.controller("auraController", function ($scope, $http, $location) {
                     data: { texto: $scope.searchText }
                 }).then(function (response) {
                     $scope.listaRevistas = response.data;//
-                    console.log($scope.listaRevistas);
+                    //console.log($scope.listaRevistas);
                     $scope.cargando = false;
                 });
             }
         }
-            console.log($scope.searchText, "txt");
-            //$scope.searchText='A';
        
     }
 
 
     $scope.buscarOtros = function () {
         $scope.cargando = true;   
-        console.log('buscar otros ->');
-        //if($scope.searchText.length==0)
-           // $scope.searchText='1';
-        $http({
-            method: 'GET',
-            url: servidor+'/service/csgAura/buscarRevistasCaracter/',//'readCSV2.php'
-            //data: { texto: $scope.searchTextCH }
-        }).then(function (response) {
-            $scope.listaRevistas = response.data;//
-            console.log("busca por caracter", $scope.listaRevistas);
-            $scope.cargando = false;
-        });
+        //console.log('buscar otros ->');
+        if($scope.comunidadURL !==""){
+            var claves = localStorage.getItem('clavesComunidad');
+			if(claves != '' || claves != null){
+                $http({
+                    method: 'Post',
+                    url: servidor+'/service/csgAura/buscarRevistasCaracterComunidad/',
+                    data: {comunidad: claves}
+                }).then(function (response) {
+                    $scope.listaRevistas = response.data;
+                    //console.log($scope.listaRevistas);
+                    $scope.searchText = '';
+                    $scope.cargando = false;
+                });
+            }
+        }else{
+            $http({
+                method: 'GET',
+                url: servidor+'/service/csgAura/buscarRevistasCaracter/',//'readCSV2.php'
+                //data: { texto: $scope.searchTextCH }
+            }).then(function (response) {
+                $scope.listaRevistas = response.data;//
+                //console.log("busca por caracter", $scope.listaRevistas);
+                $scope.cargando = false;
+            });
+        }
     }
 
 
@@ -180,7 +181,7 @@ app.controller("auraController", function ($scope, $http, $location) {
         $scope.cargando = true;
         $scope.listaRevistas = [];
         $scope.letraSelected = letra;
-        console.log('cambio de letra');
+        //console.log('cambio de letra');
         if($scope.comunidadURL !==""){
             var claves = localStorage.getItem('clavesComunidad');
 			if(claves != '' || claves != null){
@@ -190,7 +191,7 @@ app.controller("auraController", function ($scope, $http, $location) {
                     data: { letra: $scope.letraSelected, comunidad: claves}
                 }).then(function (response) {
                     $scope.listaRevistas = response.data;
-                    console.log($scope.listaRevistas);
+                    //console.log($scope.listaRevistas);
                     $scope.searchText = '';
                     $scope.cargando = false;
                 });
@@ -202,7 +203,7 @@ app.controller("auraController", function ($scope, $http, $location) {
                 data: { letra: $scope.letraSelected }
             }).then(function (response) {
                 $scope.listaRevistas = response.data;
-                console.log($scope.listaRevistas);
+                //console.log($scope.listaRevistas);
                 $scope.searchText = '';
                 $scope.cargando = false;
             });
