@@ -523,7 +523,7 @@ tr {
                 color:#808080;
             }
 
-            .numero-registros, .numero-registrosAcceso, .numero-registrosDerechos, .numero-registrosAutoArchivo, .numero-registrostotalVersionAutoA{
+            .numero-registros{
                 color: #8cbc00;
             }
             .texto-regitros{

@@ -259,8 +259,9 @@ function graficaColor() {
     chart.draw(view, options);
 }
 
-var totalAcceso = 0;
+let totalAcceso = 0;
 var accesoG1 = "acceso";
+$(document).ready(function() {
 new Promise(function (resolve, reject) {
     var comunidadURL = getParametroURL("comunidad");
     var claves = localStorage.getItem('clavesComunidad');
@@ -273,29 +274,14 @@ new Promise(function (resolve, reject) {
                 contentType: "application/json",
                 dataType: "json",
                 success: (function (data) {
-                    //console.log("Datos de acceso", data);
-                    var suma = 0;
+                    //console.log("datos", data);
                     var dato1 = ['Acceso', 'Total'];
-                    //data.shift();
-                    datoDesconodico = data[0][1];
-                    //console.log(datoDesconodico);
-                    data.splice(0, 1, ['Desconocido', datoDesconodico]);
-                    let datos = data.filter(item => 
-                        ["Desconocido", "Gratuito", "Hibrido"].some(tipo => item[0].includes(tipo))
-                    );
-                    for (var i = 0; i < datos.length; i++) {  
-                        let acceso = String(data[i][0]).trim(); 
-                        let cantidad = Number(data[i][1]) || 0;  
-                        if( acceso == "Desconocido" || acceso == "Gratuito" || acceso == "Hibrido"){
-                            suma += cantidad;
-                        }
-                    }
+                    datoDesconocido = data[0][1];
+                    data.splice(0, 1, ['Desconocido', datoDesconocido]);
                     data.unshift(dato1);
                     //console.log('acceso');
                     //console.log(data);
                     acceso = data;
-                    totalAcceso = suma;
-                    $('.numero-registrosAcceso').text(totalAcceso);
                 })
             }).then(function () { //Notese que no necesito declarar la variable
                 google.charts.setOnLoadCallback(graficaAcceso);
@@ -313,27 +299,12 @@ new Promise(function (resolve, reject) {
             success: (function (data) {
                 //console.log("datos", data);
                 var dato1 = ['Acceso', 'Total'];
-                //data.shift();
-                datoDesconodico = data[0][1];
-                //console.log(datoDesconodico);
-                data.splice(0, 1, ['Desconocido', datoDesconodico]);
-                var suma = 0;
-                let datos = data.filter(item => 
-                    ["Desconocido", "Gratuito", "Hibrido"].some(tipo => item[0].includes(tipo))
-                );
-                for (var i = 0; i < datos.length; i++) {  
-                    let acceso = String(data[i][0]).trim(); 
-                    let cantidad = Number(data[i][1]) || 0;  
-                    if( acceso == "Desconocido" || acceso == "Gratuito" || acceso == "Hibrido"){
-                        suma += cantidad;
-                    }
-                }
+                datoDesconocido = data[0][1];
+                data.splice(0, 1, ['Desconocido', datoDesconocido]);      
                 data.unshift(dato1);
                 //console.log('acceso');
                 //console.log(data);
                 acceso = data;
-                totalAcceso = suma;
-                $('.numero-registrosAcceso').text(totalAcceso);
             })
         }).then(function () { //Notese que no necesito declarar la variable
             google.charts.setOnLoadCallback(graficaAcceso);
@@ -345,7 +316,7 @@ new Promise(function (resolve, reject) {
     }
     
 });
-
+});
 //google.charts.setOnLoadCallback(graficaAcceso);
 
 function graficaAcceso() {
@@ -413,7 +384,6 @@ function graficaAcceso() {
     chart.draw(view, options);
 }
 
-var totalDerechos = 0;
 var derechosExplotacionG = "derechosExplotacion";
 new Promise(function (resolve, reject) {
     var comunidadURL = getParametroURL("comunidad");
@@ -429,16 +399,10 @@ new Promise(function (resolve, reject) {
                 success: (function (data) {
                     //console.log("datos derechosExplotacion", data);
                     var dato1 = ['Mención específica de derechos', 'Total'];
-                    var suma = 0;
-                    for (var i = 0; i < data.length; i++) {
-                        suma += Number(data[i][1] || 0);
-                    }
                     data.unshift(dato1);
                     //console.log('derechos');
                     //console.log(data);
                     derechosExplotacion = data;
-                    totalDerechos = suma;
-                    $('.numero-registrosDerechos').text(totalDerechos);
                 })
             }).then(function () { //Notese que no necesito declarar la variable
                 google.charts.setOnLoadCallback(graficaDerechos);
@@ -455,16 +419,10 @@ new Promise(function (resolve, reject) {
             dataType: "json",
             success: (function (data) {
                 var dato1 = ['Mención específica de derechos', 'Total'];
-                var suma = 0;
-                    for (var i = 0; i < data.length; i++) {
-                        suma += Number(data[i][1] || 0);
-                    }
                 data.unshift(dato1);
                 //console.log('derechos');
                 //console.log(data);
                 derechosExplotacion = data;
-                totalDerechos = suma;
-                $('.numero-registrosDerechos').text(totalDerechos);
             })
         }).then(function () { //Notese que no necesito declarar la variable
             google.charts.setOnLoadCallback(graficaDerechos);
@@ -531,7 +489,7 @@ function graficaDerechos() {
     chart.draw(view, options);
 }
 
-var totalAutoArchivo = 0;
+
 new Promise(function (resolve, reject) {
     var autoArchivoG = "autoArchivo";
     var comunidadURL = getParametroURL("comunidad");
@@ -546,27 +504,11 @@ new Promise(function (resolve, reject) {
                 dataType: "json",
                 success: (function (data) {
                     //console.log("datos autoArchivo", data);
-                    //console.log("datos...2");
-                    //console.log(data);
-                    data.sort();
                     var dato1 = ['¿Permite el auto-archivo?', 'Total'];
-                    var suma = 0;
-                    let datos = data.filter(item => 
-                        ["Sí en artículos OA de pago por publicación", "Sí", "No se menciona"].some(tipo => item[0].includes(tipo))
-                    );
-                    console.log("datosss", datos);
-                    for (var i = 0; i < datos.length; i++) {  
-                        let cantidad = Number(datos[i][1]) || 0;  
-                        suma += cantidad;
-
-                    }
                     data.unshift(dato1);
                     //console.log('acceso');
                     //console.log(data);
                     autoArchivo = data; 
-                    totalAutoArchivo = suma;
-                    $('.numero-registrosAutoArchivo').text(totalAutoArchivo);
-                        //console.log("Auto Archivos", autoArchivo);
                 })
             }).then(function () { //Notese que no necesito declarar la variable
                 google.charts.setOnLoadCallback(graficaAutoArchivo);
@@ -583,25 +525,11 @@ new Promise(function (resolve, reject) {
                 dataType: "json",
                 success: (function (data) {
                     //console.log("datos autoArchivo", data);
-                    //console.log("datos...2");
-                    //console.log(data);
                     var dato1 = ['¿Permite el auto-archivo?', 'Total'];
-                    var suma = 0;
-                    let datos = data.filter(item => 
-                        ["Sí en artículos OA de pago por publicación", "Sí", "No se menciona"].some(tipo => item[0].includes(tipo))
-                    );
-                    for (var i = 0; i < datos.length; i++) {  
-                        let cantidad = Number(datos[i][1]) || 0;  
-                        suma += cantidad;
-
-                    }
                     data.unshift(dato1);
                     //console.log('acceso');
                     //console.log(data);
                     autoArchivo = data; 
-                    totalAutoArchivo = suma;
-                    $('.numero-registrosAutoArchivo').text(totalAutoArchivo);
-                        //console.log("Auto Archivos", autoArchivo);
                 })
             }).then(function () { //Notese que no necesito declarar la variable
                 google.charts.setOnLoadCallback(graficaAutoArchivo);
@@ -675,7 +603,6 @@ function graficaAutoArchivo() {
     chart.draw(view, options);
 }
 
-var totalVersionAutoA = 0
 new Promise(function (resolve, reject) {
     var versionAutoarchivoG = "versionAutoarchivo";
     var comunidadURL = getParametroURL("comunidad");
@@ -693,20 +620,14 @@ new Promise(function (resolve, reject) {
                     //console.log("Datos de version -->",data);
                     var dato1 = ['Agrupados segun versión de auto-archivo', 'Total'];
                     data.sort();
-                //console.log(data[1][1]);
-                data = data.map(d => [d[0] === "" ? "Ninguno" : d[0], d[1]]);
-                var suma = 0;
-                for (var i = 0; i < data.length; i++) {  
-                    let acceso = String(data[i][0]).trim(); 
-                    let cantidad = Number(data[i][1]) || 0;  
-                    if( acceso == "Ninguno" || acceso == "Post-print (versión editorial)" || acceso == "Pre-print (versión sin evaluar), Post-print (versión editorial)"){
-                        suma += cantidad;
-                    }
-                }
-                data.unshift(dato1); 
-                versionAutoarchivo = data;
-                totalVersionAutoA = suma; 
-                $('.numero-registrostotalVersionAutoA').text(totalVersionAutoA);
+                    //console.log(data[1][1]);
+                    dato = data[1][1];
+                    datoNinguno = data[0][1];
+                    data.splice(0, 1, ['Ninguno', datoNinguno]);
+                    data[0][1] += dato;
+                    data.unshift(dato1); 
+                    data.splice(2, 1);
+                    versionAutoarchivo = data;
                 })
             }).then(function () { //Notese que no necesito declarar la variable
                 google.charts.setOnLoadCallback(graficaVersion);
@@ -723,30 +644,17 @@ new Promise(function (resolve, reject) {
             type: "get",
             dataType: "json",
             success: (function (data) {
-                //console.log(data);
+                //console.log("Datos de version -->",data);
                 var dato1 = ['Agrupados segun versión de auto-archivo', 'Total'];
                 data.sort();
                 //console.log(data[1][1]);
                 dato = data[1][1];
-                var datoNinguno = data[0][1];
+                datoNinguno = data[0][1];
                 data.splice(0, 1, ['Ninguno', datoNinguno]);
                 data[0][1] += dato;
-                var suma = 0;
-                for (var i = 0; i < data.length; i++) {  
-                    let acceso = String(data[i][0]).trim(); 
-                    let cantidad = Number(data[i][1]) || 0;  
-                    if( acceso == "Ninguno" || acceso == "Post-print (versión editorial)" || acceso == "Pre-print (versión sin evaluar), Post-print (versión editorial)"){
-                        suma += cantidad;
-                    }
-                }
-                //console.log(data[0]);
-                data.unshift(dato1);
+                data.unshift(dato1); 
                 data.splice(2, 1);
-                //console.log('versionAutoarchivo');
-                //console.log(data);
                 versionAutoarchivo = data;
-                totalVersionAutoA = suma;
-                $('.numero-registrostotalVersionAutoA').text(totalVersionAutoA);
             })
         }).then(function () { //Notese que no necesito declarar la variable
             google.charts.setOnLoadCallback(graficaVersion);
